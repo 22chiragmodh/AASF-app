@@ -56,7 +56,7 @@ class AppStackedImages extends StatelessWidget {
           ],
         ),
         Container(
-            margin: EdgeInsets.only(left: 48, top: 40),
+            margin: const EdgeInsets.only(left: 60, top: 40),
             child: Column(
               children: [
                 Text("2"),
@@ -97,7 +97,7 @@ class AppStackedImages extends StatelessWidget {
               ],
             )),
         Container(
-            margin: EdgeInsets.only(left: 230, top: 40),
+            margin: const EdgeInsets.only(left: 238, top: 40),
             child: Column(
               children: [
                 Text("3"),
