@@ -79,81 +79,17 @@ class _TimelinePageState extends State<TimelinePage>
               : _tabController?.index == 0
                   ? Column(
                       children: [
-                        timelinefunc(),
-                        TimelineTile(
-                          alignment: TimelineAlign.manual,
-                          lineXY: 0.3,
-                          endChild: Container(
-                            constraints: const BoxConstraints(
-                              minHeight: 120,
-                            ),
-                            child: Column(
-                              children: [
-                                // can be modify using map method
-                                for (int i = 0;
-                                    i <
-                                        ConstantsVar
-                                            .monthEventslist[ConstantsVar
-                                                .timelinetextlist[2]]!
-                                            .length;
-                                    i++)
-                                  BaseStyle.timelineCard(ConstantsVar
-                                      .monthEventslist[
-                                          ConstantsVar.timelinetextlist[2]]![i]
-                                      .toString()),
-                              ],
-                            ),
-                          ),
-                          startChild: AppVerifyTextField(
-                              padding: const EdgeInsets.all(0),
-                              text: ConstantsVar.timelinetextlist[2],
-                              text1: '',
-                              textstyle: Textstyle.inputtext(
-                                  Appcolors.yew(), 20.0, FontWeight.w600),
-                              textalign: TextAlign.center),
-                        ),
+                        timelinefunc(1),
+                        timelinefunc(2),
                       ],
                     )
-                  : TimelineTile(
-                      alignment: TimelineAlign.manual,
-                      lineXY: 0.3,
-                      endChild: Container(
-                        constraints: const BoxConstraints(
-                          minHeight: 120,
-                        ),
-                        child: Column(
-                          children: [
-                            for (int i = 0;
-                                i <
-                                    ConstantsVar
-                                        .monthEventslist[
-                                            ConstantsVar.timelinetextlist[
-                                                _tabController!.index]]!
-                                        .length;
-                                i++)
-                              BaseStyle.timelineCard(ConstantsVar
-                                  .monthEventslist[
-                                      ConstantsVar.timelinetextlist[
-                                          _tabController!.index]]![i]
-                                  .toString()),
-                          ],
-                        ),
-                      ),
-                      startChild: AppVerifyTextField(
-                          padding: const EdgeInsets.all(0),
-                          text: ConstantsVar
-                              .timelinetextlist[_tabController!.index],
-                          textstyle: Textstyle.inputtext(
-                              Appcolors.yew(), 20.0, FontWeight.w600),
-                          text1: '',
-                          textalign: TextAlign.center),
-                    ),
+                  : timelinefunc(_tabController!.index)
         ],
       ),
     );
   }
 
-  TimelineTile timelinefunc() {
+  TimelineTile timelinefunc(int index) {
     return TimelineTile(
       alignment: TimelineAlign.manual,
       lineXY: 0.3,
@@ -166,18 +102,18 @@ class _TimelinePageState extends State<TimelinePage>
             for (int i = 0;
                 i <
                     ConstantsVar
-                        .monthEventslist[ConstantsVar.timelinetextlist[1]]!
+                        .monthEventslist[ConstantsVar.timelinetextlist[index]]!
                         .length;
                 i++)
               BaseStyle.timelineCard(ConstantsVar
-                  .monthEventslist[ConstantsVar.timelinetextlist[1]]![i]
+                  .monthEventslist[ConstantsVar.timelinetextlist[index]]![i]
                   .toString()),
           ],
         ),
       ),
       startChild: AppVerifyTextField(
           padding: const EdgeInsets.all(0),
-          text: ConstantsVar.timelinetextlist[1],
+          text: ConstantsVar.timelinetextlist[index],
           text1: '',
           textstyle:
               Textstyle.inputtext(Appcolors.yew(), 20.0, FontWeight.w600),

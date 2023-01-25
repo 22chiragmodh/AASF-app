@@ -71,12 +71,8 @@ class AppDrawer extends StatelessWidget {
                     Appcolors.white(), 20.0, FontWeight.w400),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.09,
+                height: MediaQuery.of(context).size.height * 0.15,
               ),
-              AppLinkText(
-                  text: 'Write a Blog',
-                  textstyle: Textstyle.inputtext(
-                      Appcolors.white(), 15.0, FontWeight.w400)),
               AppLinkText(
                 text: 'FAQs',
                 textstyle: Textstyle.inputtext(

@@ -1,14 +1,19 @@
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
+import 'package:aasf_iiitmg/src/widgets/Appreadmore.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
 
 class AppHomeEvents extends StatefulWidget {
   final String posterUrl;
   final String eventTitle;
+  final String iconUrl;
+  final String icontitle;
   const AppHomeEvents({
     required this.eventTitle,
+    required this.iconUrl,
+    required this.icontitle,
     required this.posterUrl,
     Key? key,
   }) : super(key: key);
@@ -29,9 +34,6 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
           decoration: BoxDecoration(color: Appcolors.posterbg()),
           child: Image.asset(widget.posterUrl),
         ),
-        Column(
-          children: [],
-        ),
         AppVerifyTextField(
             padding: BaseStyle.listpadding(),
             text: widget.eventTitle,
@@ -39,14 +41,8 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
             textstyle:
                 Textstyle.inputtext(Appcolors.white(), 24.0, FontWeight.w400),
             textalign: Textstyle.textalignstart()),
-        AppVerifyTextField(
-            padding: BaseStyle.listpadding(),
-            text:
-                "vvcvx bxhbvxhvbh nbxjhshvcx x xvhvxvx cbvxchjgvhjcv.......read more",
-            text1: '',
-            textstyle:
-                Textstyle.inputtext(Appcolors.white(), 16.0, FontWeight.w300),
-            textalign: Textstyle.textalignstart()),
+        AppReadmore(
+            title: 'vshvgsv sn s n shjv', description: 'xhsvsvxvxhvhvxhjsvsvg'),
         Padding(
           padding: const EdgeInsets.only(left: 10, bottom: 4),
           child: Row(
@@ -125,20 +121,15 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
               children: [
                 TextButton.icon(
                     onPressed: () {},
-                    icon: Icon(
-                      Icons.edit_note,
-                      color: Appcolors.yew(),
-                    ),
+                    icon: Image(image: AssetImage(widget.iconUrl)),
                     label: Text(
-                      'Register',
+                      widget.icontitle,
                       style: TextStyle(color: Appcolors.yew()),
                     )),
                 TextButton.icon(
                     onPressed: () {},
-                    icon: Icon(
-                      Icons.notes,
-                      color: Appcolors.yew(),
-                    ),
+                    icon: const Image(
+                        image: AssetImage('assets/images/description.png')),
                     label: Text(
                       'Resources',
                       style: TextStyle(color: Appcolors.yew()),

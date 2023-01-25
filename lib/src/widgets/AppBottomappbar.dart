@@ -62,9 +62,11 @@ class AppBottomAppbar extends StatelessWidget {
               child: Column(
                 children: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/faqs');
+                      },
                       icon: Image.asset('assets/images/quiz.png')),
-                  const Text('Quiz')
+                  const Text('Faqs')
                 ],
               ),
             ),
