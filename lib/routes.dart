@@ -1,4 +1,3 @@
-import 'package:aasf_iiitmg/src/screens/deeplinking.dart';
 import 'package:aasf_iiitmg/src/screens/faqs_page.dart';
 import 'package:aasf_iiitmg/src/screens/home_page.dart';
 import 'package:aasf_iiitmg/src/screens/landing_page.dart';
@@ -24,8 +23,6 @@ abstract class Routes {
 
       case "/verification":
         return MaterialPageRoute(builder: (context) => const VerifictionPage());
-      case "/deeplinking":
-        return MaterialPageRoute(builder: (context) => const DeepLinking());
 
       case "/otppage":
         return MaterialPageRoute(builder: (context) => const OtpScreen());
