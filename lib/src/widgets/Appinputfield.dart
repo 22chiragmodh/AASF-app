@@ -18,7 +18,7 @@ class AppInputField extends StatelessWidget {
         keyboardType: textintype,
         style:
             Textstyle.inputtext(Appcolors.titlewhite(), 16.0, FontWeight.w600),
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.start,
         decoration: Textstyle.materialdeco(hinttext),
       ),
     );

@@ -1,65 +1,36 @@
-import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
-import 'package:aasf_iiitmg/src/styles/textstyle.dart';
-import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
+import 'package:readmore/readmore.dart';
 import 'package:flutter/material.dart';
 
-class AppReadmore extends StatefulWidget {
-  final String title;
-  final String description;
-  const AppReadmore(
-      {required this.title, required this.description, super.key});
+class AppReadmore extends StatelessWidget {
+  final String content =
+      "This is the first article of the series Week of Web (or in short #WOW), where we will start from absolute beginner to web development and by the end of the week we will learn web technologies like HTML, CSS, JavaScript, NodeJS and Firebase Firestore to build a complete full-stack application. We will also host our code repository on GitHub using Git as well as host our application using Heroku";
 
-  @override
-  State<AppReadmore> createState() => _AppReadmoreState();
-}
-
-class _AppReadmoreState extends State<AppReadmore> {
-  bool isexpand = false;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-      child: Container(
-          width: 360,
-          height: isexpand ? 150 : 70,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  AppVerifyTextField(
-                      padding: BaseStyle.faqspadding(),
-                      text: widget.title,
-                      textstyle: Textstyle.inputtext(
-                          Appcolors.white(), 16.0, FontWeight.w300),
-                      textalign: TextAlign.start),
-                  TextButton(
-                      onPressed: () {
-                        setState(() {
-                          isexpand = !isexpand;
-                        });
-                      },
-                      child: isexpand
-                          ? Text('see less',
-                              style: Textstyle.inputtext(
-                                  Colors.white, 16, FontWeight.w600))
-                          : Text(
-                              '...see more',
-                              style: Textstyle.inputtext(
-                                  Colors.white, 16, FontWeight.w600),
-                            ))
-                ],
-              ),
-              isexpand
-                  ? AppVerifyTextField(
-                      padding: BaseStyle.faqspadding(),
-                      text: widget.description,
-                      textstyle: Textstyle.inputtext(
-                          Appcolors.white(), 16.0, FontWeight.w300),
-                      textalign: TextAlign.start)
-                  : Text('')
-            ],
-          )),
-    );
+    return SingleChildScrollView(
+        child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15.96),
+            child: ReadMoreText(
+              content,
+              trimLines: 2,
+              textAlign: TextAlign.justify,
+              trimMode: TrimMode.Line,
+              trimCollapsedText: "... see more ",
+              trimExpandedText: "... see less ",
+              lessStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Appcolors.white()),
+              moreStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Appcolors.white()),
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  height: 2,
+                  color: Appcolors.blogiconcol()),
+            )));
   }
 }
