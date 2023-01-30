@@ -1,5 +1,3 @@
-import 'package:aasf_iiitmg/src/styles/basestyle.dart';
-
 import 'package:aasf_iiitmg/src/widgets/AppIcon.dart';
 import 'package:aasf_iiitmg/src/widgets/Appbutton.dart';
 import 'package:aasf_iiitmg/src/widgets/Appswipeview.dart';
@@ -21,7 +19,7 @@ class LandingPage extends StatelessWidget {
         const AppSwipeView(),
         GestureDetector(
           onTap: (() {
-            Navigator.pushNamed(context, '/verification');
+            Navigator.pushNamed(context, '/home');
           }),
           child: const AppButton(buttontext: 'Get Started'),
         )
