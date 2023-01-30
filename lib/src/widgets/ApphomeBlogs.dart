@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 class AppHomeBlogs extends StatelessWidget {
   final String posterUrl;
   final String eventTitle;
+
   const AppHomeBlogs(
       {required this.eventTitle, required this.posterUrl, super.key});
 
@@ -130,20 +131,16 @@ class AppHomeBlogs extends StatelessWidget {
                 children: [
                   TextButton.icon(
                       onPressed: () {},
-                      icon: Icon(
-                        Icons.menu_book,
-                        color: Appcolors.yew(),
-                      ),
+                      icon: const Image(
+                          image: AssetImage('assets/images/menu_book.png')),
                       label: Text(
                         'Read Now',
                         style: TextStyle(color: Appcolors.yew()),
                       )),
                   TextButton.icon(
                       onPressed: () {},
-                      icon: Icon(
-                        Icons.share,
-                        color: Appcolors.yew(),
-                      ),
+                      icon: const Image(
+                          image: AssetImage('assets/images/share.png')),
                       label: Text(
                         'Share',
                         style: TextStyle(color: Appcolors.yew()),

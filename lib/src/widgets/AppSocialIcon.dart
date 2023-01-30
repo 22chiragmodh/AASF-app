@@ -19,10 +19,10 @@ class AppSocialButton extends StatelessWidget {
         buttoncolor = Appcolors.facebook();
         socialicon = FontAwesomeIcons.facebookF;
         break;
-      case SocialType.Google:
+      case SocialType.Gmail:
         iconcolor = Colors.white;
         buttoncolor = Appcolors.google();
-        socialicon = FontAwesomeIcons.google;
+        socialicon = FontAwesomeIcons.goodreads;
         break;
       case SocialType.Instagram:
         iconcolor = Colors.white;
@@ -57,4 +57,4 @@ class AppSocialButton extends StatelessWidget {
   }
 }
 
-enum SocialType { Google, Facebook, Linkdn, Instagram, Discord }
+enum SocialType { Facebook, Linkdn, Instagram, Discord, Gmail }

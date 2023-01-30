@@ -40,6 +40,9 @@ dependencies:
   font_awesome_flutter: ^10.3.0
   percent_indicator: ^2.1.3
   image_picker: ^0.8.6
+  get: ^4.6.5
+  firebase_dynamic_links: ^5.0.11
+  firebase_core: ^2.4.1
 
 dev_dependencies:
   flutter_test:

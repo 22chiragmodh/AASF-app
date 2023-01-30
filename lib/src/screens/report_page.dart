@@ -59,7 +59,7 @@ class ReortPage extends StatelessWidget {
                   AppSocialButton(socialtype: SocialType.Facebook),
                   AppSocialButton(socialtype: SocialType.Instagram),
                   AppSocialButton(socialtype: SocialType.Discord),
-                  AppSocialButton(socialtype: SocialType.Google),
+                  AppSocialButton(socialtype: SocialType.Gmail),
                 ],
               ),
             ),

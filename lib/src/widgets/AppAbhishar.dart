@@ -75,9 +75,8 @@ class AppAbhishar extends StatelessWidget {
                 children: [
                   TextButton.icon(
                       onPressed: () {},
-                      icon: Icon(
-                        Icons.menu_book,
-                        color: Appcolors.yew(),
+                      icon: const Image(
+                        image: AssetImage('assets/images/menu_book.png'),
                       ),
                       label: Text(
                         'Read Now',
@@ -85,10 +84,8 @@ class AppAbhishar extends StatelessWidget {
                       )),
                   TextButton.icon(
                       onPressed: () {},
-                      icon: Icon(
-                        Icons.language,
-                        color: Appcolors.yew(),
-                      ),
+                      icon: const Image(
+                          image: AssetImage('assets/images/language.png')),
                       label: Text(
                         'Website',
                         style: TextStyle(color: Appcolors.yew()),
