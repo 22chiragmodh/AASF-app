@@ -1,5 +1,3 @@
-import 'package:aasf_iiitmg/src/styles/basestyle.dart';
-
 import 'package:aasf_iiitmg/src/widgets/AppIcon.dart';
 import 'package:aasf_iiitmg/src/widgets/Appbutton.dart';
 import 'package:aasf_iiitmg/src/widgets/Appswipeview.dart';

@@ -18,6 +18,7 @@ class OtpTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 60,
+      width: 61.16,
       child: AspectRatio(
         aspectRatio: 1.0,
         child: TextField(
