@@ -39,33 +39,115 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       endDrawer: const AppDrawer(),
       bottomNavigationBar: const AppBottomAppbar(),
-      body: ListView(
+      body: TabBarView(
+        controller: _tabController,
         children: [
-          //  Tabbar
-          AppTabBar(
-            screenmode: true,
-            tabController: _tabController,
-            isiscrollable: false,
-          ),
-          // Events, Blog poster
-
-          //Event tile
-          const AppHomeEvents(
-              eventTitle: "Web Week-Backend",
-              posterUrl: 'assets/images/Web Week-Backend 1 (1).png'),
-          const AppHomeEvents(
-              eventTitle: "Web Week-Frontend",
-              posterUrl: 'assets/images/image 6.png'),
-
-          const AppHomeBlogs(
-              eventTitle: "Online Card Transactions",
-              posterUrl: 'assets/images/Pic (1).png'),
-
-          const AppAbhishar(
-              eventTitle: 'A Jog Down the Sports Lane',
-              posterUrl: 'assets/images/image 10.png')
+          allTag(_tabController!),
+          eventsTag(_tabController!),
+          blogsTag(_tabController!),
+          abhisharTag(_tabController!)
         ],
       ),
     );
   }
+}
+
+Widget allTag(TabController _tabController) {
+  return ListView(
+    children: [
+      AppTabBar(
+        screenmode: true,
+        tabController: _tabController,
+        isiscrollable: false,
+      ),
+      // Events, Blog poster
+
+      //Event tile
+
+      const AppHomeEvents(
+          eventTitle: "Web Week-Backend",
+          iconUrl: 'assets/images/edit_document.png',
+          icontitle: 'Register',
+          posterUrl: 'assets/images/Web Week-Backend 1 (1).png'),
+
+      const AppHomeEvents(
+          eventTitle: "Web Week-Frontend",
+          icontitle: 'Feedback',
+          iconUrl: 'assets/images/rate_review.png',
+          posterUrl: 'assets/images/image 6.png'),
+
+      const AppHomeBlogs(
+          eventTitle: "Online Card Transactions",
+          posterUrl: 'assets/images/Pic (1).png'),
+
+      const AppAbhishar(
+          eventTitle: 'A Jog Down the Sports Lane',
+          posterUrl: 'assets/images/image 10.png')
+    ],
+  );
+}
+
+Widget eventsTag(TabController tabController) {
+  return ListView(
+    children: [
+      AppTabBar(
+        screenmode: true,
+        tabController: tabController,
+        isiscrollable: false,
+      ),
+      // Events, Blog poster
+
+      //Event tile
+
+      const AppHomeEvents(
+          eventTitle: "Web Week-Backend",
+          iconUrl: 'assets/images/edit_document.png',
+          icontitle: 'Register',
+          posterUrl: 'assets/images/Web Week-Backend 1 (1).png'),
+
+      const AppHomeEvents(
+          eventTitle: "Web Week-Frontend",
+          iconUrl: 'assets/images/rate_review.png',
+          icontitle: 'Feedback',
+          posterUrl: 'assets/images/image 6.png'),
+    ],
+  );
+}
+
+Widget blogsTag(TabController tabController) {
+  return ListView(
+    children: [
+      AppTabBar(
+        screenmode: true,
+        tabController: tabController,
+        isiscrollable: false,
+      ),
+      // Events, Blog poster
+
+      const AppHomeBlogs(
+          eventTitle: "Online Card Transactions",
+          posterUrl: 'assets/images/Pic (1).png'),
+
+      //Event tile
+    ],
+  );
+}
+
+Widget abhisharTag(TabController tabController) {
+  return ListView(
+    children: [
+      AppTabBar(
+        screenmode: true,
+        tabController: tabController,
+        isiscrollable: false,
+      ),
+      // Events, Blog poster
+
+      //Event tile
+
+      const AppAbhishar(
+          eventTitle: 'A Jog Down the Sports Lane',
+          posterUrl: 'assets/images/image 10.png')
+    ],
+  );
 }
