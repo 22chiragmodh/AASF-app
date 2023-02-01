@@ -41,7 +41,6 @@ class OtpTextField extends StatelessWidget {
           keyboardType: TextInputType.number,
           maxLength: 1,
           decoration: InputDecoration(
-            hintText: '5',
             filled: true,
             fillColor: Appcolors.textfieldcol(),
             hintStyle:

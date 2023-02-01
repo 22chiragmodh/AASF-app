@@ -1,4 +1,3 @@
-import 'package:aasf_iiitmg/src/screens/home_page.dart';
 import 'package:aasf_iiitmg/src/screens/otp_page.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
@@ -16,7 +15,7 @@ class VerifictionPage extends StatefulWidget {
 }
 
 class _VerifictionPageState extends State<VerifictionPage> {
-  final url = "http://10.0.2.2:8000/api/auth/studentverification";
+  final url = "http://192.168.64.185:3000/users/login";
 
   TextEditingController emailController = TextEditingController();
 
@@ -24,9 +23,15 @@ class _VerifictionPageState extends State<VerifictionPage> {
     Response response;
     var dio = Dio();
     try {
-      response = await dio.post(url, data: {'email': email});
+      response = await dio.post(url, data: {'roll': email});
 
       if (response.statusCode == 200) {
+        print(response.data['message']);
+        // ignore: use_build_context_synchronously
+        var snackBar = SnackBar(content: Text(response.data['message']));
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
         // ignore: use_build_context_synchronously
         Navigator.push(
             context,
@@ -35,7 +40,6 @@ class _VerifictionPageState extends State<VerifictionPage> {
                       emailid: emailController.text,
                     )));
       }
-      print(response.data);
     } catch (e) {
       print(e.toString());
     }
@@ -74,12 +78,12 @@ class _VerifictionPageState extends State<VerifictionPage> {
               textalign: Textstyle.textalignstart(),
               padding: BaseStyle.listpadding(),
               text1: '',
-              text: 'Enter your institute email ID',
+              text: 'Enter your institute Roll No',
               textstyle: Textstyle.inputtext(
                   Appcolors.titlewhite(), 15.0, FontWeight.w500)),
           AppInputField(
               controller: emailController,
-              hinttext: 'img_2020001@iiitm.ac.in',
+              hinttext: '2020IMT-058',
               textintype: TextInputType.emailAddress),
           GestureDetector(
               onTap: (() {

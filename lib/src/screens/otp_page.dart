@@ -21,15 +21,26 @@ class _OtpScreenState extends State<OtpScreen> {
   TextEditingController? contrller4;
   String Code = "";
 
-  final url = "http://10.0.2.2:8000/api/auth/otpverification";
+  final url = "http://192.168.64.185:3000/users/login";
 
   void otpVerify(String email, String otp) async {
     Response response;
     var dio = Dio();
     try {
-      response = await dio.post(url, data: {'email': email, 'otp': otp});
+      response = await dio.post(url, data: {'roll': email, 'otp': otp});
 
       if (response.statusCode == 200) {
+        print(response.data['message']);
+
+        //Store token local secure storage
+        var token = response.data['token'];
+
+        print(token);
+
+        var snackBar = SnackBar(content: Text(response.data['message']));
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        // ignore: use_build_context_synchronously
         Navigator.pushNamed(context, '/home');
       }
       print(response.data);

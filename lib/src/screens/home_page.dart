@@ -44,8 +44,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: [
           allTag(_tabController!),
           eventsTag(_tabController!),
+          abhisharTag(_tabController!),
           blogsTag(_tabController!),
-          abhisharTag(_tabController!)
         ],
       ),
     );
