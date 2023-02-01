@@ -7,9 +7,14 @@ import 'package:aasf_iiitmg/src/widgets/Apptextbtn.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
 
-class VerifictionPage extends StatelessWidget {
+class VerifictionPage extends StatefulWidget {
   const VerifictionPage({super.key});
 
+  @override
+  State<VerifictionPage> createState() => _VerifictionPageState();
+}
+
+class _VerifictionPageState extends State<VerifictionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +51,7 @@ class VerifictionPage extends StatelessWidget {
               text: 'Enter your institute email ID',
               textstyle: Textstyle.inputtext(
                   Appcolors.titlewhite(), 15.0, FontWeight.w500)),
-          const AppInputField(
+          AppInputField(
               hinttext: 'img_2020001@iiitm.ac.in',
               textintype: TextInputType.emailAddress),
           GestureDetector(
@@ -54,13 +59,7 @@ class VerifictionPage extends StatelessWidget {
                 Navigator.pushNamed(context, '/otppage');
               }),
               child: const AppButton(buttontext: 'Continue')),
-          AppTextBtn(
-              text: 'Login as guest',
-              fn: () {
-                Navigator.pushNamed(context, '/home');
-              },
-              vm: 14,
-              hm: 123)
+          AppTextBtn(text: 'Login as guest', fn: () {}, vm: 14, hm: 123)
         ],
       ),
     );

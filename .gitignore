@@ -37,6 +37,7 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+/Server/node_modules
 
 # Android Studio will place build artifacts here
 /ios

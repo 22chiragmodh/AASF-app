@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // iOS requires you run in release mode to test dynamic links ("flutter run --release").
-  await Firebase.initializeApp();
+  // await Firebase.initializeApp();
 
   runApp(const AasfApp());
 }
@@ -25,11 +25,11 @@ class AasfApp extends StatefulWidget {
 }
 
 class _AasfAppState extends State<AasfApp> {
-  @override
-  void initState() {
-    super.initState();
-    initDynamcilinks();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   initDynamcilinks();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -50,15 +50,15 @@ class _AasfAppState extends State<AasfApp> {
   }
 }
 
-Future<void> initDynamcilinks() async {
-  FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) async {
-    if (dynamicLinkData.link != null) {
-      Get.toNamed('/home');
-      // Navigator.pushReplacementNamed(context, 'home');
-      print('deeplink' + dynamicLinkData.link.toString());
-    }
-  }).onError((error) {
-    print('onLink error');
-    print(error.message);
-  });
-}
+// Future<void> initDynamcilinks() async {
+//   FirebaseDynamicLinks.instance.onLink.listen((dynamicLinkData) async {
+//     if (dynamicLinkData.link != null) {
+//       Get.toNamed('/home');
+//       // Navigator.pushReplacementNamed(context, 'home');
+//       print('deeplink' + dynamicLinkData.link.toString());
+//     }
+//   }).onError((error) {
+//     print('onLink error');
+//     print(error.message);
+//   });
+// }
