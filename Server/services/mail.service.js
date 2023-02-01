@@ -7,12 +7,12 @@ var transporter = nodemailer.createTransport({
   },
 });
 class MailerService {
-  async sendOTP(email, link) {
+  async sendOTP(email, otp) {
     const mailOptions = {
       from: process.env.GMAIL_ID,
       to: email,
-      subject: `Link for login`,
-      text: `click here ${link} to login`,
+      subject: `OTP for Login `,
+      text: `${otp}`,
     };
     await transporter.sendMail(mailOptions);
   }

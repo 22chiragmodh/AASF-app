@@ -1,3 +1,5 @@
+import 'package:aasf_iiitmg/src/screens/home_page.dart';
+import 'package:aasf_iiitmg/src/screens/otp_page.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
@@ -6,9 +8,38 @@ import 'package:aasf_iiitmg/src/widgets/Appinputfield.dart';
 import 'package:aasf_iiitmg/src/widgets/Apptextbtn.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
-class VerifictionPage extends StatelessWidget {
-  const VerifictionPage({super.key});
+class VerifictionPage extends StatefulWidget {
+  @override
+  State<VerifictionPage> createState() => _VerifictionPageState();
+}
+
+class _VerifictionPageState extends State<VerifictionPage> {
+  final url = "http://10.0.2.2:8000/api/auth/studentverification";
+
+  TextEditingController emailController = TextEditingController();
+
+  void userVerify(String email) async {
+    Response response;
+    var dio = Dio();
+    try {
+      response = await dio.post(url, data: {'email': email});
+
+      if (response.statusCode == 200) {
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => OtpScreen(
+                      emailid: emailController.text,
+                    )));
+      }
+      print(response.data);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +77,14 @@ class VerifictionPage extends StatelessWidget {
               text: 'Enter your institute email ID',
               textstyle: Textstyle.inputtext(
                   Appcolors.titlewhite(), 15.0, FontWeight.w500)),
-          const AppInputField(
+          AppInputField(
+              controller: emailController,
               hinttext: 'img_2020001@iiitm.ac.in',
               textintype: TextInputType.emailAddress),
           GestureDetector(
               onTap: (() {
-                Navigator.pushNamed(context, '/otppage');
+                // Navigator.pushNamed(context, '/otppage');
+                userVerify(emailController.text);
               }),
               child: const AppButton(buttontext: 'Continue')),
           AppTextBtn(

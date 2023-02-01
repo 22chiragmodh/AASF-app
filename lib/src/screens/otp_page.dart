@@ -5,9 +5,47 @@ import 'package:aasf_iiitmg/src/widgets/Appotptextfield.dart';
 import 'package:aasf_iiitmg/src/widgets/Apptext.dart';
 import 'package:aasf_iiitmg/src/widgets/Apptextbtn.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
-class OtpScreen extends StatelessWidget {
-  const OtpScreen({super.key});
+class OtpScreen extends StatefulWidget {
+  const OtpScreen({super.key, required this.emailid});
+  final String emailid;
+  @override
+  State<OtpScreen> createState() => _OtpScreenState();
+}
+
+class _OtpScreenState extends State<OtpScreen> {
+  TextEditingController? contrller1;
+  TextEditingController? contrller2;
+  TextEditingController? contrller3;
+  TextEditingController? contrller4;
+  String Code = "";
+
+  final url = "http://10.0.2.2:8000/api/auth/otpverification";
+
+  void otpVerify(String email, String otp) async {
+    Response response;
+    var dio = Dio();
+    try {
+      response = await dio.post(url, data: {'email': email, 'otp': otp});
+
+      if (response.statusCode == 200) {
+        Navigator.pushNamed(context, '/home');
+      }
+      print(response.data);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    contrller1 = TextEditingController();
+    contrller2 = TextEditingController();
+    contrller3 = TextEditingController();
+    contrller4 = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +73,30 @@ class OtpScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      OtpTextField(first: true, last: false, context: context),
-                      OtpTextField(first: false, last: false, context: context),
-                      OtpTextField(first: false, last: false, context: context),
-                      OtpTextField(first: false, last: true, context: context),
+                      OtpTextField(
+                        first: true,
+                        last: false,
+                        context: context,
+                        controller: contrller1 as TextEditingController,
+                      ),
+                      OtpTextField(
+                        first: false,
+                        last: false,
+                        context: context,
+                        controller: contrller2 as TextEditingController,
+                      ),
+                      OtpTextField(
+                        first: false,
+                        last: false,
+                        context: context,
+                        controller: contrller3 as TextEditingController,
+                      ),
+                      OtpTextField(
+                        first: false,
+                        last: true,
+                        context: context,
+                        controller: contrller4 as TextEditingController,
+                      ),
                     ],
                   ),
                 ],
@@ -56,7 +114,17 @@ class OtpScreen extends StatelessWidget {
             GestureDetector(
               child: const AppButton(buttontext: 'Login'),
               onTap: () {
-                Navigator.pushNamed(context, '/home');
+                if (contrller1!.text.isNotEmpty &&
+                    contrller2!.text.isNotEmpty &&
+                    contrller3!.text.isNotEmpty &&
+                    contrller4!.text.isNotEmpty) {
+                  Code = contrller1!.text.toString() +
+                      contrller2!.text.toString() +
+                      contrller3!.text.toString() +
+                      contrller4!.text.toString();
+
+                  otpVerify(widget.emailid, Code);
+                }
               },
             )
           ],
