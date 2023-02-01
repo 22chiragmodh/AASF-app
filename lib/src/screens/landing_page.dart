@@ -19,7 +19,7 @@ class LandingPage extends StatelessWidget {
         const AppSwipeView(),
         GestureDetector(
           onTap: (() {
-            Navigator.pushNamed(context, '/home');
+            Navigator.pushNamed(context, '/verification');
           }),
           child: const AppButton(buttontext: 'Get Started'),
         )
