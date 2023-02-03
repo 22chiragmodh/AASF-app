@@ -6,6 +6,8 @@ class AppReadmore extends StatelessWidget {
   final String content =
       "This is the first article of the series Week of Web (or in short #WOW), where we will start from absolute beginner to web development and by the end of the week we will learn web technologies like HTML, CSS, JavaScript, NodeJS and Firebase Firestore to build a complete full-stack application. We will also host our code repository on GitHub using Git as well as host our application using Heroku";
 
+  const AppReadmore({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

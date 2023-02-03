@@ -1,5 +1,6 @@
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
+import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/Appbutton.dart';
 import 'package:aasf_iiitmg/src/widgets/Appotptextfield.dart';
 import 'package:aasf_iiitmg/src/widgets/Apptext.dart';
@@ -22,6 +23,7 @@ class _OtpScreenState extends State<OtpScreen> {
   String Code = "";
 
   final url = "http://192.168.64.185:3000/users/login";
+  Map<String, dynamic> mp = {};
 
   void otpVerify(String email, String otp) async {
     Response response;
@@ -33,9 +35,8 @@ class _OtpScreenState extends State<OtpScreen> {
         print(response.data['message']);
 
         //Store token local secure storage
-        var token = response.data['token'];
-
-        print(token);
+        ConstantsVar.studentData = response.data;
+        print("hello ${ConstantsVar.studentData}");
 
         var snackBar = SnackBar(content: Text(response.data['message']));
         // ignore: use_build_context_synchronously
@@ -43,7 +44,6 @@ class _OtpScreenState extends State<OtpScreen> {
         // ignore: use_build_context_synchronously
         Navigator.pushNamed(context, '/home');
       }
-      print(response.data);
     } catch (e) {
       print(e.toString());
     }

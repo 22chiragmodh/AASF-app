@@ -27,6 +27,7 @@ class _VerifictionPageState extends State<VerifictionPage> {
 
       if (response.statusCode == 200) {
         print(response.data['message']);
+
         // ignore: use_build_context_synchronously
         var snackBar = SnackBar(content: Text(response.data['message']));
         // ignore: use_build_context_synchronously

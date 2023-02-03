@@ -1,5 +1,6 @@
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
+import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/AppProfileField.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   radius: 80,
                   backgroundImage: _pickedimage != null
                       ? FileImage(_pickedimage!)
-                      : const AssetImage('assets/images/Ellipse 10.png')
+                      : NetworkImage(ConstantsVar.studentData['user']['dp'])
                           as ImageProvider,
                 ),
               ),
@@ -65,25 +66,25 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(
             height: 40,
           ),
-          const AppProfileFiled(
+          AppProfileFiled(
               fieldname: 'Name',
-              text: 'Abhigyan Abhikaushalam',
+              text: ConstantsVar.studentData['user']['name'],
               imgurl: 'assets/images/person.png'),
           const SizedBox(
             height: 10,
           ),
           BaseStyle.linealignment(0.8),
-          const AppProfileFiled(
+          AppProfileFiled(
               fieldname: 'Roll No.',
-              text: '2020IMG-054',
+              text: ConstantsVar.studentData['user']['_id'],
               imgurl: 'assets/images/badge.png'),
           const SizedBox(
             height: 10,
           ),
           BaseStyle.linealignment(0.5),
-          const AppProfileFiled(
+          AppProfileFiled(
               fieldname: 'Email',
-              text: 'img_202000@iiitm.ac.in',
+              text: ConstantsVar.studentData['user']['email'],
               imgurl: 'assets/images/mail.png'),
           const SizedBox(
             height: 10,

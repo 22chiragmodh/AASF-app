@@ -52,4 +52,6 @@ class ConstantsVar {
     "April": [],
     "Timeline": [],
   };
+
+  static Map<String, dynamic> studentData = {};
 }
