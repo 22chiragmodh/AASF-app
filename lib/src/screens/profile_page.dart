@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/AppProfileField.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -25,6 +28,36 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _pickedimage = pickedimagefile;
     });
+    uploadImage();
+  }
+
+  Future uploadImage() async {
+    var token = ConstantsVar.studentData['token'];
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      'authorization': 'Token $token'
+    };
+
+    Map data = {
+      'dp': _pickedimage?.path,
+    };
+
+    print(data);
+    try {
+      var response = await http.put(
+          Uri.parse('http://192.168.64.185:3000/users/dp'),
+          body: jsonEncode(data['dp']),
+          headers: headers);
+
+      print(response.body);
+      if (response.statusCode == 200) {
+        print("upload successful");
+      } else {
+        print("unable to upload image");
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override

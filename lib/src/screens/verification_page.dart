@@ -9,21 +9,22 @@ import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
+import '../utils/constants.dart';
+
 class VerifictionPage extends StatefulWidget {
   @override
   State<VerifictionPage> createState() => _VerifictionPageState();
 }
 
 class _VerifictionPageState extends State<VerifictionPage> {
-  final url = "http://192.168.64.185:3000/users/login";
-
   TextEditingController emailController = TextEditingController();
 
   void userVerify(String email) async {
     Response response;
     var dio = Dio();
     try {
-      response = await dio.post(url, data: {'roll': email});
+      response = await dio
+          .post("${ConstantsVar.url}/users/login", data: {'roll': email});
 
       if (response.statusCode == 200) {
         print(response.data['message']);
@@ -88,7 +89,7 @@ class _VerifictionPageState extends State<VerifictionPage> {
               textintype: TextInputType.emailAddress),
           GestureDetector(
               onTap: (() {
-                // Navigator.pushNamed(context, '/otppage');
+                // Navigator.pushNamed(context, '/home');
                 userVerify(emailController.text);
               }),
               child: const AppButton(buttontext: 'Continue')),

@@ -7,6 +7,7 @@ import 'package:aasf_iiitmg/src/widgets/Apptext.dart';
 import 'package:aasf_iiitmg/src/widgets/Apptextbtn.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:localstorage/localstorage.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({super.key, required this.emailid});
@@ -22,20 +23,23 @@ class _OtpScreenState extends State<OtpScreen> {
   TextEditingController? contrller4;
   String Code = "";
 
-  final url = "http://192.168.64.185:3000/users/login";
-  Map<String, dynamic> mp = {};
-
   void otpVerify(String email, String otp) async {
+    final LocalStorage storage = LocalStorage('localstorage_aasfapp');
+
     Response response;
     var dio = Dio();
     try {
-      response = await dio.post(url, data: {'roll': email, 'otp': otp});
+      response = await dio.post("${ConstantsVar.url}/users/login",
+          data: {'roll': email, 'otp': otp});
 
       if (response.statusCode == 200) {
+        final data = response.data;
+        storage.setItem('studentdata', data);
+        ConstantsVar.studentData = storage.getItem('studentdata');
         print(response.data['message']);
 
         //Store token local secure storage
-        ConstantsVar.studentData = response.data;
+
         print("hello ${ConstantsVar.studentData}");
 
         var snackBar = SnackBar(content: Text(response.data['message']));

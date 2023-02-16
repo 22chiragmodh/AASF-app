@@ -1,11 +1,16 @@
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:flutter/material.dart';
 
-class AppBottomAppbar extends StatelessWidget {
+class AppBottomAppbar extends StatefulWidget {
   const AppBottomAppbar({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<AppBottomAppbar> createState() => _AppBottomAppbarState();
+}
+
+class _AppBottomAppbarState extends State<AppBottomAppbar> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(

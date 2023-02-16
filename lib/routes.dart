@@ -2,6 +2,7 @@ import 'package:aasf_iiitmg/src/screens/faqs_page.dart';
 import 'package:aasf_iiitmg/src/screens/home_page.dart';
 import 'package:aasf_iiitmg/src/screens/landing_page.dart';
 import 'package:aasf_iiitmg/src/screens/leaderboard_page.dart';
+import 'package:aasf_iiitmg/src/screens/otp_page.dart';
 
 import 'package:aasf_iiitmg/src/screens/profile_page.dart';
 import 'package:aasf_iiitmg/src/screens/report_page.dart';
