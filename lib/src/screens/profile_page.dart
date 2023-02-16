@@ -19,18 +19,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   File? _pickedimage;
 
-  void _pickImage() async {
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(
-        source: ImageSource.camera, imageQuality: 50, maxWidth: 150);
-    final pickedimagefile = File(pickedImage!.path);
-
-    setState(() {
-      _pickedimage = pickedimagefile;
-    });
-    uploadImage();
-  }
-
   Future uploadImage() async {
     var token = ConstantsVar.studentData['token'];
     Map<String, String> headers = {
@@ -90,7 +78,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   radius: 20,
                   backgroundColor: Appcolors.yew(),
                   child: IconButton(
-                      onPressed: _pickImage,
+                      onPressed: () {
+                        selectImage();
+                        setState(() {});
+                      },
                       icon: const Icon(Icons.camera_alt)),
                 ),
               ),
@@ -126,5 +117,105 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
     );
+  }
+
+  selectImageFromGallery() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(
+        source: ImageSource.gallery, imageQuality: 50, maxWidth: 150);
+    final pickedimagefile = File(pickedImage!.path);
+    print("images $pickedimagefile");
+    setState(() {
+      _pickedimage = pickedimagefile;
+    });
+  }
+
+  //
+  selectImageFromCamera() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(
+        source: ImageSource.camera, imageQuality: 50, maxWidth: 150);
+    final pickedimagefile = File(pickedImage!.path);
+    print("images $pickedimagefile");
+
+    setState(() {
+      _pickedimage = pickedimagefile;
+    });
+  }
+
+  Future selectImage() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20.0)), //this right here
+            child: Container(
+              height: 150,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Select Image From !',
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            await selectImageFromGallery();
+                            Navigator.pop(context);
+                            setState(() {});
+                          },
+                          child: Card(
+                              elevation: 5,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/gallery.png',
+                                      height: 60,
+                                      width: 60,
+                                    ),
+                                    Text('Gallery'),
+                                  ],
+                                ),
+                              )),
+                        ),
+                        GestureDetector(
+                          onTap: () async {
+                            await selectImageFromCamera();
+
+                            Navigator.pop(context);
+                            setState(() {});
+                          },
+                          child: Card(
+                              elevation: 5,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/camera.png',
+                                      height: 60,
+                                      width: 60,
+                                    ),
+                                    Text('Camera'),
+                                  ],
+                                ),
+                              )),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        });
   }
 }
