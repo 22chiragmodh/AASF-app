@@ -5,6 +5,7 @@ import 'package:aasf_iiitmg/src/screens/leaderboard_page.dart';
 import 'package:aasf_iiitmg/src/screens/otp_page.dart';
 
 import 'package:aasf_iiitmg/src/screens/profile_page.dart';
+import 'package:aasf_iiitmg/src/screens/qr_page.dart';
 import 'package:aasf_iiitmg/src/screens/report_page.dart';
 import 'package:aasf_iiitmg/src/screens/splash_page.dart';
 import 'package:aasf_iiitmg/src/screens/timeline_page.dart';
@@ -35,6 +36,8 @@ abstract class Routes {
         return MaterialPageRoute(builder: (context) => const FaqsPage());
       case "/profile":
         return MaterialPageRoute(builder: (context) => const ProfilePage());
+      case "/qrcode":
+        return MaterialPageRoute(builder: (context) => const QrCodeScanner());
 
       default:
         return MaterialPageRoute(builder: (context) => const SplashScreen());
