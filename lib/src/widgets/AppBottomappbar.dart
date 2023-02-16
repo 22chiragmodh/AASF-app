@@ -1,16 +1,11 @@
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:flutter/material.dart';
 
-class AppBottomAppbar extends StatefulWidget {
+class AppBottomAppbar extends StatelessWidget {
   const AppBottomAppbar({
     Key? key,
   }) : super(key: key);
 
-  @override
-  State<AppBottomAppbar> createState() => _AppBottomAppbarState();
-}
-
-class _AppBottomAppbarState extends State<AppBottomAppbar> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
@@ -83,7 +78,9 @@ class _AppBottomAppbarState extends State<AppBottomAppbar> {
               child: CircleAvatar(
                 backgroundColor: Appcolors.tagcolor(),
                 child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/qrcode');
+                    },
                     icon: Image.asset('assets/images/qr_code_scanner.png')),
               )),
         ],
