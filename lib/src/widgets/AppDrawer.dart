@@ -1,6 +1,7 @@
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
+import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/Applinktext.dart';
 import 'package:aasf_iiitmg/src/widgets/Apptext.dart';
 import 'package:flutter/material.dart';
@@ -52,21 +53,21 @@ class AppDrawer extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(context, '/profile');
                     },
-                    child: const CircleAvatar(
+                    child: CircleAvatar(
                       radius: 60,
                       backgroundImage:
-                          AssetImage('assets/images/Ellipse 10.png'),
+                          NetworkImage(ConstantsVar.studentData['user']['dp']),
                     ),
                   ),
                 ),
               ),
               AppText(
-                text: "Hi, Abhigyan",
+                text: "Hi, ${ConstantsVar.studentData['user']['name']}",
                 textstyle:
-                    Textstyle.inputtext(Appcolors.yew(), 20.0, FontWeight.w600),
+                    Textstyle.inputtext(Appcolors.yew(), 18.0, FontWeight.w600),
               ),
               AppText(
-                text: "2020IMG - 054",
+                text: ConstantsVar.studentData['user']['_id'],
                 textstyle: Textstyle.inputtext(
                     Appcolors.white(), 20.0, FontWeight.w400),
               ),

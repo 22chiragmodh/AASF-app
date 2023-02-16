@@ -1,12 +1,15 @@
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
+import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/AppAbhishar.dart';
 import 'package:aasf_iiitmg/src/widgets/AppBottomappbar.dart';
 import 'package:aasf_iiitmg/src/widgets/AppDrawer.dart';
 import 'package:aasf_iiitmg/src/widgets/AppTabBar.dart';
 import 'package:aasf_iiitmg/src/widgets/ApphomEvents.dart';
 import 'package:aasf_iiitmg/src/widgets/ApphomeBlogs.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,6 +32,25 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     setState(() {});
   }
 
+  void getEventsData() async {
+    final LocalStorage storage = LocalStorage('localstorage_aasfapp');
+    Response response;
+    var dio = Dio();
+
+    response = await dio.get("${ConstantsVar.url}/events");
+
+    if (response.statusCode == 200) {
+      final data = response.data;
+      storage.setItem('eventsData', data);
+
+      print(response.data);
+    }
+
+    try {} catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,8 +66,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         children: [
           allTag(_tabController!),
           eventsTag(_tabController!),
+          abhisharTag(_tabController!),
           blogsTag(_tabController!),
-          abhisharTag(_tabController!)
         ],
       ),
     );

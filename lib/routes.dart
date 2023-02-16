@@ -3,6 +3,7 @@ import 'package:aasf_iiitmg/src/screens/home_page.dart';
 import 'package:aasf_iiitmg/src/screens/landing_page.dart';
 import 'package:aasf_iiitmg/src/screens/leaderboard_page.dart';
 import 'package:aasf_iiitmg/src/screens/otp_page.dart';
+
 import 'package:aasf_iiitmg/src/screens/profile_page.dart';
 import 'package:aasf_iiitmg/src/screens/report_page.dart';
 import 'package:aasf_iiitmg/src/screens/splash_page.dart';
@@ -22,10 +23,7 @@ abstract class Routes {
         return MaterialPageRoute(builder: (context) => const LandingPage());
 
       case "/verification":
-        return MaterialPageRoute(builder: (context) => const VerifictionPage());
-
-      case "/otppage":
-        return MaterialPageRoute(builder: (context) => const OtpScreen());
+        return MaterialPageRoute(builder: (context) => VerifictionPage());
 
       case "/progress":
         return MaterialPageRoute(builder: (context) => const LeaderBoradPage());

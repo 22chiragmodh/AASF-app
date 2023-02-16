@@ -3,16 +3,18 @@ import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 import 'package:flutter/material.dart';
 
 class OtpTextField extends StatelessWidget {
-  const OtpTextField({
-    Key? key,
-    required this.first,
-    required this.last,
-    required this.context,
-  }) : super(key: key);
+  const OtpTextField(
+      {Key? key,
+      required this.first,
+      required this.last,
+      required this.context,
+      required this.controller})
+      : super(key: key);
 
   final bool first;
   final bool last;
   final BuildContext context;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class OtpTextField extends StatelessWidget {
       child: AspectRatio(
         aspectRatio: 1.0,
         child: TextField(
+          controller: controller,
           autofocus: true,
           onChanged: (value) {
             if (value.length == 1 && last == false) {
@@ -38,7 +41,6 @@ class OtpTextField extends StatelessWidget {
           keyboardType: TextInputType.number,
           maxLength: 1,
           decoration: InputDecoration(
-            hintText: '5',
             filled: true,
             fillColor: Appcolors.textfieldcol(),
             hintStyle:

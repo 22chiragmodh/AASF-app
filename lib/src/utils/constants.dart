@@ -52,4 +52,8 @@ class ConstantsVar {
     "April": [],
     "Timeline": [],
   };
+
+  static Map<String, dynamic> studentData = {};
+
+  static String url = "http://192.168.64.185:3000";
 }
