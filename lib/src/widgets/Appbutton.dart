@@ -11,7 +11,7 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 20, left: 16, right: 16),
+      margin: BaseStyle.Btnmargin(),
       height: BaseStyle.buttonheight(),
       width: 328,
       decoration: BoxDecoration(
