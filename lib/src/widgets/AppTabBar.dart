@@ -47,7 +47,7 @@ class AppTabBar extends StatelessWidget {
                             : Appcolors.white())),
               ),
               SizedBox(
-                width: 44,
+                width: 50,
                 child: Tab(
                     child: TagSelector(
                         text: screenmode
