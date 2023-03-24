@@ -44,7 +44,7 @@ class _LandingPageState extends State<LandingPage> {
         // swipe image & text
         SizedBox(
           width: 1000,
-          height: MediaQuery.of(context).size.height * 0.4,
+          height: MediaQuery.of(context).size.height * 0.45,
           child: PageView.builder(
               itemCount: imageUrl.length,
               pageSnapping: true,
