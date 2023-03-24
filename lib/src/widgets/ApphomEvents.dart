@@ -1,5 +1,6 @@
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
+import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/Appreadmore.dart';
 import 'package:flutter/material.dart';
 
@@ -8,10 +9,12 @@ class AppHomeEvents extends StatefulWidget {
   final String eventTitle;
   final String iconUrl;
   final String icontitle;
+  final TabController tabController;
   const AppHomeEvents({
     required this.eventTitle,
     required this.iconUrl,
     required this.icontitle,
+    required this.tabController,
     required this.posterUrl,
     Key? key,
   }) : super(key: key);
@@ -26,6 +29,14 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
     return Container(
       decoration: BoxDecoration(color: Appcolors.blogdecbg()),
       child: Column(children: [
+        Container(
+          margin: const EdgeInsets.only(top: 20, left: 45, bottom: 16),
+          alignment: Alignment.topLeft,
+          child: Text(
+            ConstantsVar.hometextlist[widget.tabController.index],
+            style: Textstyle.inputtext(Appcolors.white(), 16, FontWeight.w400),
+          ),
+        ),
         Container(
           width: MediaQuery.of(context).size.width,
           height: 286,

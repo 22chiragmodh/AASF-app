@@ -1,21 +1,35 @@
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
+import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
 
 class AppHomeBlogs extends StatelessWidget {
   final String posterUrl;
   final String eventTitle;
+  final TabController tabController;
 
   const AppHomeBlogs(
-      {required this.eventTitle, required this.posterUrl, super.key});
+      {required this.eventTitle,
+      required this.posterUrl,
+      super.key,
+      required this.tabController});
 
   @override
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(color: Appcolors.blogdecbg()),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            margin: const EdgeInsets.only(top: 20, left: 45, bottom: 16),
+            alignment: Alignment.topLeft,
+            child: Text(
+              ConstantsVar.hometextlist[tabController.index],
+              style:
+                  Textstyle.inputtext(Appcolors.white(), 16, FontWeight.w400),
+            ),
+          ),
           Row(
             children: [
               Padding(

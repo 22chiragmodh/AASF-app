@@ -58,7 +58,7 @@ class AppTabBar extends StatelessWidget {
                             : Appcolors.white())),
               ),
               SizedBox(
-                width: 64,
+                width: 60,
                 child: Tab(
                     child: TagSelector(
                         text: screenmode
@@ -69,7 +69,7 @@ class AppTabBar extends StatelessWidget {
                             : Appcolors.white())),
               ),
               SizedBox(
-                width: 44,
+                width: 40,
                 child: Tab(
                     child: TagSelector(
                         text: screenmode
@@ -147,16 +147,6 @@ class AppTabBar extends StatelessWidget {
         ),
 
         // Tabbar selected text
-        if (screenmode)
-          Container(
-            margin: const EdgeInsets.only(top: 20, left: 45, bottom: 16),
-            alignment: Alignment.topLeft,
-            child: Text(
-              ConstantsVar.hometextlist[_tabController!.index],
-              style:
-                  Textstyle.inputtext(Appcolors.white(), 16, FontWeight.w400),
-            ),
-          )
       ],
     );
   }

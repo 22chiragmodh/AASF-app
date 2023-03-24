@@ -47,11 +47,22 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
         automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: const AppBottomAppbar(),
-      body: TabBarView(controller: _tabController, children: [
-        LeaderboardTabScreen(tabController: _tabController),
-        StatsTabScreen(tabController: _tabController),
-        WinningTabScreen(tabController: _tabController),
-      ]),
+      body: Column(
+        children: [
+          AppLeaderBoardTabBar(
+              tabController: _tabController, indicatorcolor: true),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: const [
+                LeaderboardTabScreen(),
+                StatsTabScreen(),
+                WinningTabScreen()
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -59,24 +70,16 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
 class StatsTabScreen extends StatelessWidget {
   const StatsTabScreen({
     Key? key,
-    required TabController? tabController,
-  })  : _tabController = tabController,
-        super(key: key);
-
-  final TabController? _tabController;
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        AppLeaderBoardTabBar(
-          tabController: _tabController,
-          indicatorcolor: true,
-        ),
         const SizedBox(
           height: 20,
         ),
-        Container(
+        SizedBox(
           width: 292,
           height: 121,
           child: Row(
@@ -126,20 +129,12 @@ class StatsTabScreen extends StatelessWidget {
 class WinningTabScreen extends StatelessWidget {
   const WinningTabScreen({
     Key? key,
-    required TabController? tabController,
-  })  : _tabController = tabController,
-        super(key: key);
-
-  final TabController? _tabController;
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        AppLeaderBoardTabBar(
-          tabController: _tabController,
-          indicatorcolor: true,
-        ),
         const SizedBox(
           height: 10,
         ),
@@ -172,20 +167,12 @@ class WinningTabScreen extends StatelessWidget {
 class LeaderboardTabScreen extends StatelessWidget {
   const LeaderboardTabScreen({
     Key? key,
-    required TabController? tabController,
-  })  : _tabController = tabController,
-        super(key: key);
-
-  final TabController? _tabController;
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        AppLeaderBoardTabBar(
-          tabController: _tabController,
-          indicatorcolor: true,
-        ),
         const SizedBox(
           height: 10,
         ),
