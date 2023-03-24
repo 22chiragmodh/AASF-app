@@ -32,25 +32,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     setState(() {});
   }
 
-  void getEventsData() async {
-    final LocalStorage storage = LocalStorage('localstorage_aasfapp');
-    Response response;
-    var dio = Dio();
-
-    response = await dio.get("${ConstantsVar.url}/events");
-
-    if (response.statusCode == 200) {
-      final data = response.data;
-      storage.setItem('eventsData', data);
-
-      print(response.data);
-    }
-
-    try {} catch (e) {
-      print(e);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,14 +67,14 @@ Widget allTag(TabController _tabController) {
 
       //Event tile
 
-      const AppHomeEvents(
-          eventTitle: "Web Week-Backend",
+      AppHomeEvents(
+          eventTitle: ConstantsVar.eventData['events'][0]['name'],
           iconUrl: 'assets/images/edit_document.png',
           icontitle: 'Register',
           posterUrl: 'assets/images/Web Week-Backend 1 (1).png'),
 
-      const AppHomeEvents(
-          eventTitle: "Web Week-Frontend",
+      AppHomeEvents(
+          eventTitle: ConstantsVar.eventData['events'][0]['name'],
           icontitle: 'Feedback',
           iconUrl: 'assets/images/rate_review.png',
           posterUrl: 'assets/images/image 6.png'),
@@ -121,14 +102,14 @@ Widget eventsTag(TabController tabController) {
 
       //Event tile
 
-      const AppHomeEvents(
-          eventTitle: "Web Week-Backend",
+      AppHomeEvents(
+          eventTitle: ConstantsVar.eventData['events'][0]['name'],
           iconUrl: 'assets/images/edit_document.png',
           icontitle: 'Register',
           posterUrl: 'assets/images/Web Week-Backend 1 (1).png'),
 
-      const AppHomeEvents(
-          eventTitle: "Web Week-Frontend",
+      AppHomeEvents(
+          eventTitle: ConstantsVar.eventData['events'][0]['name'],
           iconUrl: 'assets/images/rate_review.png',
           icontitle: 'Feedback',
           posterUrl: 'assets/images/image 6.png'),
