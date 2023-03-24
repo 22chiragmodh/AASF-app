@@ -53,6 +53,25 @@ class _OtpScreenState extends State<OtpScreen> {
     }
   }
 
+  void getEventsData() async {
+    Response response;
+    var dio = Dio();
+
+    response = await dio.get("${ConstantsVar.url}/events");
+
+    if (response.statusCode == 200) {
+      final data = response.data;
+
+      ConstantsVar.eventData = data;
+
+      print(ConstantsVar.eventData);
+    }
+
+    try {} catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -139,6 +158,7 @@ class _OtpScreenState extends State<OtpScreen> {
                       contrller4!.text.toString();
 
                   otpVerify(widget.emailid, Code);
+                  getEventsData();
                 }
               },
             )
