@@ -19,23 +19,27 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   File? _pickedimage;
 
-  Future uploadImage() async {
-    var token = ConstantsVar.studentData['token'];
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
+  Future<void> uploadImage() async {
+    final token = ConstantsVar.studentData['token'];
+    final headers = {
+      'Content-Type': 'multipart/form-data',
       'authorization': 'Token $token'
     };
 
-    Map data = {
-      'dp': _pickedimage?.path,
-    };
+    final request = http.MultipartRequest(
+      'PUT',
+      Uri.parse('http://192.168.64.185:3000/users/dp'),
+    );
+    request.headers.addAll(headers);
 
-    print(data);
+    request.fields['dp'] = _pickedimage!.path;
+
+    final file = await http.MultipartFile.fromPath('dp', _pickedimage!.path);
+    request.files.add(file);
+
     try {
-      var response = await http.put(
-          Uri.parse('http://192.168.64.185:3000/users/dp'),
-          body: jsonEncode(data['dp']),
-          headers: headers);
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
 
       print(response.body);
       if (response.statusCode == 200) {
@@ -128,6 +132,10 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _pickedimage = pickedimagefile;
     });
+    if (_pickedimage != null) {
+      print(_pickedimage!.path.split('.').last);
+      await uploadImage();
+    }
   }
 
   //
@@ -141,9 +149,14 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _pickedimage = pickedimagefile;
     });
+
+    if (_pickedimage != null) {
+      print(_pickedimage!.path.split('.').last);
+      await uploadImage();
+    }
   }
 
-  Future selectImage() {
+  Future<void> selectImage() async {
     return showDialog(
         context: context,
         builder: (BuildContext context) {

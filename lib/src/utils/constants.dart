@@ -55,6 +55,7 @@ class ConstantsVar {
 
   static Map<String, dynamic> studentData = {};
   static Map<String, dynamic> eventData = {};
+  static Map<String, dynamic> UserDetails = {};
 
-  static String url = "http://192.168.64.185:3000";
+  static String url = "http://192.168.64.238:3000";
 }

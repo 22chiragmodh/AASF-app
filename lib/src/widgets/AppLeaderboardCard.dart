@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 
 class AppLeadrboardCard extends StatelessWidget {
   final String rank;
+  final String name;
+  final int score;
   const AppLeadrboardCard({
     required this.rank,
     Key? key,
+    required this.name,
+    required this.score,
   }) : super(key: key);
 
   @override
@@ -37,14 +41,15 @@ class AppLeadrboardCard extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 30),
-                      child: Text('Abhigyan',
+                      child: Text(name,
                           style: TextStyle(color: Appcolors.white())),
                     ),
                   ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),
-                  child: Text('900', style: TextStyle(color: Appcolors.yew())),
+                  child: Text(score.toString(),
+                      style: TextStyle(color: Appcolors.yew())),
                 ),
               ],
             ),

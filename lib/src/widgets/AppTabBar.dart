@@ -1,6 +1,6 @@
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
-import 'package:aasf_iiitmg/src/styles/textstyle.dart';
+
 import 'package:aasf_iiitmg/src/widgets/Apptagselector.dart';
 
 import 'package:flutter/material.dart';
@@ -24,7 +24,8 @@ class AppTabBar extends StatelessWidget {
         Container(
           width: 326,
           height: 31,
-          margin: const EdgeInsets.only(left: 17.0, right: 17.0, top: 25),
+          margin: const EdgeInsets.only(
+              left: 17.0, right: 17.0, top: 10, bottom: 12),
           color: Appcolors.primarycolor(),
           child: TabBar(
             controller: _tabController,
@@ -36,7 +37,7 @@ class AppTabBar extends StatelessWidget {
                     : Appcolors.white()),
             tabs: [
               SizedBox(
-                width: 60,
+                width: screenmode ? 50 : 80,
                 child: Tab(
                     child: TagSelector(
                         text: screenmode
@@ -47,7 +48,7 @@ class AppTabBar extends StatelessWidget {
                             : Appcolors.white())),
               ),
               SizedBox(
-                width: 50,
+                width: 55,
                 child: Tab(
                     child: TagSelector(
                         text: screenmode
@@ -58,7 +59,7 @@ class AppTabBar extends StatelessWidget {
                             : Appcolors.white())),
               ),
               SizedBox(
-                width: 60,
+                width: 65,
                 child: Tab(
                     child: TagSelector(
                         text: screenmode
