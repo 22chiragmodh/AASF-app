@@ -4,32 +4,28 @@ import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AppHomeBlogs extends StatelessWidget {
   final String posterUrl;
-  final String eventTitle;
+  // final String eventTitle;
   final TabController tabController;
+  final Map<String, dynamic> blog;
 
   const AppHomeBlogs(
-      {required this.eventTitle,
+      {
+      //   required this.eventTitle,
       required this.posterUrl,
       super.key,
-      required this.tabController});
+      required this.tabController,
+      required this.blog});
 
   @override
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(color: Appcolors.blogdecbg()),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Container(
-            margin: const EdgeInsets.only(top: 20, left: 45, bottom: 16),
-            alignment: Alignment.topLeft,
-            child: Text(
-              ConstantsVar.hometextlist[tabController.index],
-              style:
-                  Textstyle.inputtext(Appcolors.white(), 16, FontWeight.w400),
-            ),
-          ),
           Row(
             children: [
               Padding(
@@ -37,39 +33,28 @@ class AppHomeBlogs extends StatelessWidget {
                 child: const Align(
                   alignment: Alignment.topCenter,
                   child: CircleAvatar(
-                    radius: 26,
+                    radius: 20,
                     backgroundImage: AssetImage('assets/images/Ellipse 10.png'),
                   ),
                 ),
               ),
               Padding(
                 padding: BaseStyle.listpadding(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppVerifyTextField(
-                        padding: const EdgeInsets.all(2.0),
-                        text: 'Abhigyan Abhikaushlam',
-                        text1: '',
-                        textstyle: Textstyle.inputtext(
-                            Appcolors.white(), 14.0, FontWeight.w600),
-                        textalign: TextAlign.center),
-                    AppVerifyTextField(
-                        padding: const EdgeInsets.all(2.0),
-                        text: 'IMG-2017',
-                        text1: '',
-                        textstyle: Textstyle.inputtext(
-                            Appcolors.white(), 13.0, FontWeight.w500),
-                        textalign: TextAlign.start),
-                  ],
-                ),
+                child: AppVerifyTextField(
+                    padding: const EdgeInsets.all(2.0),
+                    text: '${blog['author']}',
+                    text1: '',
+                    textstyle: Textstyle.inputtext(
+                        Appcolors.white(), 14.0, FontWeight.w600),
+                    textalign: TextAlign.center),
               )
             ],
           ),
           AppVerifyTextField(
               padding:
                   const EdgeInsets.symmetric(vertical: 2.0, horizontal: 20.0),
-              text: eventTitle,
+              // text: eventTitle,
+              text: blog['title'],
               text1: '',
               textstyle:
                   Textstyle.inputtext(Appcolors.white(), 24.0, FontWeight.w400),
@@ -85,7 +70,7 @@ class AppHomeBlogs extends StatelessWidget {
           ),
           Container(
             width: 358,
-            height: 16,
+            height: 18,
             margin: const EdgeInsets.only(left: 16.04, top: 15, bottom: 11),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -93,19 +78,9 @@ class AppHomeBlogs extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'TECH BLOG',
+                      blog['category'][0],
                       style: Textstyle.inputtext(
-                          Appcolors.blogiconcol(), 12.0, FontWeight.w600),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8,
-                      ),
-                      child: Text(
-                        'CASE STUDY',
-                        style: Textstyle.inputtext(
-                            Appcolors.blogiconcol(), 12.0, FontWeight.w400),
-                      ),
+                          Appcolors.blogiconcol(), 13.0, FontWeight.w600),
                     ),
                   ],
                 ),
@@ -144,7 +119,10 @@ class AppHomeBlogs extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () async {
+                        String meetUrl = blog['link'];
+                        await launchUrl(Uri.parse(meetUrl));
+                      },
                       icon: const Image(
                           image: AssetImage('assets/images/menu_book.png')),
                       label: Text(
@@ -152,7 +130,10 @@ class AppHomeBlogs extends StatelessWidget {
                         style: TextStyle(color: Appcolors.yew()),
                       )),
                   TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        String blogUrl = blog['link'];
+                        Share.share(blogUrl);
+                      },
                       icon: const Image(
                           image: AssetImage('assets/images/share.png')),
                       label: Text(

@@ -1,10 +1,13 @@
+import 'package:aasf_iiitmg/src/screens/qr_page.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 
 import 'package:flutter/material.dart';
 
 class AppBottomAppbar extends StatelessWidget {
-  const AppBottomAppbar({
+  String? token;
+  AppBottomAppbar({
     Key? key,
+    this.token,
   }) : super(key: key);
 
   @override
@@ -80,7 +83,12 @@ class AppBottomAppbar extends StatelessWidget {
                 backgroundColor: Appcolors.tagcolor(),
                 child: IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/qrcode');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => QrCodeScanner(
+                                    token: token!,
+                                  )));
                     },
                     icon: Image.asset('assets/images/qr_code_scanner.png')),
               )),

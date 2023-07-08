@@ -1,6 +1,6 @@
 import 'package:aasf_iiitmg/src/screens/landing_page.dart';
 import 'package:flutter/material.dart';
-import '../widgets/AppIcon.dart';
+import '../widgets/appicon.dart';
 import 'dart:async';
 
 class SplashScreen extends StatefulWidget {

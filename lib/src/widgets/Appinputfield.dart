@@ -8,12 +8,14 @@ class AppInputField extends StatelessWidget {
   final TextInputType textintype;
 
   final TextEditingController controller;
+  final bool? hidentext;
 
   const AppInputField(
       {super.key,
       required this.hinttext,
       required this.controller,
-      required this.textintype});
+      required this.textintype,
+      this.hidentext});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class AppInputField extends StatelessWidget {
             Textstyle.inputtext(Appcolors.titlewhite(), 16.0, FontWeight.w600),
         textAlign: TextAlign.start,
         decoration: Textstyle.materialdeco(hinttext),
+        obscureText: hidentext == null ? false : hidentext!,
       ),
     );
     ;

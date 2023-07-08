@@ -1,18 +1,42 @@
+import 'package:aasf_iiitmg/src/screens/home_page.dart';
+import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:flutter/material.dart';
+
 import 'dart:io';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:dio/dio.dart';
 
 class QrCodeScanner extends StatefulWidget {
-  const QrCodeScanner({super.key});
+  final String token;
+  const QrCodeScanner({super.key, required this.token});
 
   @override
   State<QrCodeScanner> createState() => _QrCodeScannerState();
 }
 
 class _QrCodeScannerState extends State<QrCodeScanner> {
-  final Qrkey = GlobalKey(debugLabel: 'AASF QR ');
+  final qrkey = GlobalKey(debugLabel: 'AASF QR ');
   Barcode? result;
+  String message = "";
   QRViewController? qrcontroller;
+
+  Future<void> attedenceQr() async {
+    try {
+      Dio dio = Dio();
+      print(widget.token);
+      Options options = Options(
+        headers: {'Authorization': 'Bearer ${widget.token}'},
+      );
+      Response res = await dio.post("${ConstantsVar.url}/attendance",
+          data: {"hash": result!.code.toString()}, options: options);
+
+      if (res.statusCode == 200) {
+        message = res.data['message'];
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   void dispose() {
@@ -37,19 +61,14 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
         alignment: Alignment.center,
         children: [
           buildQrView(context),
-          Positioned(bottom: 10, child: buildResult())
         ],
       ),
     );
   }
 
-  Widget buildResult() {
-    return Text(result != null ? result!.code.toString() : "scan a code");
-  }
-
   Widget buildQrView(BuildContext context) {
     return QRView(
-      key: Qrkey,
+      key: qrkey,
       onQRViewCreated: onQrCodeview,
       overlay: QrScannerOverlayShape(
           borderWidth: 10,
@@ -62,11 +81,32 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
   void onQrCodeview(QRViewController controller) {
     qrcontroller = controller;
 
-    controller.scannedDataStream.listen((scanData) {
+    controller.scannedDataStream.listen((scanData) async {
+      controller.pauseCamera();
       setState(() {
         result = scanData;
+
+        print("********************  ${result!.code.toString()}");
       });
+
+      await attedenceQr();
+
+      if (result != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+      qrcontroller!.dispose();
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (BuildContext context) => HomePage(authToken: widget.token),
+        ),
+      );
     });
-    print(result);
   }
 }

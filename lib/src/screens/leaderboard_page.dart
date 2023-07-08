@@ -3,15 +3,15 @@ import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:dio/dio.dart';
-import 'package:localstorage/localstorage.dart';
-import 'package:aasf_iiitmg/src/widgets/AppBottomappbar.dart';
-import 'package:aasf_iiitmg/src/widgets/AppLeaderboardCard.dart';
-import 'package:aasf_iiitmg/src/widgets/AppLeaderboardTabbar.dart';
-import 'package:aasf_iiitmg/src/widgets/AppProgressIndicator.dart';
-import 'package:aasf_iiitmg/src/widgets/AppStatsCard.dart';
-import 'package:aasf_iiitmg/src/widgets/AppWinningcard.dart';
-import 'package:aasf_iiitmg/src/widgets/AppstackImage.dart';
-import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
+// import 'package:localstorage/localstorage.dart';
+import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
+import 'package:aasf_iiitmg/src/widgets/appleaderboardcard.dart';
+import 'package:aasf_iiitmg/src/widgets/appleaderboardtabbar.dart';
+import 'package:aasf_iiitmg/src/widgets/appprogressindicator.dart';
+import 'package:aasf_iiitmg/src/widgets/appstatscard.dart';
+import 'package:aasf_iiitmg/src/widgets/appwinningcard.dart';
+import 'package:aasf_iiitmg/src/widgets/appstackimage.dart';
+import 'package:aasf_iiitmg/src/widgets/appverifytext.dart';
 import 'package:flutter/material.dart';
 
 class LeaderBoradPage extends StatefulWidget {
@@ -75,6 +75,7 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
         return data; // Return the response data
       }
     } catch (e) {
+      // ignore: avoid_print
       print(e);
     }
     throw Exception();
@@ -94,7 +95,9 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
         ),
         automaticallyImplyLeading: false,
       ),
-      bottomNavigationBar: const AppBottomAppbar(),
+      bottomNavigationBar: AppBottomAppbar(
+        token: '',
+      ),
       body: Column(
         children: [
           AppLeaderBoardTabBar(
@@ -256,7 +259,7 @@ class LeaderboardTabScreen extends StatelessWidget {
                 Textstyle.inputtext(Appcolors.white(), 15.0, FontWeight.w400),
             textalign: TextAlign.left),
         AppLeadrboardCard(
-          rank: ConstantsVar.UserDetails['rank'].toString(),
+          rank: ConstantsVar.userDetails['rank'].toString(),
           name: '',
           score: 500,
         ),

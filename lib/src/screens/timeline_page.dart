@@ -2,8 +2,8 @@ import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
-import 'package:aasf_iiitmg/src/widgets/AppBottomappbar.dart';
-import 'package:aasf_iiitmg/src/widgets/AppTabBar.dart';
+import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
+import 'package:aasf_iiitmg/src/widgets/apptabbar.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
@@ -42,7 +42,9 @@ class _TimelinePageState extends State<TimelinePage>
         ),
         automaticallyImplyLeading: false,
       ),
-      bottomNavigationBar: const AppBottomAppbar(),
+      bottomNavigationBar: AppBottomAppbar(
+        token: "",
+      ),
       body: ListView(
         children: [
           AppTabBar(

@@ -1,34 +1,28 @@
+// ignore: file_names
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
-import 'package:aasf_iiitmg/src/utils/constants.dart';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppAbhishar extends StatelessWidget {
-  final String posterUrl;
-  final String eventTitle;
   final TabController tabController;
+  final Map<String, dynamic> abhishar;
 
   const AppAbhishar(
-      {required this.eventTitle,
-      required this.posterUrl,
-      super.key,
-      required this.tabController});
+      {super.key, required this.tabController, required this.abhishar});
 
   @override
   Widget build(BuildContext context) {
+    final dateOfLaunch = DateTime.parse(abhishar['date_of_launch']);
+    final formattedDateofLaunch =
+        DateFormat('MMM d, yyyy').format(dateOfLaunch);
+    ;
     return Container(
       decoration: BoxDecoration(color: Appcolors.blogdecbg()),
       child: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.only(top: 20, left: 45, bottom: 16),
-            alignment: Alignment.topLeft,
-            child: Text(
-              ConstantsVar.hometextlist[tabController.index],
-              style:
-                  Textstyle.inputtext(Appcolors.white(), 16, FontWeight.w400),
-            ),
-          ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -37,9 +31,9 @@ class AppAbhishar extends StatelessWidget {
                   Container(
                     width: 216,
                     height: 67,
-                    margin: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.all(15),
                     child: Text(
-                      'A Jog Down the Sports Lane',
+                      abhishar['heading'],
                       style: Textstyle.inputtext(
                           Appcolors.white(), 20.0, FontWeight.w400),
                     ),
@@ -48,20 +42,20 @@ class AppAbhishar extends StatelessWidget {
                     children: [
                       Container(
                         width: 100,
-                        height: 32,
-                        margin: const EdgeInsets.all(16),
+                        height: 40,
+                        margin: const EdgeInsets.all(8),
                         child: Text(
-                          'ABHISHAR v11.0',
+                          'ABHISHAR ${abhishar['version']}',
                           style: Textstyle.inputtext(
                               Appcolors.blogiconcol(), 13.0, FontWeight.w500),
                         ),
                       ),
                       Container(
                         width: 80,
-                        height: 32,
-                        margin: const EdgeInsets.all(16),
+                        height: 40,
+                        margin: const EdgeInsets.all(8),
                         child: Text(
-                          'Nov 20, 2021',
+                          formattedDateofLaunch,
                           style: Textstyle.inputtext(
                               Appcolors.blogiconcol(), 13.0, FontWeight.w500),
                         ),
@@ -75,7 +69,7 @@ class AppAbhishar extends StatelessWidget {
                 child: SizedBox(
                   width: 102,
                   height: 133,
-                  child: Image.asset(posterUrl),
+                  child: Image.network(abhishar['image']),
                 ),
               ),
             ],
@@ -89,7 +83,10 @@ class AppAbhishar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () async {
+                        String meetUrl = abhishar['pdf_link'];
+                        await launchUrl(Uri.parse(meetUrl));
+                      },
                       icon: const Image(
                         image: AssetImage('assets/images/menu_book.png'),
                       ),

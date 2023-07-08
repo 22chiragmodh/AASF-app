@@ -1,22 +1,34 @@
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
-import 'package:aasf_iiitmg/src/widgets/Appreadmore.dart';
+import 'package:aasf_iiitmg/src/widgets/appreadmore.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppHomeEvents extends StatefulWidget {
   final String posterUrl;
-  final String eventTitle;
+  // final String eventTitle;
   final String iconUrl;
   final String icontitle;
   final TabController tabController;
+  final Map<String, dynamic> event;
+  final String startdate;
+  final String enddate;
+  final String starttime;
+  final String endtime;
+
   const AppHomeEvents({
-    required this.eventTitle,
+    // required this.eventTitle,
     required this.iconUrl,
     required this.icontitle,
     required this.tabController,
     required this.posterUrl,
     Key? key,
+    required this.event,
+    required this.startdate,
+    required this.enddate,
+    required this.starttime,
+    required this.endtime,
   }) : super(key: key);
 
   @override
@@ -30,18 +42,12 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
       decoration: BoxDecoration(color: Appcolors.blogdecbg()),
       child: Column(children: [
         Container(
-          margin: const EdgeInsets.only(top: 20, left: 45, bottom: 16),
-          alignment: Alignment.topLeft,
-          child: Text(
-            ConstantsVar.hometextlist[widget.tabController.index],
-            style: Textstyle.inputtext(Appcolors.white(), 16, FontWeight.w400),
-          ),
-        ),
-        Container(
           width: MediaQuery.of(context).size.width,
           height: 286,
           decoration: BoxDecoration(color: Appcolors.posterbg()),
-          child: Image.asset(widget.posterUrl),
+          child: widget.posterUrl.isEmpty
+              ? Image.asset("assets/images/Asset 1 2 (1).png")
+              : Image.network(widget.posterUrl),
         ),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 15.04, vertical: 8),
@@ -52,7 +58,7 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                 margin:
                     const EdgeInsets.symmetric(horizontal: 15.04, vertical: 4),
                 child: Text(
-                  widget.eventTitle,
+                  widget.event["name"],
                   style: Textstyle.inputtext(
                     Appcolors.white(),
                     20.0,
@@ -60,7 +66,9 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                   ),
                 ),
               ),
-              AppReadmore(),
+              AppReadmore(
+                description: widget.event["description"],
+              ),
               Row(
                 children: [
                   TextButton.icon(
@@ -70,7 +78,7 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                         color: Appcolors.blogiconcol(),
                       ),
                       label: Text(
-                        '9th-25th Aug' '22',
+                        '${widget.startdate} - ${widget.enddate}',
                         style: Textstyle.inputtext(
                             Appcolors.blogiconcol(), 14.0, FontWeight.w400),
                       )),
@@ -81,7 +89,7 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                         color: Appcolors.blogiconcol(),
                       ),
                       label: Text(
-                        '6:00 PM-8:00 PM',
+                        '${widget.starttime} - ${widget.endtime}',
                         style: Textstyle.inputtext(
                             Appcolors.blogiconcol(), 14.0, FontWeight.w400),
                       )),
@@ -95,11 +103,21 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                         Icons.location_pin,
                         color: Appcolors.blogiconcol(),
                       ),
-                      label: Text(
-                        'LT 1 Seminar Hall - 1 B - 001',
-                        style: Textstyle.inputtext(
-                            Appcolors.blogiconcol(), 14.0, FontWeight.w400),
-                      )),
+                      label: widget.event['type'] != "online"
+                          ? Text(
+                              'LT 1 Seminar Hall - 1 B - 001',
+                              style: Textstyle.inputtext(
+                                  Appcolors.blogiconcol(),
+                                  14.0,
+                                  FontWeight.w400),
+                            )
+                          : Text(
+                              'Online',
+                              style: Textstyle.inputtext(
+                                  Appcolors.blogiconcol(),
+                                  14.0,
+                                  FontWeight.w400),
+                            )),
                 ],
               ),
               Row(
@@ -114,7 +132,7 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                           style: Textstyle.inputtext(
                               Appcolors.blogiconcol(), 14.0, FontWeight.w400))),
                   Container(
-                      height: 57,
+                      height: 60,
                       width: 242,
                       margin: const EdgeInsets.only(
                           left: 2.04, right: 15, top: 12.22),
@@ -150,6 +168,20 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                       'Resources',
                       style: TextStyle(color: Appcolors.yew()),
                     )),
+                widget.event['type'] == "online"
+                    ? TextButton.icon(
+                        onPressed: () async {
+                          String meetUrl =
+                              widget.event['event_links'][0]['url'];
+                          await launchUrl(Uri.parse(meetUrl));
+                        },
+                        icon: const Image(
+                            image: AssetImage('assets/images/description.png')),
+                        label: Text(
+                          'Join Meet',
+                          style: TextStyle(color: Appcolors.yew()),
+                        ))
+                    : const Text(""),
               ],
             ),
           ),

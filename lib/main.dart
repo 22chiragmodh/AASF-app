@@ -1,4 +1,5 @@
 import 'package:aasf_iiitmg/routes.dart';
+import 'package:aasf_iiitmg/src/provider/studentdata.dart';
 import 'package:aasf_iiitmg/src/screens/home_page.dart';
 
 import 'package:aasf_iiitmg/src/screens/splash_page.dart';
@@ -8,12 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // iOS requires you run in release mode to test dynamic links ("flutter run --release").
 
-  runApp(const AasfApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => StudentDataProvider(),
+      child: const AasfApp(),
+    ),
+  );
 }
 
 class AasfApp extends StatefulWidget {
@@ -30,9 +37,6 @@ class _AasfAppState extends State<AasfApp> {
       return const CupertinoApp();
     } else {
       return GetMaterialApp(
-        routes: {
-          '/home': (BuildContext context) => const HomePage(),
-        },
         theme: ThemeData.dark(),
         onGenerateRoute: Routes.materialRoutes,
         // theme: ThemeData.dark(),

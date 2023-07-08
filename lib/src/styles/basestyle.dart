@@ -23,7 +23,7 @@ abstract class BaseStyle {
     return 8.0;
   }
 
-  static EdgeInsets Btnmargin() {
+  static EdgeInsets btnmargin() {
     return const EdgeInsets.only(left: 20, right: 20, top: 20);
   }
 

@@ -2,8 +2,8 @@ import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 
-import 'package:aasf_iiitmg/src/widgets/AppSocialIcon.dart';
-import 'package:aasf_iiitmg/src/widgets/Appbutton.dart';
+import 'package:aasf_iiitmg/src/widgets/appsocialicon.dart';
+import 'package:aasf_iiitmg/src/widgets/appbutton.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
 

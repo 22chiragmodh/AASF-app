@@ -1,11 +1,14 @@
+// ignore: file_names
+import 'package:aasf_iiitmg/src/provider/studentdata.dart';
+import 'package:aasf_iiitmg/src/screens/profile_page.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
-import 'package:aasf_iiitmg/src/utils/constants.dart';
 
 import 'package:aasf_iiitmg/src/widgets/Applinktext.dart';
 import 'package:aasf_iiitmg/src/widgets/Apptext.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
@@ -14,6 +17,10 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final studentDataProvider = Provider.of<StudentDataProvider>(context);
+    final studentData = studentDataProvider.studentData;
+    // ignore: avoid_print
+    print("#########3  $studentData");
     return Align(
       alignment: Alignment.topRight,
       child: SizedBox(
@@ -52,23 +59,32 @@ class AppDrawer extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, '/profile');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfilePage(
+                                    studentData: studentData,
+                                  )));
                     },
-                    child: CircleAvatar(
-                      radius: 60,
-                      backgroundImage:
-                          NetworkImage(ConstantsVar.studentData['user']['dp']),
-                    ),
+                    child: studentData['image'] == null
+                        ? const CircleAvatar(
+                            radius: 60,
+                          )
+                        : CircleAvatar(
+                            radius: 60,
+                            backgroundImage: NetworkImage(studentData['image']),
+                          ),
                   ),
                 ),
               ),
               AppText(
-                text: "Hi, ${ConstantsVar.studentData['user']['name']}",
+                text:
+                    "Hi, ${studentData['first_name']} ${studentData['last_name']}",
                 textstyle:
                     Textstyle.inputtext(Appcolors.yew(), 18.0, FontWeight.w600),
               ),
               AppText(
-                text: ConstantsVar.studentData['user']['_id'],
+                text: studentData['id'],
                 textstyle: Textstyle.inputtext(
                     Appcolors.white(), 20.0, FontWeight.w400),
               ),

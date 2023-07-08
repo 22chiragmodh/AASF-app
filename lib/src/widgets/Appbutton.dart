@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
@@ -11,7 +13,7 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: BaseStyle.Btnmargin(),
+      margin: BaseStyle.btnmargin(),
       height: BaseStyle.buttonheight(),
       width: 328,
       decoration: BoxDecoration(

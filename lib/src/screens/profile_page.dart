@@ -1,16 +1,20 @@
+// ignore_for_file: avoid_print
+
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
-import 'package:aasf_iiitmg/src/widgets/AppProfileField.dart';
+import 'package:aasf_iiitmg/src/widgets/appprofilefield.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final Map<String, dynamic> studentData;
+  const ProfilePage({super.key, required this.studentData});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -19,31 +23,36 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   File? _pickedimage;
 
-  Future<void> uploadImage() async {
-    final token = ConstantsVar.studentData['token'];
-    final headers = {
-      'Content-Type': 'multipart/form-data',
-      'authorization': 'Token $token'
-    };
-
-    final request = http.MultipartRequest(
-      'PUT',
-      Uri.parse('http://192.168.64.185:3000/users/dp'),
-    );
-    request.headers.addAll(headers);
-
-    request.fields['dp'] = _pickedimage!.path;
-
-    final file = await http.MultipartFile.fromPath('dp', _pickedimage!.path);
-    request.files.add(file);
+  Future<void> uploadImage(File imageFile) async {
+    final authToken = widget.studentData['token']['token'];
 
     try {
-      final streamedResponse = await request.send();
-      final response = await http.Response.fromStream(streamedResponse);
+      var request = http.MultipartRequest(
+        'PATCH',
+        Uri.parse('${ConstantsVar.url}/user'),
+      );
 
-      print(response.body);
+      request.headers["Authorization"] = "Bearer $authToken";
+
+      request.fields['image'] = imageFile.path;
+
+      var multipartFile = await http.MultipartFile.fromPath(
+        'image',
+        imageFile.path,
+      );
+
+      request.files.add(multipartFile);
+
+      var response = await request.send();
+
       if (response.statusCode == 200) {
-        print("upload successful");
+        var jsonResponse = await response.stream.bytesToString();
+        var imageUrl = jsonDecode(jsonResponse)['data']['image'];
+        setState(() {
+          widget.studentData['image'] = imageUrl;
+        });
+
+        print("################ upload successful");
       } else {
         print("unable to upload image");
       }
@@ -67,13 +76,16 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Align(
                 alignment: Alignment.topCenter,
-                child: CircleAvatar(
-                  radius: 80,
-                  backgroundImage: _pickedimage != null
-                      ? FileImage(_pickedimage!)
-                      : NetworkImage(ConstantsVar.studentData['user']['dp'])
-                          as ImageProvider,
-                ),
+                child:
+                    widget.studentData['image'] == null && _pickedimage == null
+                        ? const CircleAvatar(
+                            radius: 80,
+                          )
+                        : CircleAvatar(
+                            radius: 80,
+                            backgroundImage:
+                                NetworkImage(widget.studentData['image']),
+                          ),
               ),
               Positioned(
                 left: 230,
@@ -96,7 +108,9 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           AppProfileFiled(
               fieldname: 'Name',
-              text: ConstantsVar.studentData['user']['name'],
+              text: widget.studentData['first_name'] +
+                  ' ' +
+                  widget.studentData['last_name'],
               imgurl: 'assets/images/person.png'),
           const SizedBox(
             height: 10,
@@ -104,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
           BaseStyle.linealignment(0.8),
           AppProfileFiled(
               fieldname: 'Roll No.',
-              text: ConstantsVar.studentData['user']['_id'],
+              text: widget.studentData['id'],
               imgurl: 'assets/images/badge.png'),
           const SizedBox(
             height: 10,
@@ -112,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
           BaseStyle.linealignment(0.5),
           AppProfileFiled(
               fieldname: 'Email',
-              text: ConstantsVar.studentData['user']['email'],
+              text: widget.studentData['email'],
               imgurl: 'assets/images/mail.png'),
           const SizedBox(
             height: 10,
@@ -125,26 +139,25 @@ class _ProfilePageState extends State<ProfilePage> {
 
   selectImageFromGallery() async {
     final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(
-        source: ImageSource.gallery, imageQuality: 50, maxWidth: 150);
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
     final pickedimagefile = File(pickedImage!.path);
     print("images $pickedimagefile");
-    setState(() {
-      _pickedimage = pickedimagefile;
-    });
+    // setState(() {
+    //   _pickedimage = pickedimagefile;
+    // });
     if (_pickedimage != null) {
       print(_pickedimage!.path.split('.').last);
-      await uploadImage();
+      await uploadImage(pickedimagefile);
     }
   }
 
   //
   selectImageFromCamera() async {
     final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(
-        source: ImageSource.camera, imageQuality: 50, maxWidth: 150);
+    final pickedImage = await picker.pickImage(source: ImageSource.camera);
     final pickedimagefile = File(pickedImage!.path);
-    print("images $pickedimagefile");
+    print("################ $pickedimagefile");
+    print("################ $pickedImage.toString()");
 
     setState(() {
       _pickedimage = pickedimagefile;
@@ -152,7 +165,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     if (_pickedimage != null) {
       print(_pickedimage!.path.split('.').last);
-      await uploadImage();
+      await uploadImage(_pickedimage!);
     }
   }
 
@@ -163,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
           return Dialog(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
-            child: Container(
+            child: SizedBox(
               height: 150,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -180,7 +193,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         GestureDetector(
                           onTap: () async {
                             await selectImageFromGallery();
-                            Navigator.pop(context);
+
                             setState(() {});
                           },
                           child: Card(
@@ -194,7 +207,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       height: 60,
                                       width: 60,
                                     ),
-                                    Text('Gallery'),
+                                    const Text('Gallery'),
                                   ],
                                 ),
                               )),
@@ -203,7 +216,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           onTap: () async {
                             await selectImageFromCamera();
 
-                            Navigator.pop(context);
                             setState(() {});
                           },
                           child: Card(
@@ -217,7 +229,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       height: 60,
                                       width: 60,
                                     ),
-                                    Text('Camera'),
+                                    const Text('Camera'),
                                   ],
                                 ),
                               )),

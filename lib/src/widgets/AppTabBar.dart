@@ -33,20 +33,16 @@ class AppTabBar extends StatelessWidget {
             indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(26.5), // Creates border
                 color: (_tabController?.index == _tabController?.length.toInt())
-                    ? Appcolors.tagcolor()
-                    : Appcolors.white()),
+                    ? Appcolors.white()
+                    : Appcolors.tagcolor()),
             tabs: [
-              SizedBox(
-                width: screenmode ? 50 : 80,
-                child: Tab(
+              if (!screenmode)
+                Tab(
                     child: TagSelector(
-                        text: screenmode
-                            ? ConstantsVar.hometextlist[0]
-                            : ConstantsVar.timelinetextlist[0],
+                        text: ConstantsVar.timelinetextlist[0],
                         color: _tabController?.index == 0
                             ? Appcolors.tagcolor()
                             : Appcolors.white())),
-              ),
               SizedBox(
                 width: 55,
                 child: Tab(
@@ -59,7 +55,7 @@ class AppTabBar extends StatelessWidget {
                             : Appcolors.white())),
               ),
               SizedBox(
-                width: 65,
+                width: 40,
                 child: Tab(
                     child: TagSelector(
                         text: screenmode
@@ -70,7 +66,7 @@ class AppTabBar extends StatelessWidget {
                             : Appcolors.white())),
               ),
               SizedBox(
-                width: 40,
+                width: 65,
                 child: Tab(
                     child: TagSelector(
                         text: screenmode

@@ -1,7 +1,7 @@
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
-import 'package:aasf_iiitmg/src/widgets/AppFaqsDragdown.dart';
+import 'package:aasf_iiitmg/src/widgets/appfaqsdragdown.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +20,7 @@ class FaqsPage extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Container(
+            SizedBox(
               width: 314,
               height: 209,
               child: Image.asset('assets/images/FAQs-cuate 1.png'),

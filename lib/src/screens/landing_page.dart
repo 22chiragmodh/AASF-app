@@ -1,7 +1,7 @@
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
-import 'package:aasf_iiitmg/src/widgets/AppIcon.dart';
-import 'package:aasf_iiitmg/src/widgets/Appbutton.dart';
+import 'package:aasf_iiitmg/src/widgets/appicon.dart';
+import 'package:aasf_iiitmg/src/widgets/appbutton.dart';
 import 'package:aasf_iiitmg/src/widgets/Apptext.dart';
 import 'package:flutter/material.dart';
 
