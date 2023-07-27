@@ -4,7 +4,7 @@ class ConstantsVar {
     "May",
     "June",
     "July",
-    "Augest",
+    "August",
     "September",
     "October",
     "November",
@@ -37,7 +37,7 @@ class ConstantsVar {
       "Demystifying Blockchain",
       "Unravelling Reseach",
     ],
-    "Augest": [
+    "August": [
       "Technical Blog Writing",
       "Web Week: Backend",
     ],
@@ -54,8 +54,9 @@ class ConstantsVar {
   };
 
   static Map<String, dynamic> studentData = {};
-  static Map<String, dynamic> eventData = {};
+  // static Map<String, dynamic> eventData = {};
   static Map<String, dynamic> userDetails = {};
 
   static String url = "http://192.168.1.202:3333";
+  static String? token;
 }

@@ -1,12 +1,13 @@
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
-import 'package:aasf_iiitmg/src/utils/constants.dart';
+// import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/appreadmore.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class AppHomeEvents extends StatefulWidget {
-  final String posterUrl;
+  // final String posterUrl;
   // final String eventTitle;
   final String iconUrl;
   final String icontitle;
@@ -22,7 +23,7 @@ class AppHomeEvents extends StatefulWidget {
     required this.iconUrl,
     required this.icontitle,
     required this.tabController,
-    required this.posterUrl,
+    // required this.posterUrl,
     Key? key,
     required this.event,
     required this.startdate,
@@ -38,17 +39,41 @@ class AppHomeEvents extends StatefulWidget {
 class _AppHomeEventsState extends State<AppHomeEvents> {
   @override
   Widget build(BuildContext context) {
+    List<dynamic> eventImages = widget.event["event_images"];
     return Container(
       decoration: BoxDecoration(color: Appcolors.blogdecbg()),
       child: Column(children: [
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 286,
-          decoration: BoxDecoration(color: Appcolors.posterbg()),
-          child: widget.posterUrl.isEmpty
-              ? Image.asset("assets/images/Asset 1 2 (1).png")
-              : Image.network(widget.posterUrl),
-        ),
+        eventImages.isEmpty
+            ? Image.asset("assets/images/Asset 1 2 (1).png")
+            : eventImages.length == 1
+                ? Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 250,
+                    decoration: BoxDecoration(color: Appcolors.posterbg()),
+                    child: Image.network(
+                      eventImages[0]['image_url'],
+                      // width: 1000,
+                      // fit: BoxFit.cover,
+                    ))
+                : CarouselSlider(
+                    options: CarouselOptions(
+                      aspectRatio: 2,
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      viewportFraction: 1,
+                    ),
+                    items: eventImages.map<Widget>((image) {
+                      return Container(
+                        child: Center(
+                          child: Image.network(
+                            image['image_url'],
+                            width: 1000,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 15.04, vertical: 8),
           child: Column(
@@ -120,28 +145,28 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                             )),
                 ],
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                      width: 84,
-                      height: 19,
-                      margin: const EdgeInsets.only(
-                          left: 15.04, right: 2.04, top: 8),
-                      child: Text("Organizers",
-                          style: Textstyle.inputtext(
-                              Appcolors.blogiconcol(), 14.0, FontWeight.w400))),
-                  Container(
-                      height: 60,
-                      width: 242,
-                      margin: const EdgeInsets.only(
-                          left: 2.04, right: 15, top: 12.22),
-                      child: Text(
-                          "Abhinav Gupta  Avijeet Jain  Harshith Mente Lata  Muskan Debnath  Pranav ",
-                          style: Textstyle.inputtext(
-                              Appcolors.blogiconcol(), 14.0, FontWeight.w400)))
-                ],
-              ),
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     Container(
+              //         width: 84,
+              //         height: 19,
+              //         margin: const EdgeInsets.only(
+              //             left: 15.04, right: 2.04, top: 8),
+              //         child: Text("Organizers",
+              //             style: Textstyle.inputtext(
+              //                 Appcolors.blogiconcol(), 14.0, FontWeight.w400))),
+              //     Container(
+              //         height: 60,
+              //         width: 242,
+              //         margin: const EdgeInsets.only(
+              //             left: 2.04, right: 15, top: 12.22),
+              //         child: Text(
+              //             "Abhinav Gupta  Avijeet Jain  Harshith Mente Lata  Muskan Debnath  Pranav ",
+              //             style: Textstyle.inputtext(
+              //                 Appcolors.blogiconcol(), 14.0, FontWeight.w400)))
+              //   ],
+              // ),
             ],
           ),
         ),
@@ -161,7 +186,10 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                       style: TextStyle(color: Appcolors.yew()),
                     )),
                 TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () async {
+                      String resourcesUrl = widget.event['resource_link'];
+                      await launchUrl(Uri.parse(resourcesUrl));
+                    },
                     icon: const Image(
                         image: AssetImage('assets/images/description.png')),
                     label: Text(

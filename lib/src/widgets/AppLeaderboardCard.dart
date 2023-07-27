@@ -5,11 +5,13 @@ class AppLeadrboardCard extends StatelessWidget {
   final String rank;
   final String name;
   final int score;
+  final String imgUrl;
   const AppLeadrboardCard({
     required this.rank,
     Key? key,
     required this.name,
     required this.score,
+    required this.imgUrl,
   }) : super(key: key);
 
   @override
@@ -34,11 +36,16 @@ class AppLeadrboardCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const CircleAvatar(
-                      backgroundImage:
-                          AssetImage('assets/images/Ellipse 15.png'),
-                      radius: 20,
-                    ),
+                    imgUrl == null
+                        ? const CircleAvatar(
+                            backgroundImage:
+                                AssetImage('assets/images/Ellipse 15.png'),
+                            radius: 20,
+                          )
+                        : CircleAvatar(
+                            backgroundImage: NetworkImage(imgUrl),
+                            radius: 20,
+                          ),
                     Padding(
                       padding: const EdgeInsets.only(left: 30),
                       child: Text(name,

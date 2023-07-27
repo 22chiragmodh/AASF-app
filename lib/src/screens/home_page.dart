@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       Response response = await dio.get("${ConstantsVar.url}/events");
       Map<String, dynamic> responseData = response.data;
       if (responseData['success'] == 1) {
+        print(responseData['data']);
         return responseData['data'];
       }
     } catch (e) {
@@ -169,23 +170,27 @@ Widget eventsTag(TabController tabController, List<dynamic> eventData) {
 
       var parsedstartDate =
           DateFormat('yyyy-MM-ddTHH:mm:ss').parse(event['start_date']);
-      var startDate = DateFormat("MMM dd hh:mm a").format(parsedstartDate);
+      var startDate = DateFormat("dd MM yyyy hh:mm a").format(parsedstartDate);
       List<String> dateTimeParts = startDate.split(" ");
 
-      String sdate = "${dateTimeParts[0]} ${dateTimeParts[1]}";
-      String stime = "${dateTimeParts[2]} ${dateTimeParts[3]}";
+      // print(startDate);
+      String sdate =
+          "${dateTimeParts[0]}/${dateTimeParts[1]}/${dateTimeParts[2]}";
+      print(sdate);
+      String stime = dateTimeParts[3];
 
       var parsedendDate =
           DateFormat('yyyy-MM-ddTHH:mm:ss').parse(event['end_date']);
-      var endDate = DateFormat("MMM dd hh:mm a").format(parsedendDate);
+      var endDate = DateFormat("dd MM yyyy hh:mm a").format(parsedendDate);
       List<String> enddateTimeParts = endDate.split(" ");
 
-      String edate = "${enddateTimeParts[0]} ${enddateTimeParts[1]}";
-      String etime = "${enddateTimeParts[2]} ${enddateTimeParts[3]}";
+      String edate =
+          "${enddateTimeParts[0]}/${enddateTimeParts[1]}/${enddateTimeParts[2]}";
+      String etime = " ${enddateTimeParts[3]}";
 
-      List<dynamic> eventImages = event["event_images"];
-      String posterUrl =
-          eventImages.isNotEmpty ? eventImages[0]['image_url'] : '';
+      // List<dynamic> eventImages = event["event_images"];
+      // String posterUrl =
+      //     eventImages.isNotEmpty ? eventImages[0]['image_url'] : '';
       return
           // Display the event widget
           AppHomeEvents(
@@ -193,7 +198,7 @@ Widget eventsTag(TabController tabController, List<dynamic> eventData) {
               iconUrl: 'assets/images/edit_document.png',
               icontitle: 'Register',
               event: event,
-              posterUrl: posterUrl,
+              // posterUrl: posterUrl,
               tabController: tabController,
               startdate: sdate,
               enddate: edate,

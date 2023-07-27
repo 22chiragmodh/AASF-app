@@ -9,7 +9,7 @@ import 'package:aasf_iiitmg/src/widgets/apptextbtn.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-
+import 'package:localstorage/localstorage.dart';
 import '../utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +32,6 @@ class _VerifictionPageState extends State<VerifictionPage> {
       Response response;
       SnackBar snackBar;
       var dio = Dio();
-      // final LocalStorage storage = LocalStorage('localstorage');
 
       try {
         response = await dio.post("${ConstantsVar.url}/auth/login",
@@ -40,7 +39,11 @@ class _VerifictionPageState extends State<VerifictionPage> {
 
         if (response.data['success'] == 1) {
           Map<String, dynamic> studentData = response.data['data']['user'];
+
           authToken = studentData['token']['token'];
+
+          ConstantsVar.token = authToken.toString();
+          print(ConstantsVar.token);
           studentDataProvider.setStudentData(studentData);
 
           // ignore: avoid_print

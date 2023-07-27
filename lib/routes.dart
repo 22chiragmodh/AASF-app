@@ -1,9 +1,7 @@
 import 'package:aasf_iiitmg/src/screens/faqs_page.dart';
-import 'package:aasf_iiitmg/src/screens/home_page.dart';
-import 'package:aasf_iiitmg/src/screens/landing_page.dart';
-import 'package:aasf_iiitmg/src/screens/leaderboard_page.dart';
 
-import 'package:aasf_iiitmg/src/screens/qr_page.dart';
+import 'package:aasf_iiitmg/src/screens/landing_page.dart';
+
 import 'package:aasf_iiitmg/src/screens/report_page.dart';
 import 'package:aasf_iiitmg/src/screens/splash_page.dart';
 import 'package:aasf_iiitmg/src/screens/timeline_page.dart';
@@ -22,8 +20,6 @@ abstract class Routes {
       case "/verification":
         return MaterialPageRoute(builder: (context) => const VerifictionPage());
 
-      case "/progress":
-        return MaterialPageRoute(builder: (context) => const LeaderBoradPage());
       case "/timeline":
         return MaterialPageRoute(builder: (context) => const TimelinePage());
       case "/report":

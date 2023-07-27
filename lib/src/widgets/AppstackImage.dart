@@ -2,10 +2,12 @@ import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:flutter/material.dart';
 
 class AppStackedImages extends StatelessWidget {
+  final List<dynamic> data;
   final double topWidgetHeight = 200.0;
   final double avatarRadius = 50.0;
   const AppStackedImages({
     Key? key,
+    required this.data,
   }) : super(key: key);
 
   @override
@@ -14,23 +16,35 @@ class AppStackedImages extends StatelessWidget {
       child: Stack(children: <Widget>[
         Column(
           children: [
-            Text("1"),
+            Text(
+              "1",
+              style: TextStyle(
+                color: Appcolors.white(),
+                fontSize: 12,
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(3.0),
               child: Image.asset('assets/images/Vector.png',
                   color: Appcolors.yew()),
             ),
-            const Align(
+            Align(
               alignment: Alignment.topCenter,
-              child: CircleAvatar(
-                radius: 60.0,
-                foregroundImage: AssetImage('assets/images/Ellipse 12.png'),
-              ),
+              child: data[0]['image'] == null
+                  ? const CircleAvatar(
+                      radius: 60.0,
+                      foregroundImage:
+                          AssetImage('assets/images/Ellipse 12.png'),
+                    )
+                  : CircleAvatar(
+                      radius: 60.0,
+                      foregroundImage: NetworkImage(data[0]["image"]),
+                    ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                "Abhigyan",
+                data[0]['first_name'],
                 style: TextStyle(
                   color: Appcolors.white(),
                   fontSize: 12,
@@ -40,7 +54,7 @@ class AppStackedImages extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
-                "Abhikaushalam",
+                data[0]['last_name'],
                 style: TextStyle(
                   color: Appcolors.white(),
                   fontSize: 12,
@@ -48,7 +62,7 @@ class AppStackedImages extends StatelessWidget {
               ),
             ),
             Text(
-              "1200",
+              data[0]['final_score'].toString(),
               style: TextStyle(
                 color: Appcolors.yew(),
               ),
@@ -61,17 +75,25 @@ class AppStackedImages extends StatelessWidget {
               children: [
                 Text("2"),
                 Padding(
-                  padding: const EdgeInsets.all(3.0),
-                  child: Image.asset('assets/images/Polygon 1.png',
-                      color: Appcolors.yew()),
-                ),
+                    padding: const EdgeInsets.all(3.0),
+                    child: Image.asset('assets/images/Polygon 1.png',
+                        color: Appcolors.yew())),
                 ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: Image.asset('assets/images/Ellipse 13.png')),
+                    child: data[1]['image'] == null
+                        ? const CircleAvatar(
+                            radius: 60.0,
+                            foregroundImage:
+                                AssetImage('assets/images/Ellipse 12.png'),
+                          )
+                        : CircleAvatar(
+                            radius: 60.0,
+                            foregroundImage: NetworkImage(data[1]["image"]),
+                          )),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    "Abhigyan",
+                    data[1]['first_name'],
                     style: TextStyle(
                       color: Appcolors.white(),
                       fontSize: 12,
@@ -81,7 +103,7 @@ class AppStackedImages extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text(
-                    "Abhikaushalam",
+                    data[1]['last_name'],
                     style: TextStyle(
                       color: Appcolors.white(),
                       fontSize: 12,
@@ -89,7 +111,7 @@ class AppStackedImages extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "1000",
+                  data[1]['final_score'].toString(),
                   style: TextStyle(
                     color: Appcolors.yew(),
                   ),
@@ -107,12 +129,21 @@ class AppStackedImages extends StatelessWidget {
                       color: Appcolors.white()),
                 ),
                 ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Image.asset('assets/images/Ellipse 14.png')),
+                  borderRadius: BorderRadius.circular(20.0),
+                  child: data[0]['image'] == null
+                      ? const CircleAvatar(
+                          radius: 60.0,
+                          foregroundImage:
+                              AssetImage('assets/images/Ellipse 12.png'),
+                        )
+                      : CircleAvatar(
+                          radius: 60.0,
+                          foregroundImage: NetworkImage(data[0]["image"])),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    "Abhigyan",
+                    data[2]['first_name'],
                     style: TextStyle(
                       color: Appcolors.white(),
                       fontSize: 12,
@@ -122,7 +153,7 @@ class AppStackedImages extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text(
-                    "Abhikaushalam",
+                    data[2]['last_name'],
                     style: TextStyle(
                       color: Appcolors.white(),
                       fontSize: 12,
@@ -130,7 +161,7 @@ class AppStackedImages extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "1100",
+                  data[2]['final_score'] ?? '0',
                   style: TextStyle(
                     color: Appcolors.yew(),
                   ),

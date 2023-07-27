@@ -3,10 +3,11 @@ import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
-import 'package:aasf_iiitmg/src/widgets/apptabbar.dart';
+// import 'package:aasf_iiitmg/src/widgets/apptabbar.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
+import 'package:dio/dio.dart';
 
 class TimelinePage extends StatefulWidget {
   const TimelinePage({super.key});
@@ -18,20 +19,62 @@ class TimelinePage extends StatefulWidget {
 class _TimelinePageState extends State<TimelinePage>
     with TickerProviderStateMixin {
   TabController? _tabController;
+  Map<String, dynamic> eventData = {};
+  List<dynamic> rangeDate = [];
+  int rangeLength = 0;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: 13);
-    _tabController?.addListener(_handleTabSelection);
+    fetchEventsByTimeline();
   }
 
   void _handleTabSelection() {
     setState(() {});
   }
 
+  Future<void> fetchEventsByTimeline() async {
+    try {
+      Dio dio = Dio();
+      Response response = await dio.get("${ConstantsVar.url}/events/timeline");
+      Map<String, dynamic> responseData = response.data;
+      if (responseData['success'] == 1) {
+        setState(() {
+          eventData = responseData['data']['timeline'];
+          rangeDate = responseData['data']['range'];
+          rangeLength = rangeDate.length + 1;
+          _tabController = TabController(vsync: this, length: rangeLength);
+          _tabController?.addListener(_handleTabSelection);
+          print(rangeDate);
+          print(eventData);
+        });
+      }
+    } catch (e) {
+      print(e.toString());
+      print('Error: Failed to fetch data');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> tabs = [
+      Tab(
+        child: Text(
+          'Timeline',
+          style: TextStyle(color: Appcolors.white()),
+        ),
+      ),
+      ...rangeDate
+          .map(
+            (month) => Tab(
+              child: Text(
+                month.toString(),
+                style: TextStyle(color: Appcolors.white()),
+              ),
+            ),
+          )
+          .toList(),
+    ];
     return Scaffold(
       backgroundColor: Appcolors.primarycolor(),
       appBar: AppBar(
@@ -45,54 +88,48 @@ class _TimelinePageState extends State<TimelinePage>
       bottomNavigationBar: AppBottomAppbar(
         token: "",
       ),
-      body: ListView(
+      body: Column(
         children: [
-          AppTabBar(
-              screenmode: false,
-              isiscrollable: true,
-              tabController: _tabController),
-          BaseStyle.linealignment(1.5),
-          ConstantsVar
-                      .monthEventslist[
-                          ConstantsVar.timelinetextlist[_tabController!.index]]!
-                      .isEmpty &&
-                  _tabController!.index != 0
-              ? Column(
-                  children: [
-                    const SizedBox(
-                      height: 50,
+          Container(
+            width: 370,
+            height: 31,
+            margin: const EdgeInsets.only(
+                left: 10.0, right: 10.0, top: 10, bottom: 12),
+            // color: Appcolors.primarycolor(),
+            child: _tabController != null
+                ? TabBar(
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(26.5),
+                      color: Appcolors.tagcolor(),
                     ),
-                    Container(
-                      padding: BaseStyle.listpadding(),
-                      child: Image.asset('assets/images/Asset 1 2 (1).png'),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    AppVerifyTextField(
-                        padding: BaseStyle.listpadding(),
-                        text: 'No Events Scheduled Yet',
-                        text1: '',
-                        textstyle: Textstyle.inputtext(
-                            Appcolors.yew(), 24.0, FontWeight.w600),
-                        textalign: TextAlign.center)
-                  ],
-                )
-              : _tabController?.index == 0
-                  ? Column(
-                      children: [
-                        timelinefunc(1),
-                        timelinefunc(2),
-                        timelinefunc(4),
-                      ],
-                    )
-                  : timelinefunc(_tabController!.index)
+                    controller: _tabController,
+                    isScrollable: true,
+                    tabs: tabs,
+                  )
+                : SizedBox(),
+          ),
+          BaseStyle.linealignment(2.0),
+          Flexible(
+            child: _tabController != null
+                ? ListView(children: [
+                    // _buildEventsList('Timeline'),
+                    // timelinefunc(
+                    //   eventData,
+                    // ),
+
+                    if (_tabController!.index == 0)
+                      ...eventData.entries.map((entry) => timelinefunc(entry))
+                    else
+                      _buildEventsList(rangeDate[_tabController!.index - 1]),
+                  ])
+                : SizedBox(), // Placeholder widget when TabController is null
+          ),
         ],
       ),
     );
   }
 
-  TimelineTile timelinefunc(int index) {
+  TimelineTile timelinefunc(MapEntry<String, dynamic> evententry) {
     return TimelineTile(
       alignment: TimelineAlign.manual,
       lineXY: 0.3,
@@ -102,25 +139,56 @@ class _TimelinePageState extends State<TimelinePage>
         ),
         child: Column(
           children: [
-            for (int i = 0;
-                i <
-                    ConstantsVar
-                        .monthEventslist[ConstantsVar.timelinetextlist[index]]!
-                        .length;
-                i++)
-              BaseStyle.timelineCard(ConstantsVar
-                  .monthEventslist[ConstantsVar.timelinetextlist[index]]![i]
-                  .toString()),
+            for (var event in evententry.value)
+              BaseStyle.timelineCard(event['name'].toString()),
           ],
         ),
       ),
       startChild: AppVerifyTextField(
-          padding: const EdgeInsets.all(0),
-          text: ConstantsVar.timelinetextlist[index],
-          text1: '',
-          textstyle:
-              Textstyle.inputtext(Appcolors.yew(), 20.0, FontWeight.w600),
-          textalign: TextAlign.center),
+        padding: const EdgeInsets.all(0),
+        text: evententry.key,
+        text1: '',
+        textstyle: Textstyle.inputtext(Appcolors.yew(), 20.0, FontWeight.w600),
+        textalign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget _buildEventsList(String month) {
+    // String selectedMonth = ConstantsVar.timelinetextlist[_tabController!.index];
+
+    List<dynamic> events = eventData[month] ?? [];
+
+    if (events.isEmpty) {
+      return Column(
+        children: [
+          const SizedBox(
+            height: 50,
+          ),
+          Container(
+            padding: BaseStyle.listpadding(),
+            child: Image.asset('assets/images/Asset 1 2 (1).png'),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          AppVerifyTextField(
+            padding: BaseStyle.listpadding(),
+            text: 'No Events Scheduled Yet',
+            text1: '',
+            textstyle:
+                Textstyle.inputtext(Appcolors.yew(), 24.0, FontWeight.w600),
+            textalign: TextAlign.center,
+          ),
+        ],
+      );
+    }
+
+    return Column(
+      children: events.map((event) {
+        String eventName = event['name'];
+        return BaseStyle.timelineCard(eventName);
+      }).toList(),
     );
   }
 }

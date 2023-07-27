@@ -3,7 +3,7 @@ import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:dio/dio.dart';
-// import 'package:localstorage/localstorage.dart';
+
 import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
 import 'package:aasf_iiitmg/src/widgets/appleaderboardcard.dart';
 import 'package:aasf_iiitmg/src/widgets/appleaderboardtabbar.dart';
@@ -15,7 +15,7 @@ import 'package:aasf_iiitmg/src/widgets/appverifytext.dart';
 import 'package:flutter/material.dart';
 
 class LeaderBoradPage extends StatefulWidget {
-  const LeaderBoradPage({super.key});
+  LeaderBoradPage({super.key});
 
   @override
   State<LeaderBoradPage> createState() => _LeaderBoradPageState();
@@ -25,62 +25,84 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
     with TickerProviderStateMixin {
   TabController? _tabController;
   bool? indicatorcolor;
+  // List<dynamic> lboardData = [];
+  Map<String, dynamic>? userData;
+  Future<List<dynamic>> getLeaderboardDetails() async {
+    // print("###########33 ${ConstantsVar.token}");
+    // final LocalStorage storage = LocalStorage('localstorage');
+
+    Response response;
+    final dio = Dio();
+
+    // dio.options.headers['Authorization'] = 'Bearer ${widget.token}';
+    Options options = Options(
+      headers: {'Authorization': 'Bearer ${ConstantsVar.token}'},
+    );
+
+    try {
+      response = await dio.get("${ConstantsVar.url}/user/leaderboard",
+          options: options);
+
+      if (response.data['success'] == 1) {
+        final leaderboardData = response.data;
+        // lboardData = leaderboardData['data']['leaderboard'];
+        userData = leaderboardData['data']['user'];
+        print(leaderboardData['data']);
+        print(userData);
+        return leaderboardData['data']['leaderboard'];
+        // Return the response data
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+      throw e;
+    }
+    return [];
+    // Return null if an error occurred or the response code was not 200
+  }
+
+  Future<Map<String, dynamic>> getUserscoreDetails() async {
+    // print("###########33 ${ConstantsVar.token}");
+    // final LocalStorage storage = LocalStorage('localstorage');
+
+    Response response;
+    final dio = Dio();
+
+    // dio.options.headers['Authorization'] = 'Bearer ${widget.token}';
+    Options options = Options(
+      headers: {'Authorization': 'Bearer ${ConstantsVar.token}'},
+    );
+
+    try {
+      response = await dio.get("${ConstantsVar.url}/user/leaderboard",
+          options: options);
+
+      if (response.data['success'] == 1) {
+        final leaderboardData = response.data;
+
+        return leaderboardData['data']['user'];
+        // Return the response data
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+      throw e;
+    }
+    return {};
+    // Return null if an error occurred or the response code was not 200
+  }
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 3);
     _tabController?.addListener(_handleTabSelection);
+    getLeaderboardDetails();
+    getUserscoreDetails();
   }
 
   void _handleTabSelection() {
     setState(() {});
-  }
-
-  //  void getUserScoreDetails() async {
-  //   final LocalStorage storage = LocalStorage('localstorage');
-
-  //   Response response;
-  //   var dio = Dio();
-  //   dio.options.headers['Authorization'] =
-  //       'Token ${ConstantsVar.studentData['token']}';
-  //   try {
-  //     response = await dio.get("${ConstantsVar.url}/users/details");
-
-  //     if (response.statusCode == 200) {
-  //       final data = response.data;
-  //       // storage.setItem('userdetails', data);
-  //       // ConstantsVar.UserDetails = storage.getItem('userdetails');
-
-  //       // print(ConstantsVar.UserDetails);
-  //       // print(ConstantsVar.UserDetails['rank']);
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  Future<Map<String, dynamic>> getUserScoreDetails() async {
-    // final LocalStorage storage = LocalStorage('localstorage');
-    Response response;
-    final dio = Dio();
-    dio.options.headers['Authorization'] =
-        'Token ${ConstantsVar.studentData['token']}';
-
-    try {
-      response = await dio.get("${ConstantsVar.url}/users/details");
-
-      if (response.statusCode == 200) {
-        final data = response.data;
-        return data; // Return the response data
-      }
-    } catch (e) {
-      // ignore: avoid_print
-      print(e);
-    }
-    throw Exception();
-
-    // Return null if an error occurred or the response code was not 200
   }
 
   @override
@@ -105,9 +127,11 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                LeaderboardTabScreen(),
-                StatsTabScreen(),
+              children: [
+                LeaderboardTabScreen(
+                    dataFuture: getLeaderboardDetails(),
+                    userdataFuture: getUserscoreDetails()),
+                StatsTabScreen(userDataFuture: getUserscoreDetails()),
                 WinningTabScreen()
               ],
             ),
@@ -119,84 +143,103 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
 }
 
 class StatsTabScreen extends StatelessWidget {
+  final Future<Map<String, dynamic>> userDataFuture;
+
   const StatsTabScreen({
     Key? key,
+    required this.userDataFuture,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        const SizedBox(
-          height: 20,
-        ),
-        SizedBox(
-          width: 292,
-          height: 121,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              AppProgressIndicator(
-                percent: ConstantsVar.studentData['user']['score']
-                                ['technical'] ==
-                            0 &&
-                        ConstantsVar.studentData['user']['totalScore'] == 0
-                    ? 0
-                    : (ConstantsVar.studentData['user']['score']['technical'] /
-                            ConstantsVar.studentData['user']['totalScore'] *
-                            100.0)
-                        .toInt(),
-                title: 'Technical',
-              ),
-              AppProgressIndicator(
-                percent: ConstantsVar.studentData['user']['score']
-                                ['managerial'] ==
-                            0 &&
-                        ConstantsVar.studentData['user']['totalScore'] == 0
-                    ? 0
-                    : (ConstantsVar.studentData['user']['score']['managerial'] /
-                            ConstantsVar.studentData['user']['totalScore'] *
-                            100.0)
-                        .toInt(),
-                title: 'Managerial',
-              ),
-              AppProgressIndicator(
-                percent: ConstantsVar.studentData['user']['score']['oratory'] ==
-                            0 &&
-                        ConstantsVar.studentData['user']['totalScore'] == 0
-                    ? 0
-                    : (ConstantsVar.studentData['user']['score']['oratory'] /
-                            ConstantsVar.studentData['user']['totalScore'] *
-                            100.0)
-                        .toInt(),
-                title: 'Oratory',
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Column(
-          children: const [
-            AppStatsCard(
-                pa: true, eventname: 'Demystifying Blockchain', day: 1),
-            AppStatsCard(
-                pa: true, eventname: 'Demystifying Blockchain', day: 2),
-            AppStatsCard(
-                pa: true, eventname: 'Demystifying Blockchain', day: 3),
-            AppStatsCard(
-                pa: false, eventname: 'Demystifying Blockchain', day: 4),
-            AppStatsCard(
-                pa: true, eventname: 'Demystifying Blockchain', day: 5),
-            AppStatsCard(pa: true, eventname: 'Introduction to CP', day: 1),
-            AppStatsCard(pa: false, eventname: 'Introduction to CP', day: 2),
-            AppStatsCard(pa: true, eventname: 'Introduction to CP', day: 3),
-            AppStatsCard(pa: true, eventname: 'Introduction to CP', day: 4),
-          ],
-        )
-      ],
-    );
+    return FutureBuilder<Map<String, dynamic>>(
+        future: userDataFuture,
+        builder: (context, userSnapshot) {
+          if (userSnapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (userSnapshot.hasError) {
+            return Center(
+              child: Text('User Data Error: ${userSnapshot.error}'),
+            );
+          } else {
+            final userData = userSnapshot.data!;
+            return ListView(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: 292,
+                  height: 121,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      AppProgressIndicator(
+                        percent: userData['technical_score'] == 0 &&
+                                userData['final_score'] == 0
+                            ? 0
+                            : (userData['technical_score'] /
+                                    userData['final_score'] *
+                                    100.0)
+                                .toInt(),
+                        title: 'Technical',
+                      ),
+                      AppProgressIndicator(
+                        percent: userData['managerial_score'] == 0 &&
+                                userData['final_score'] == 0
+                            ? 0
+                            : (userData['managerial_score'] /
+                                    userData['final_score'] *
+                                    100.0)
+                                .toInt(),
+                        title: 'Managerial',
+                      ),
+                      AppProgressIndicator(
+                        percent: userData['oratory_score'] == 0 &&
+                                userData['final_score'] == 0
+                            ? 0
+                            : (userData['oratory_score'] /
+                                    userData['final_score'] *
+                                    100.0)
+                                .toInt(),
+                        title: 'Oratory',
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Column(
+                  children: const [
+                    AppStatsCard(
+                        pa: true, eventname: 'Demystifying Blockchain', day: 1),
+                    AppStatsCard(
+                        pa: true, eventname: 'Demystifying Blockchain', day: 2),
+                    AppStatsCard(
+                        pa: true, eventname: 'Demystifying Blockchain', day: 3),
+                    AppStatsCard(
+                        pa: false,
+                        eventname: 'Demystifying Blockchain',
+                        day: 4),
+                    AppStatsCard(
+                        pa: true, eventname: 'Demystifying Blockchain', day: 5),
+                    AppStatsCard(
+                        pa: true, eventname: 'Introduction to CP', day: 1),
+                    AppStatsCard(
+                        pa: false, eventname: 'Introduction to CP', day: 2),
+                    AppStatsCard(
+                        pa: true, eventname: 'Introduction to CP', day: 3),
+                    AppStatsCard(
+                        pa: true, eventname: 'Introduction to CP', day: 4),
+                  ],
+                )
+              ],
+            );
+          }
+        });
   }
 }
 
@@ -239,67 +282,106 @@ class WinningTabScreen extends StatelessWidget {
 }
 
 class LeaderboardTabScreen extends StatelessWidget {
+  final Future<List<dynamic>> dataFuture;
+  final Future<Map<String, dynamic>> userdataFuture;
+
   const LeaderboardTabScreen({
     Key? key,
+    required this.dataFuture,
+    required this.userdataFuture,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        const SizedBox(
-          height: 10,
-        ),
-        const AppStackedImages(),
-        AppVerifyTextField(
-            padding: const EdgeInsets.only(left: 25, top: 20),
-            text: 'Your Rank',
-            text1: '',
-            textstyle:
-                Textstyle.inputtext(Appcolors.white(), 15.0, FontWeight.w400),
-            textalign: TextAlign.left),
-        AppLeadrboardCard(
-          rank: ConstantsVar.userDetails['rank'].toString(),
-          name: '',
-          score: 500,
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: BaseStyle.linealignment(1.5),
-        ),
-        AppVerifyTextField(
-            padding: const EdgeInsets.only(left: 25, top: 2),
-            text: 'Overall Ranking',
-            text1: '',
-            textstyle:
-                Textstyle.inputtext(Appcolors.white(), 15.0, FontWeight.w400),
-            textalign: TextAlign.left),
-        const AppLeadrboardCard(
-          rank: '4',
-          name: '',
-          score: 700,
-        ),
-        const AppLeadrboardCard(
-          rank: '5',
-          name: '',
-          score: 600,
-        ),
-        const AppLeadrboardCard(
-          rank: '6',
-          name: '',
-          score: 500,
-        ),
-        const AppLeadrboardCard(
-          rank: '8',
-          name: '',
-          score: 300,
-        ),
-        const AppLeadrboardCard(
-          rank: '2',
-          name: '',
-          score: 900,
-        ),
-      ],
+    return FutureBuilder<List<dynamic>>(
+      future: dataFuture,
+      builder: (context, dataSnapshot) {
+        if (dataSnapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (dataSnapshot.hasError) {
+          return Center(
+            child: Text('Data Error: ${dataSnapshot.error}'),
+          );
+        } else {
+          final data = dataSnapshot.data!;
+
+          return FutureBuilder<Map<String, dynamic>>(
+            future: userdataFuture,
+            builder: (context, userSnapshot) {
+              if (userSnapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (userSnapshot.hasError) {
+                return Center(
+                  child: Text('User Data Error: ${userSnapshot.error}'),
+                );
+              } else {
+                final userData = userSnapshot.data!;
+
+                return ListView(
+                  children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    AppStackedImages(data: data),
+                    AppVerifyTextField(
+                      padding: const EdgeInsets.only(left: 25, top: 20),
+                      text: 'Your Rank',
+                      text1: '',
+                      textstyle: Textstyle.inputtext(
+                        Appcolors.white(),
+                        15.0,
+                        FontWeight.w400,
+                      ),
+                      textalign: TextAlign.left,
+                    ),
+                    AppLeadrboardCard(
+                      rank: userData['ranking'].toString(),
+                      name:
+                          '${userData["first_name"]} ${userData["last_name"]}',
+                      score: userData['final_score'] ?? 0,
+                      imgUrl: userData['image'],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: BaseStyle.linealignment(1.5),
+                    ),
+                    AppVerifyTextField(
+                      padding: const EdgeInsets.only(left: 25, top: 2),
+                      text: 'Overall Ranking',
+                      text1: '',
+                      textstyle: Textstyle.inputtext(
+                        Appcolors.white(),
+                        15.0,
+                        FontWeight.w400,
+                      ),
+                      textalign: TextAlign.left,
+                    ),
+                    SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        children: List.generate(
+                          data.length,
+                          (index) => AppLeadrboardCard(
+                            imgUrl: data[index + 3]['image'],
+                            rank: data[index + 3]['ranking'].toString(),
+                            name:
+                                "${data[index]['first_name']} ${data[index + 3]['last_name']}",
+                            score: data[index + 3]['final_score'] ?? 0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            },
+          );
+        }
+      },
     );
   }
 }

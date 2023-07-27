@@ -1,13 +1,17 @@
+import 'package:aasf_iiitmg/src/screens/home_page.dart';
+import 'package:aasf_iiitmg/src/screens/leaderboard_page.dart';
 import 'package:aasf_iiitmg/src/screens/qr_page.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
-
+import 'package:aasf_iiitmg/src/utils/constants.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class AppBottomAppbar extends StatelessWidget {
-  String? token;
+  String token;
+
   AppBottomAppbar({
     Key? key,
-    this.token,
+    required this.token,
   }) : super(key: key);
 
   @override
@@ -25,7 +29,11 @@ class AppBottomAppbar extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/home');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    HomePage(authToken: token)));
                       },
                       icon: Image.asset('assets/images/home.png')),
                   const Text('Home')
@@ -39,7 +47,10 @@ class AppBottomAppbar extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/progress');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LeaderBoradPage()));
                       },
                       icon: Image.asset('assets/images/leaderboard.png')),
                   const Text('Progress')

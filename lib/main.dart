@@ -8,7 +8,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -36,7 +36,7 @@ class _AasfAppState extends State<AasfApp> {
     if (Platform.isIOS) {
       return const CupertinoApp();
     } else {
-      return GetMaterialApp(
+      return MaterialApp(
         theme: ThemeData.dark(),
         onGenerateRoute: Routes.materialRoutes,
         // theme: ThemeData.dark(),

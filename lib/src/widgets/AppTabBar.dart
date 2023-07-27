@@ -24,25 +24,24 @@ class AppTabBar extends StatelessWidget {
         Container(
           width: 326,
           height: 31,
-          margin: const EdgeInsets.only(
-              left: 17.0, right: 17.0, top: 10, bottom: 12),
+          margin: EdgeInsets.only(
+              left: !screenmode ? 17.0 : 50.0,
+              right: 17.0,
+              top: 10,
+              bottom: 12),
           color: Appcolors.primarycolor(),
           child: TabBar(
             controller: _tabController,
             isScrollable: true,
             indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(26.5), // Creates border
-                color: (_tabController?.index == _tabController?.length.toInt())
-                    ? Appcolors.white()
-                    : Appcolors.tagcolor()),
+                color: Appcolors.tagcolor()),
             tabs: [
               if (!screenmode)
                 Tab(
                     child: TagSelector(
                         text: ConstantsVar.timelinetextlist[0],
-                        color: _tabController?.index == 0
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               SizedBox(
                 width: 55,
                 child: Tab(
@@ -50,9 +49,7 @@ class AppTabBar extends StatelessWidget {
                         text: screenmode
                             ? ConstantsVar.hometextlist[1]
                             : ConstantsVar.timelinetextlist[1],
-                        color: _tabController?.index == 1
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               ),
               SizedBox(
                 width: 40,
@@ -61,9 +58,7 @@ class AppTabBar extends StatelessWidget {
                         text: screenmode
                             ? ConstantsVar.hometextlist[2]
                             : ConstantsVar.timelinetextlist[2],
-                        color: _tabController?.index == 2
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               ),
               SizedBox(
                 width: 65,
@@ -72,73 +67,53 @@ class AppTabBar extends StatelessWidget {
                         text: screenmode
                             ? ConstantsVar.hometextlist[3]
                             : ConstantsVar.timelinetextlist[3],
-                        color: _tabController?.index == 3
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               ),
               if (!screenmode)
                 Tab(
                     child: TagSelector(
                         text: ConstantsVar.timelinetextlist[4],
-                        color: _tabController?.index == 4
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               if (!screenmode)
                 Tab(
                     child: TagSelector(
                         text: ConstantsVar.timelinetextlist[5],
-                        color: _tabController?.index == 5
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               if (!screenmode)
                 Tab(
                     child: TagSelector(
                         text: ConstantsVar.timelinetextlist[6],
-                        color: _tabController?.index == 6
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               if (!screenmode)
                 Tab(
                     child: TagSelector(
                         text: ConstantsVar.timelinetextlist[7],
-                        color: _tabController?.index == 7
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               if (!screenmode)
                 Tab(
                     child: TagSelector(
                         text: ConstantsVar.timelinetextlist[8],
-                        color: _tabController?.index == 8
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               if (!screenmode)
                 Tab(
                     child: TagSelector(
                         text: ConstantsVar.timelinetextlist[9],
-                        color: _tabController?.index == 9
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               if (!screenmode)
                 Tab(
                     child: TagSelector(
                         text: ConstantsVar.timelinetextlist[10],
-                        color: _tabController?.index == 10
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               if (!screenmode)
                 Tab(
                     child: TagSelector(
                         text: ConstantsVar.timelinetextlist[11],
-                        color: _tabController?.index == 11
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
               if (!screenmode)
                 Tab(
                     child: TagSelector(
                         text: ConstantsVar.timelinetextlist[12],
-                        color: _tabController?.index == 12
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white())),
+                        color: Appcolors.white())),
             ],
           ),
         ),

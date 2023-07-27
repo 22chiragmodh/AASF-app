@@ -66,7 +66,7 @@ abstract class BaseStyle {
           : BackButton(
               color: Colors.white,
               onPressed: () {
-                Navigator.popAndPushNamed(context, '/home');
+                Navigator.pop(context);
               },
             ),
     );
@@ -92,7 +92,7 @@ abstract class BaseStyle {
   static Container timelineCard(String text) {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 8),
-        width: 225,
+        width: 300,
         height: 50,
         color: const Color(0xFF1B1B1B),
         child: Center(
