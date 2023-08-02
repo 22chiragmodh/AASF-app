@@ -17,7 +17,7 @@ class AppLeadrboardCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 22, top: 10),
+      padding: const EdgeInsets.only(left: 22, top: 10, bottom: 5),
       child: Row(
         children: [
           Padding(
@@ -26,7 +26,7 @@ class AppLeadrboardCard extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(left: 8),
-            width: 320,
+            width: 300,
             height: 59,
             decoration: BoxDecoration(
                 color: Appcolors.blogdecbg(),

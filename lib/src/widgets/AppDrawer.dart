@@ -4,7 +4,6 @@ import 'package:aasf_iiitmg/src/screens/profile_page.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
-
 import 'package:aasf_iiitmg/src/widgets/Applinktext.dart';
 import 'package:aasf_iiitmg/src/widgets/Apptext.dart';
 import 'package:flutter/material.dart';
@@ -91,12 +90,12 @@ class AppDrawer extends StatelessWidget {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.15,
               ),
-              AppLinkText(
-                text: 'FAQs',
-                textstyle: Textstyle.inputtext(
-                    Appcolors.white(), 15.0, FontWeight.w400),
-                fn: () => Navigator.pushNamed(context, '/faqs'),
-              ),
+              // AppLinkText(
+              //   text: 'FAQs',
+              //   textstyle: Textstyle.inputtext(
+              //       Appcolors.white(), 15.0, FontWeight.w400),
+              //   fn: () => Navigator.pushNamed(context, '/faqs'),
+              // ),
               AppLinkText(
                 text: 'Report a bug',
                 textstyle: Textstyle.inputtext(

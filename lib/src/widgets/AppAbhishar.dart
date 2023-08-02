@@ -67,7 +67,7 @@ class AppAbhishar extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
-                  width: 102,
+                  width: 90,
                   height: 133,
                   child: Image.network(abhishar['image']),
                 ),

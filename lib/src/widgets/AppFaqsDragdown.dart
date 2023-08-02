@@ -22,7 +22,7 @@ class _AppFaqsDragdownState extends State<AppFaqsDragdown> {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       child: Container(
         width: 360,
-        height: isexpand ? 132 : 54,
+        height: isexpand ? 138 : 54,
         color: Appcolors.blogdecbg(),
         child: isexpand
             ? Column(
@@ -30,12 +30,15 @@ class _AppFaqsDragdownState extends State<AppFaqsDragdown> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      AppVerifyTextField(
-                          padding: BaseStyle.faqspadding(),
-                          text: widget.title,
-                          textstyle:
-                              Textstyle.winningtext(Appcolors.white(), 12.0),
-                          textalign: TextAlign.start),
+                      SizedBox(
+                        width: 260,
+                        child: AppVerifyTextField(
+                            padding: BaseStyle.faqspadding(),
+                            text: widget.title,
+                            textstyle:
+                                Textstyle.winningtext(Appcolors.white(), 12.0),
+                            textalign: TextAlign.start),
+                      ),
                       IconButton(
                           onPressed: () {
                             setState(() {
@@ -58,11 +61,15 @@ class _AppFaqsDragdownState extends State<AppFaqsDragdown> {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppVerifyTextField(
-                      padding: BaseStyle.listpadding(),
-                      text: widget.title,
-                      textstyle: Textstyle.winningtext(Appcolors.white(), 12.0),
-                      textalign: TextAlign.start),
+                  SizedBox(
+                    width: 260,
+                    child: AppVerifyTextField(
+                        padding: BaseStyle.listpadding(),
+                        text: widget.title,
+                        textstyle:
+                            Textstyle.winningtext(Appcolors.white(), 12.0),
+                        textalign: TextAlign.start),
+                  ),
                   IconButton(
                       onPressed: () {
                         setState(() {

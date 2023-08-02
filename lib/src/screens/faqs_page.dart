@@ -1,6 +1,7 @@
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
+import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
 import 'package:aasf_iiitmg/src/widgets/appfaqsdragdown.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,17 @@ class FaqsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Appcolors.primarycolor(),
-        appBar:
-            BaseStyle.appbar(backbtn: false, title: "FAQs", context: context),
+        appBar: AppBar(
+          backgroundColor: Appcolors.tagcolor(),
+          title: const Text(
+            'Faqs',
+            style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+          ),
+          automaticallyImplyLeading: false,
+        ),
+        bottomNavigationBar: AppBottomAppbar(
+          token: '',
+        ),
         body: ListView(
           padding: const EdgeInsets.all(8.0),
           children: [

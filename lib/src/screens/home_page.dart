@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       Response response = await dio.get("${ConstantsVar.url}/events");
       Map<String, dynamic> responseData = response.data;
       if (responseData['success'] == 1) {
-        print(responseData['data']);
+        // print(responseData['data']);
         return responseData['data'];
       }
     } catch (e) {
@@ -170,7 +170,7 @@ Widget eventsTag(TabController tabController, List<dynamic> eventData) {
 
       var parsedstartDate =
           DateFormat('yyyy-MM-ddTHH:mm:ss').parse(event['start_date']);
-      var startDate = DateFormat("dd MM yyyy hh:mm a").format(parsedstartDate);
+      var startDate = DateFormat("dd MM yy hh:mm a").format(parsedstartDate);
       List<String> dateTimeParts = startDate.split(" ");
 
       // print(startDate);
@@ -181,7 +181,7 @@ Widget eventsTag(TabController tabController, List<dynamic> eventData) {
 
       var parsedendDate =
           DateFormat('yyyy-MM-ddTHH:mm:ss').parse(event['end_date']);
-      var endDate = DateFormat("dd MM yyyy hh:mm a").format(parsedendDate);
+      var endDate = DateFormat("dd MM yy hh:mm a").format(parsedendDate);
       List<String> enddateTimeParts = endDate.split(" ");
 
       String edate =

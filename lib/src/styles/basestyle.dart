@@ -33,7 +33,7 @@ abstract class BaseStyle {
   }
 
   static EdgeInsets faqspadding() {
-    return const EdgeInsets.symmetric(horizontal: 20, vertical: 6);
+    return const EdgeInsets.symmetric(horizontal: 20, vertical: 3);
   }
 
   static EdgeInsets fieldpadding() {
