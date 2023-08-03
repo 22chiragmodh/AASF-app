@@ -30,7 +30,7 @@ abstract class Textstyle {
       filled: true,
       fillColor: Appcolors.textfieldcol(),
       hintStyle:
-          Textstyle.inputtext(Appcolors.titlewhite(), 16.0, FontWeight.w600),
+          Textstyle.inputtext(Appcolors.titlewhite(), 14.0, FontWeight.w300),
       border: InputBorder.none,
       focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(BaseStyle.borderradius()),

@@ -25,39 +25,40 @@ class AppAbhishar extends StatelessWidget {
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 children: [
                   Container(
-                    width: 216,
+                    width: 260,
                     height: 67,
                     margin: const EdgeInsets.all(15),
                     child: Text(
                       abhishar['heading'],
                       style: Textstyle.inputtext(
-                          Appcolors.white(), 20.0, FontWeight.w400),
+                          Color(0xffF4F4F5), 18.0, FontWeight.w400),
                     ),
                   ),
                   Row(
                     children: [
                       Container(
-                        width: 100,
+                        width: 140,
                         height: 40,
                         margin: const EdgeInsets.all(8),
                         child: Text(
                           'ABHISHAR ${abhishar['version']}',
                           style: Textstyle.inputtext(
-                              Appcolors.blogiconcol(), 13.0, FontWeight.w500),
+                              Color(0xffD2D1D6), 12.0, FontWeight.w400),
                         ),
                       ),
                       Container(
-                        width: 80,
+                        width: 100,
                         height: 40,
                         margin: const EdgeInsets.all(8),
                         child: Text(
                           formattedDateofLaunch,
                           style: Textstyle.inputtext(
-                              Appcolors.blogiconcol(), 13.0, FontWeight.w500),
+                              Color(0xffD2D1D6), 12.0, FontWeight.w400),
                         ),
                       ),
                     ],
@@ -92,7 +93,10 @@ class AppAbhishar extends StatelessWidget {
                       ),
                       label: Text(
                         'Read Now',
-                        style: TextStyle(color: Appcolors.yew()),
+                        style: TextStyle(
+                            color: Appcolors.yew(),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
                       )),
                   TextButton.icon(
                       onPressed: () {},
@@ -100,7 +104,10 @@ class AppAbhishar extends StatelessWidget {
                           image: AssetImage('assets/images/language.png')),
                       label: Text(
                         'Website',
-                        style: TextStyle(color: Appcolors.yew()),
+                        style: TextStyle(
+                            color: Appcolors.yew(),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
                       )),
                 ],
               ),

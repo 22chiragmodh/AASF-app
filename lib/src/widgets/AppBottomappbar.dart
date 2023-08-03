@@ -5,6 +5,7 @@ import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AppBottomAppbar extends StatelessWidget {
   String token;
@@ -18,93 +19,128 @@ class AppBottomAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomAppBar(
       color: Appcolors.tagcolor(),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Row(children: [
-            SizedBox(
-              height: 68,
-              width: 85,
-              child: Column(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    HomePage(authToken: token)));
-                      },
-                      icon: Image.asset('assets/images/home.png')),
-                  const Text('Home')
-                ],
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        SizedBox(
+          height: 68,
+          width: 75,
+          child: Column(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => HomePage(authToken: token)));
+                },
+                icon: SvgPicture.asset(
+                  'assets/images/home.svg',
+                ),
               ),
-            ),
-            SizedBox(
-              height: 68,
-              width: 85,
-              child: Column(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LeaderBoradPage()));
-                      },
-                      icon: Image.asset('assets/images/leaderboard.png')),
-                  const Text('Progress')
-                ],
+              const Text('Home',
+                  style: TextStyle(
+                      color: Color(
+                        0xffA5A3AE,
+                      ),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400))
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 68,
+          width: 75,
+          child: Column(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => LeaderBoradPage()));
+                },
+                icon: SvgPicture.asset(
+                  'assets/images/leaderboard.svg',
+                ),
               ),
-            ),
-            SizedBox(
-              height: 68,
-              width: 85,
-              child: Column(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/timeline');
-                      },
-                      icon: Image.asset('assets/images/calendar_month.png')),
-                  const Text('Timeline')
-                ],
+              const Text('Progress',
+                  style: TextStyle(
+                      color: Color(0xffA5A3AE),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400))
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 68,
+          width: 75,
+          child: Column(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => QrCodeScanner(
+                                token: token!,
+                              )));
+                },
+                icon: SvgPicture.asset(
+                  'assets/images/qr_code_scanner.svg',
+                ),
               ),
-            ),
-            SizedBox(
-              height: 68,
-              width: 85,
-              child: Column(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/faqs');
-                      },
-                      icon: Image.asset('assets/images/quiz.png')),
-                  const Text('Faqs')
-                ],
+              const Text('Attendence',
+                  style: TextStyle(
+                      color: Color(0xffA5A3AE),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400))
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 68,
+          width: 75,
+          child: Column(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/timeline');
+                },
+                icon: SvgPicture.asset(
+                  'assets/images/calendar_month.svg',
+                ),
               ),
-            ),
-          ]),
-          Positioned(
-              right: 15,
-              top: -20,
-              bottom: 41.18,
-              child: CircleAvatar(
-                backgroundColor: Appcolors.tagcolor(),
-                child: IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => QrCodeScanner(
-                                    token: token!,
-                                  )));
-                    },
-                    icon: Image.asset('assets/images/qr_code_scanner.png')),
-              )),
-        ],
-      ),
+              const Text('Timeline',
+                  style: TextStyle(
+                      color: Color(0xffA5A3AE),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400))
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 68,
+          width: 75,
+          child: Column(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/faqs');
+                },
+                icon: SvgPicture.asset(
+                  'assets/images/quiz.svg',
+                ),
+              ),
+              const Text(
+                'Faqs',
+                style: TextStyle(
+                    color: Color(0xffA5A3AE),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w400),
+              )
+            ],
+          ),
+        ),
+      ]),
     );
   }
 }

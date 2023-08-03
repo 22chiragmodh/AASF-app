@@ -78,7 +78,7 @@ class AppDrawer extends StatelessWidget {
               ),
               AppText(
                 text:
-                    "Hi, ${studentData['first_name']} ${studentData['last_name']}",
+                    "${studentData['first_name']} ${studentData['last_name']}",
                 textstyle:
                     Textstyle.inputtext(Appcolors.yew(), 18.0, FontWeight.w600),
               ),

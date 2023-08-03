@@ -2,6 +2,7 @@
     package="com.example.aasf_iiitmg">
    <application
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:label="aasf_iiitmg"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

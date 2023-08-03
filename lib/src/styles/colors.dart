@@ -65,6 +65,10 @@ abstract class Appcolors {
     return const Color(0xFF0a66c2);
   }
 
+  static Color website() {
+    return Color.fromARGB(255, 59, 145, 232);
+  }
+
   static Color instagram() {
     return const Color(0xFFc32aa3);
   }

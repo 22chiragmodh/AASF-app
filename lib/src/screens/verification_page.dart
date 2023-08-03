@@ -105,7 +105,7 @@ class _VerifictionPageState extends State<VerifictionPage> {
                   Appcolors.titlewhite(), 15.0, FontWeight.w500)),
           AppInputField(
               controller: emailController,
-              hinttext: '2020IMT-058',
+              hinttext: '2020IMG-016',
               textintype: TextInputType.emailAddress),
           AppVerifyTextField(
               textalign: Textstyle.textalignstart(),
@@ -128,12 +128,15 @@ class _VerifictionPageState extends State<VerifictionPage> {
           AppTextBtn(
               text: 'Forgot Password',
               fn: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => HomePage(
-                              authToken: authToken,
-                            )));
+                SnackBar forpassSnackBar = const SnackBar(
+                  content: Text(
+                      'Please contact to any aasf member to resest password !',
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 211, 28, 28))),
+                  backgroundColor: (Colors.white),
+                );
+                // ignore: use_build_context_synchronously
+                ScaffoldMessenger.of(context).showSnackBar(forpassSnackBar);
               },
               vm: 14,
               hm: 80)
