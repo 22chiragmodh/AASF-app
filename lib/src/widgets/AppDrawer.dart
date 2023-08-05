@@ -1,7 +1,6 @@
 // ignore: file_names
 import 'dart:convert';
 
-import 'package:aasf_iiitmg/src/provider/studentdata.dart';
 import 'package:aasf_iiitmg/src/screens/profile_page.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
@@ -9,7 +8,7 @@ import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 import 'package:aasf_iiitmg/src/widgets/Applinktext.dart';
 import 'package:aasf_iiitmg/src/widgets/Apptext.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -80,8 +79,10 @@ class AppDrawer extends StatelessWidget {
                                             )));
                               },
                               child: studentData!['image'] == null
-                                  ? const CircleAvatar(
+                                  ? CircleAvatar(
                                       radius: 60,
+                                      child: Image.asset(
+                                          'assets/images/userlogo.png'),
                                     )
                                   : CircleAvatar(
                                       radius: 60,

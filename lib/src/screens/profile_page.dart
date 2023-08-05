@@ -7,10 +7,13 @@ import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/appprofilefield.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
   final Map<String, dynamic> studentData;
@@ -78,9 +81,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 alignment: Alignment.topCenter,
                 child:
                     widget.studentData['image'] == null && _pickedimage == null
-                        ? const CircleAvatar(
+                        ? CircleAvatar(
                             radius: 80,
-                          )
+                            child: Image.asset('assets/images/userlogo.png'))
                         : CircleAvatar(
                             radius: 80,
                             backgroundImage:
@@ -132,6 +135,26 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 10,
           ),
           BaseStyle.linealignment(0.4),
+          const SizedBox(
+            height: 5,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () async {
+                    await launchUrl(
+                        Uri.parse(widget.studentData['github_url']));
+                  },
+                  icon: SvgPicture.asset('assets/images/github.svg')),
+              IconButton(
+                  onPressed: () async {
+                    await launchUrl(
+                        Uri.parse(widget.studentData['linkedin_url']));
+                  },
+                  icon: SvgPicture.asset('assets/images/linkedin.svg'))
+            ],
+          )
         ],
       ),
     );
