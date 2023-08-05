@@ -1,8 +1,10 @@
 // ignore: file_names
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -70,7 +72,21 @@ class AppAbhishar extends StatelessWidget {
                 child: SizedBox(
                   width: 90,
                   height: 133,
-                  child: Image.network(abhishar['image']),
+                  child: CachedNetworkImage(
+                    alignment: Alignment.center,
+                    imageUrl: abhishar['image'],
+                    progressIndicatorBuilder:
+                        (context, url, downloadProgress) => Center(
+                      child: SizedBox(
+                        height: 12,
+                        width: 12,
+                        child: CircularProgressIndicator(
+                            value: downloadProgress.progress),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
+                  ),
                 ),
               ),
             ],
@@ -88,9 +104,7 @@ class AppAbhishar extends StatelessWidget {
                         String meetUrl = abhishar['pdf_link'];
                         await launchUrl(Uri.parse(meetUrl));
                       },
-                      icon: const Image(
-                        image: AssetImage('assets/images/menu_book.png'),
-                      ),
+                      icon: SvgPicture.asset('assets/images/readnow.svg'),
                       label: Text(
                         'Read Now',
                         style: TextStyle(
@@ -100,8 +114,7 @@ class AppAbhishar extends StatelessWidget {
                       )),
                   TextButton.icon(
                       onPressed: () {},
-                      icon: const Image(
-                          image: AssetImage('assets/images/language.png')),
+                      icon: SvgPicture.asset('assets/images/website.svg'),
                       label: Text(
                         'Website',
                         style: TextStyle(

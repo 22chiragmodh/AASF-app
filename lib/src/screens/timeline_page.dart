@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
@@ -6,6 +8,7 @@ import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
 // import 'package:aasf_iiitmg/src/widgets/apptabbar.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:dio/dio.dart';
 
@@ -22,11 +25,12 @@ class _TimelinePageState extends State<TimelinePage>
   Map<String, dynamic> eventData = {};
   List<dynamic> rangeDate = [];
   int rangeLength = 0;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    fetchEventsByTimeline();
+    _initializeTimelineData();
   }
 
   void _handleTabSelection() {
@@ -34,11 +38,17 @@ class _TimelinePageState extends State<TimelinePage>
   }
 
   Future<void> fetchEventsByTimeline() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       Dio dio = Dio();
       Response response = await dio.get("${ConstantsVar.url}/events/timeline");
       Map<String, dynamic> responseData = response.data;
       if (responseData['success'] == 1) {
+        List<dynamic> timelineData = [
+          responseData['data']['timeline'],
+          responseData['data']['range']
+        ];
+        await prefs.setString('timelineData', jsonEncode(timelineData));
         setState(() {
           eventData = responseData['data']['timeline'];
           rangeDate = responseData['data']['range'];
@@ -52,6 +62,39 @@ class _TimelinePageState extends State<TimelinePage>
     } catch (e) {
       print(e.toString());
       print('Error: Failed to fetch data');
+    }
+  }
+
+  Future<List<dynamic>> fetchDataFromSharedPreferences(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? dataString = prefs.getString(key);
+    if (dataString != null) {
+      return jsonDecode(dataString);
+    }
+    return [];
+  }
+
+  void _initializeTimelineData() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    List<dynamic> timelineData =
+        await fetchDataFromSharedPreferences('timelineData');
+    if (timelineData.isNotEmpty) {
+      setState(() {
+        eventData = timelineData[0];
+        rangeDate = timelineData[1];
+        rangeLength = rangeDate.length + 1;
+        _tabController = TabController(vsync: this, length: rangeLength);
+        _tabController?.addListener(_handleTabSelection);
+        isLoading = false;
+      });
+    } else {
+      await fetchEventsByTimeline();
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -94,7 +137,7 @@ class _TimelinePageState extends State<TimelinePage>
             width: 370,
             height: 31,
             margin: const EdgeInsets.only(
-                left: 10.0, right: 10.0, top: 10, bottom: 12),
+                left: 10.0, right: 10.0, top: 20, bottom: 20),
             // color: Appcolors.primarycolor(),
             child: _tabController != null
                 ? TabBar(
@@ -110,20 +153,21 @@ class _TimelinePageState extends State<TimelinePage>
           ),
           BaseStyle.linealignment(2.0),
           Flexible(
-            child: _tabController != null
-                ? ListView(children: [
-                    // _buildEventsList('Timeline'),
-                    // timelinefunc(
-                    //   eventData,
-                    // ),
+              child: isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : ListView(children: [
+                      // _buildEventsList('Timeline'),
+                      // timelinefunc(
+                      //   eventData,
+                      // ),
 
-                    if (_tabController!.index == 0)
-                      ...eventData.entries.map((entry) => timelinefunc(entry))
-                    else
-                      _buildEventsList(rangeDate[_tabController!.index - 1]),
-                  ])
-                : SizedBox(), // Placeholder widget when TabController is null
-          ),
+                      if (_tabController!.index == 0)
+                        ...eventData.entries.map((entry) => timelinefunc(entry))
+                      else
+                        _buildEventsList(rangeDate[_tabController!.index - 1]),
+                    ])
+              // Placeholder widget when TabController is null
+              ),
         ],
       ),
     );
@@ -140,7 +184,7 @@ class _TimelinePageState extends State<TimelinePage>
         child: Column(
           children: [
             for (var event in evententry.value)
-              BaseStyle.timelineCard(event['name'].toString()),
+              BaseStyle.timelineCard(event['name'].toString(), 230),
           ],
         ),
       ),
@@ -187,7 +231,7 @@ class _TimelinePageState extends State<TimelinePage>
     return Column(
       children: events.map((event) {
         String eventName = event['name'];
-        return BaseStyle.timelineCard(eventName);
+        return BaseStyle.timelineCard(eventName, 350);
       }).toList(),
     );
   }

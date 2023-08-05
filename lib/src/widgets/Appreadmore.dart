@@ -11,7 +11,7 @@ class AppReadmore extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15.96),
+            margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 15.96),
             child: ReadMoreText(
               description,
               trimLines: 2,
@@ -27,11 +27,11 @@ class AppReadmore extends StatelessWidget {
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: Appcolors.white()),
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   height: 2,
-                  color: Appcolors.blogiconcol()),
+                  color: Color(0xffD2D1D6)),
             )));
   }
 }

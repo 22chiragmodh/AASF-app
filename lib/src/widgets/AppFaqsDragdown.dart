@@ -22,7 +22,6 @@ class _AppFaqsDragdownState extends State<AppFaqsDragdown> {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       child: Container(
         width: 360,
-        height: isexpand ? 138 : 54,
         color: Appcolors.blogdecbg(),
         child: isexpand
             ? Column(
@@ -30,8 +29,9 @@ class _AppFaqsDragdownState extends State<AppFaqsDragdown> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
+                      Container(
                         width: 260,
+                        margin: const EdgeInsets.only(top: 10),
                         child: AppVerifyTextField(
                             padding: BaseStyle.faqspadding(),
                             text: widget.title,
@@ -50,12 +50,27 @@ class _AppFaqsDragdownState extends State<AppFaqsDragdown> {
                               : const Icon(Icons.expand_more))
                     ],
                   ),
-                  AppVerifyTextField(
-                      padding: BaseStyle.faqspadding(),
-                      text: widget.description,
-                      textstyle: Textstyle.inputtext(
-                          Appcolors.white(), 12.0, FontWeight.w400),
-                      textalign: TextAlign.start)
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOut,
+                    height:
+                        isexpand ? null : 0, // Set height based on expand state
+                    child: isexpand
+                        ? SingleChildScrollView(
+                            // Wrap the description in a SingleChildScrollView
+                            child: AppVerifyTextField(
+                              padding: BaseStyle.faqspadding(),
+                              text: widget.description,
+                              textstyle: Textstyle.inputtext(
+                                Appcolors.white(),
+                                12.0,
+                                FontWeight.w400,
+                              ),
+                              textalign: TextAlign.start,
+                            ),
+                          )
+                        : SizedBox.shrink(),
+                  ),
                 ],
               )
             : Row(

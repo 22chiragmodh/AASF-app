@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:aasf_iiitmg/src/models/faqData.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
@@ -11,6 +14,8 @@ class FaqsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List faqsData = jsonDecode(faqData.FaqsData);
+
     return Scaffold(
         backgroundColor: Appcolors.primarycolor(),
         appBar: AppBar(
@@ -38,64 +43,20 @@ class FaqsPage extends StatelessWidget {
             AppVerifyTextField(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                text: 'About AASF',
-                textstyle: Textstyle.winningtext(Appcolors.yew(), 14.0),
-                textalign: TextAlign.start),
-            const AppFaqsDragdown(
-              title: 'What is AASF?',
-              description:
-                  "AASF works to conjugate knowledge and skills into a single bunch. The forum also aims to inculcate in the students the spirit of excellence in every field along with promoting innovative ideas.",
-            ),
-            const AppFaqsDragdown(
-              title: 'How can I join AASF?',
-              description:
-                  "AASF works to conjugate knowledge and skills into a single bunch. The forum also aims to inculcate in the students the spirit of excellence in every field along with promoting innovative ideas.",
-            ),
-            const AppFaqsDragdown(
-              title: 'How many members are there in AASF?',
-              description:
-                  "AASF works to conjugate knowledge and skills into a single bunch. The forum also aims to inculcate in the students the spirit of excellence in every field along with promoting innovative ideas.",
-            ),
-            const AppFaqsDragdown(
-              title: 'What is Abhishar?',
-              description:
-                  "AASF works to conjugate knowledge and skills into a single bunch. The forum also aims to inculcate in the students the spirit of excellence in every field along with promoting innovative ideas.",
-            ),
-            const AppFaqsDragdown(
-              title: 'How can I submit an article to medium?',
-              description:
-                  "AASF works to conjugate knowledge and skills into a single bunch. The forum also aims to inculcate in the students the spirit of excellence in every field along with promoting innovative ideas.",
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            BaseStyle.linealignment(1.5),
-            AppVerifyTextField(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 text: 'General quiries',
                 textstyle: Textstyle.winningtext(Appcolors.yew(), 14.0),
                 textalign: TextAlign.start),
-            const AppFaqsDragdown(
-                title: 'What is AASF?',
-                description:
-                    "AASF works to conjugate knowledge and skills into a single bunch. The forum also aims to inculcate in the students the spirit of excellence in every field along with promoting innovative ideas."),
-            const AppFaqsDragdown(
-                title: 'How can I join AASF?',
-                description:
-                    "AASF works to conjugate knowledge and skills into a single bunch. The forum also aims to inculcate in the students the spirit of excellence in every field along with promoting innovative ideas."),
-            const AppFaqsDragdown(
-                title: 'How many members are there in AASF?',
-                description:
-                    "AASF works to conjugate knowledge and skills into a single bunch. The forum also aims to inculcate in the students the spirit of excellence in every field along with promoting innovative ideas."),
-            const AppFaqsDragdown(
-                title: 'What is Abhishar?',
-                description:
-                    "AASF works to conjugate knowledge and skills into a single bunch. The forum also aims to inculcate in the students the spirit of excellence in every field along with promoting innovative ideas."),
-            const AppFaqsDragdown(
-                title: 'How can I submit an article to medium?',
-                description:
-                    "AASF works to conjugate knowledge and skills into a single bunch. The forum also aims to inculcate in the students the spirit of excellence in every field along with promoting innovative ideas."),
+            SizedBox(
+              height: 400,
+              child: ListView.builder(
+                  itemCount: faqsData.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return AppFaqsDragdown(
+                      title: faqsData[index]['Question'],
+                      description: faqsData[index]['Answer'],
+                    );
+                  }),
+            ),
           ],
         ));
   }

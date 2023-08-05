@@ -34,7 +34,7 @@ class AppStackedImages extends StatelessWidget {
                   ? const CircleAvatar(
                       radius: 60.0,
                       foregroundImage:
-                          AssetImage('assets/images/Ellipse 12.png'),
+                          AssetImage('assets/images/Ellipse 15.png'),
                     )
                   : CircleAvatar(
                       radius: 60.0,
@@ -62,7 +62,7 @@ class AppStackedImages extends StatelessWidget {
               ),
             ),
             Text(
-              data[0]['final_score'].toString(),
+              data[0]['final_score'].toString() ?? '0',
               style: TextStyle(
                 color: Appcolors.yew(),
               ),
@@ -70,7 +70,7 @@ class AppStackedImages extends StatelessWidget {
           ],
         ),
         Container(
-            margin: const EdgeInsets.only(left: 45, top: 44),
+            margin: const EdgeInsets.only(left: 50, top: 44),
             child: Column(
               children: [
                 Text("2"),
@@ -84,7 +84,7 @@ class AppStackedImages extends StatelessWidget {
                         ? const CircleAvatar(
                             radius: 60.0,
                             foregroundImage:
-                                AssetImage('assets/images/Ellipse 12.png'),
+                                AssetImage('assets/images/Ellipse 15.png'),
                           )
                         : CircleAvatar(
                             radius: 60.0,
@@ -111,7 +111,7 @@ class AppStackedImages extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  data[1]['final_score'].toString(),
+                  data[1]['final_score'] ?? '0',
                   style: TextStyle(
                     color: Appcolors.yew(),
                   ),
@@ -119,7 +119,7 @@ class AppStackedImages extends StatelessWidget {
               ],
             )),
         Container(
-            margin: const EdgeInsets.only(left: 210, top: 40),
+            margin: const EdgeInsets.only(left: 240, top: 50),
             child: Column(
               children: [
                 Text("3"),
@@ -134,7 +134,7 @@ class AppStackedImages extends StatelessWidget {
                       ? const CircleAvatar(
                           radius: 60.0,
                           foregroundImage:
-                              AssetImage('assets/images/Ellipse 12.png'),
+                              AssetImage('assets/images/Ellipse 15.png'),
                         )
                       : CircleAvatar(
                           radius: 60.0,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:aasf_iiitmg/src/provider/studentdata.dart';
 import 'package:aasf_iiitmg/src/screens/home_page.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
@@ -9,7 +11,7 @@ import 'package:aasf_iiitmg/src/widgets/apptextbtn.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:localstorage/localstorage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -27,11 +29,12 @@ class _VerifictionPageState extends State<VerifictionPage> {
 
   @override
   Widget build(BuildContext context) {
-    final studentDataProvider = Provider.of<StudentDataProvider>(context);
-    void userVerify(String email, String password) async {
+    // final studentDataProvider = Provider.of<StudentDataProvider>(context);
+    Future<void> userVerify(String email, String password) async {
       Response response;
       SnackBar snackBar;
       var dio = Dio();
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
 
       try {
         response = await dio.post("${ConstantsVar.url}/auth/login",
@@ -39,15 +42,17 @@ class _VerifictionPageState extends State<VerifictionPage> {
 
         if (response.data['success'] == 1) {
           Map<String, dynamic> studentData = response.data['data']['user'];
+          print(studentData);
 
           authToken = studentData['token']['token'];
-
+          await prefs.setString(
+              'authToken', '${studentData['token']['token']}');
+          await prefs.setString('studentData', jsonEncode(studentData));
           ConstantsVar.token = authToken.toString();
           print(ConstantsVar.token);
-          studentDataProvider.setStudentData(studentData);
+          // studentDataProvider.setStudentData(studentData);
 
           // ignore: avoid_print
-          print(studentData);
           snackBar = SnackBar(
             content: Text(response.data['message'],
                 style: const TextStyle(color: Colors.greenAccent)),

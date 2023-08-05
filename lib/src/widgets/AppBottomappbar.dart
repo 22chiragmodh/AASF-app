@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:aasf_iiitmg/src/screens/home_page.dart';
 import 'package:aasf_iiitmg/src/screens/leaderboard_page.dart';
 import 'package:aasf_iiitmg/src/screens/qr_page.dart';
@@ -6,6 +7,7 @@ import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppBottomAppbar extends StatelessWidget {
   String token;
@@ -123,8 +125,14 @@ class AppBottomAppbar extends StatelessWidget {
           child: Column(
             children: [
               IconButton(
-                onPressed: () {
+                onPressed: () async {
                   Navigator.pushNamed(context, '/faqs');
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  final String? token = prefs.getString('authToken');
+
+                  print(token);
+                  print(prefs.getInt('timestamp'));
                 },
                 icon: SvgPicture.asset(
                   'assets/images/quiz.svg',

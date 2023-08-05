@@ -4,6 +4,7 @@ import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
@@ -112,8 +113,7 @@ class AppHomeBlogs extends StatelessWidget {
                         String meetUrl = blog['link'];
                         await launchUrl(Uri.parse(meetUrl));
                       },
-                      icon: const Image(
-                          image: AssetImage('assets/images/menu_book.png')),
+                      icon: SvgPicture.asset('assets/images/readnow.svg'),
                       label: Text(
                         'Read Now',
                         style: TextStyle(
@@ -126,8 +126,7 @@ class AppHomeBlogs extends StatelessWidget {
                         String blogUrl = blog['link'];
                         Share.share(blogUrl);
                       },
-                      icon: const Image(
-                          image: AssetImage('assets/images/share.png')),
+                      icon: SvgPicture.asset('assets/images/share.svg'),
                       label: Text(
                         'Share',
                         style: TextStyle(

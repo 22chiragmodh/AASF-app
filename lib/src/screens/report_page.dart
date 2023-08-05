@@ -11,20 +11,6 @@ import 'package:flutter/material.dart';
 class ReortPage extends StatelessWidget {
   const ReortPage({super.key});
 
-  void _launchEmail() async {
-    final Uri _emailLaunchUri = Uri(
-      scheme: 'mailto',
-      path: 'aasf@iiitm.ac.in',
-    );
-
-    if (await canLaunch(_emailLaunchUri.toString())) {
-      await launch(_emailLaunchUri.toString());
-    } else {
-      throw 'Could not launch email';
-      // You can provide a more user-friendly message or handle the error gracefully.
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +80,9 @@ class ReortPage extends StatelessWidget {
                       },
                       child: AppSocialButton(socialtype: SocialType.Website)),
                   InkWell(
-                      onTap: _launchEmail,
+                      onTap: () async {
+                        await launch('mailto:aasf@iiitm.ac.in');
+                      },
                       child: AppSocialButton(socialtype: SocialType.Gmail)),
                 ],
               ),

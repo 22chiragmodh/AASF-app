@@ -1,6 +1,7 @@
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AppLeaderBoardTabBar extends StatelessWidget {
   const AppLeaderBoardTabBar(
@@ -28,31 +29,25 @@ class AppLeaderBoardTabBar extends StatelessWidget {
             controller: _tabController,
             indicator: BoxDecoration(
                 borderRadius: BorderRadius.circular(26.5), // Creates border
-                color: indicatorcolor == true
-                    ? Appcolors.white()
-                    : Appcolors.tagcolor()),
+                color: Appcolors.tagcolor()),
             tabs: [
               Tab(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      'assets/images/insights.png',
+                    SvgPicture.asset(
+                      'assets/images/insights.svg',
                       width: 15,
                       height: 15,
-                      color: _tabController!.index == 0
-                          ? Appcolors.tagcolor()
-                          : Appcolors.white(),
+                      color: Appcolors.white(),
                     ),
                     const SizedBox(width: 4),
                     Text(
                       'Leaderboard',
                       style: TextStyle(
                         fontSize: 9,
-                        color: _tabController!.index == 0
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white(),
+                        color: Appcolors.white(),
                       ),
                     ),
                   ],
@@ -62,22 +57,18 @@ class AppLeaderBoardTabBar extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      'assets/images/pie_chart.png',
+                    SvgPicture.asset(
+                      'assets/images/pie_chart.svg',
                       width: 18,
                       height: 18,
-                      color: _tabController!.index == 1
-                          ? Appcolors.tagcolor()
-                          : Appcolors.white(),
+                      color: Appcolors.white(),
                     ),
                     const SizedBox(width: 4),
                     Text(
                       'Statistics',
                       style: TextStyle(
                         fontSize: 10.6,
-                        color: _tabController!.index == 1
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white(),
+                        color: Appcolors.white(),
                       ),
                     ),
                   ],
@@ -87,22 +78,18 @@ class AppLeaderBoardTabBar extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      'assets/images/sports_score.png',
+                    SvgPicture.asset(
+                      'assets/images/sports_score.svg',
                       width: 18,
                       height: 18,
-                      color: _tabController!.index == 2
-                          ? Appcolors.tagcolor()
-                          : Appcolors.white(),
+                      color: Appcolors.white(),
                     ),
                     const SizedBox(width: 4),
                     Text(
                       'Winnings',
                       style: TextStyle(
                         fontSize: 10.6,
-                        color: _tabController!.index == 2
-                            ? Appcolors.tagcolor()
-                            : Appcolors.white(),
+                        color: Appcolors.white(),
                       ),
                     ),
                   ],

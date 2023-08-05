@@ -33,7 +33,7 @@ abstract class BaseStyle {
   }
 
   static EdgeInsets faqspadding() {
-    return const EdgeInsets.symmetric(horizontal: 20, vertical: 3);
+    return const EdgeInsets.symmetric(horizontal: 20, vertical: 10);
   }
 
   static EdgeInsets fieldpadding() {
@@ -89,10 +89,10 @@ abstract class BaseStyle {
     });
   }
 
-  static Container timelineCard(String text) {
+  static Container timelineCard(String text, double width) {
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 8),
-        width: 300,
+        width: width,
         height: 50,
         color: const Color(0xFF1B1B1B),
         child: Center(
@@ -108,7 +108,7 @@ abstract class BaseStyle {
   static Container linealignment(double h) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-      width: 328.0,
+      width: 365,
       height: h,
       decoration: BoxDecoration(color: Appcolors.line()),
     );

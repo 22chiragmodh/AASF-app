@@ -10,21 +10,26 @@ import 'package:flutter/cupertino.dart';
 import 'dart:io';
 // import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? authToken = prefs.getString('authToken');
+  print("%%%%%%% $authToken");
   // iOS requires you run in release mode to test dynamic links ("flutter run --release").
 
   runApp(
     ChangeNotifierProvider(
       create: (context) => StudentDataProvider(),
-      child: const AasfApp(),
+      child: AasfApp(authToken: authToken),
     ),
   );
 }
 
 class AasfApp extends StatefulWidget {
-  const AasfApp({super.key});
+  final String? authToken;
+  const AasfApp({super.key, this.authToken});
 
   @override
   State<AasfApp> createState() => _AasfAppState();
@@ -41,7 +46,9 @@ class _AasfAppState extends State<AasfApp> {
         onGenerateRoute: Routes.materialRoutes,
         // theme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
-        home: const SplashScreen(),
+        home: widget.authToken != null // Check if authToken is present
+            ? HomePage(authToken: widget.authToken!)
+            : const SplashScreen(),
       );
     }
   }

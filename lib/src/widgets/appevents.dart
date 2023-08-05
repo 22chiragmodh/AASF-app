@@ -3,8 +3,10 @@ import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 // import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/appreadmore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AppHomeEvents extends StatefulWidget {
   // final String posterUrl;
@@ -50,11 +52,22 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                     width: MediaQuery.of(context).size.width,
                     height: 250,
                     decoration: BoxDecoration(color: Appcolors.posterbg()),
-                    child: Image.network(
-                      eventImages[0]['image_url'],
-                      // width: 1000,
-                      // fit: BoxFit.cover,
-                    ))
+                    child: CachedNetworkImage(
+                      alignment: Alignment.center,
+                      imageUrl: eventImages[0]['image_url'],
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => Center(
+                        child: SizedBox(
+                          height: 15,
+                          width: 15,
+                          child: CircularProgressIndicator(
+                              value: downloadProgress.progress),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    ),
+                  )
                 : CarouselSlider(
                     options: CarouselOptions(
                       aspectRatio: 2,
@@ -63,31 +76,41 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                       viewportFraction: 1,
                     ),
                     items: eventImages.map<Widget>((image) {
-                      return Container(
-                        child: Center(
-                          child: Image.network(
-                            image['image_url'],
-                            width: 1000,
-                            fit: BoxFit.cover,
+                      return Center(
+                        child: CachedNetworkImage(
+                          alignment: Alignment.center,
+                          width: 1000,
+                          fit: BoxFit.cover,
+                          imageUrl: image['image_url'],
+                          progressIndicatorBuilder:
+                              (context, url, downloadProgress) => Center(
+                            child: SizedBox(
+                              height: 15,
+                              width: 15,
+                              child: CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                            ),
                           ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
                       );
                     }).toList(),
                   ),
         Container(
-          margin: const EdgeInsets.symmetric(horizontal: 15.04, vertical: 8),
+          margin: const EdgeInsets.symmetric(horizontal: 15.04, vertical: 6),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 margin:
-                    const EdgeInsets.symmetric(horizontal: 15.04, vertical: 4),
+                    const EdgeInsets.symmetric(horizontal: 15.04, vertical: 2),
                 child: Text(
                   widget.event["name"],
                   style: Textstyle.inputtext(
-                    Appcolors.white(),
-                    20.0,
-                    FontWeight.w400,
+                    Color(0xffF4F4F5),
+                    18.0,
+                    FontWeight.w600,
                   ),
                 ),
               ),
@@ -105,7 +128,7 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                       label: Text(
                         '${widget.startdate} - ${widget.enddate}',
                         style: Textstyle.inputtext(
-                            Appcolors.blogiconcol(), 14.0, FontWeight.w400),
+                            Color(0xffF4F4F5), 14.0, FontWeight.w400),
                       )),
                   TextButton.icon(
                       onPressed: () {},
@@ -116,7 +139,7 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                       label: Text(
                         '${widget.starttime} - ${widget.endtime}',
                         style: Textstyle.inputtext(
-                            Appcolors.blogiconcol(), 14.0, FontWeight.w400),
+                            Color(0xffF4F4F5), 14.0, FontWeight.w400),
                       )),
                 ],
               ),
@@ -132,16 +155,12 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                           ? Text(
                               'LT 1 Seminar Hall - 1 B - 001',
                               style: Textstyle.inputtext(
-                                  Appcolors.blogiconcol(),
-                                  14.0,
-                                  FontWeight.w400),
+                                  Color(0xffF4F4F5), 14.0, FontWeight.w400),
                             )
                           : Text(
                               'Online',
                               style: Textstyle.inputtext(
-                                  Appcolors.blogiconcol(),
-                                  14.0,
-                                  FontWeight.w400),
+                                  Color(0xffF4F4F5), 14.0, FontWeight.w400),
                             )),
                 ],
               ),
@@ -180,7 +199,9 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
               children: [
                 TextButton.icon(
                     onPressed: () {},
-                    icon: Image(image: AssetImage(widget.iconUrl)),
+                    icon: SvgPicture.asset(
+                      widget.iconUrl,
+                    ),
                     label: Text(
                       widget.icontitle,
                       style: TextStyle(color: Appcolors.yew()),
@@ -190,26 +211,27 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                       String resourcesUrl = widget.event['resource_link'];
                       await launchUrl(Uri.parse(resourcesUrl));
                     },
-                    icon: const Image(
-                        image: AssetImage('assets/images/description.png')),
+                    icon: SvgPicture.asset(
+                      'assets/images/resources.svg',
+                    ),
                     label: Text(
                       'Resources',
                       style: TextStyle(color: Appcolors.yew()),
                     )),
-                widget.event['type'] == "online"
-                    ? TextButton.icon(
-                        onPressed: () async {
-                          String meetUrl =
-                              widget.event['event_links'][0]['url'];
-                          await launchUrl(Uri.parse(meetUrl));
-                        },
-                        icon: const Image(
-                            image: AssetImage('assets/images/description.png')),
-                        label: Text(
-                          'Join Meet',
-                          style: TextStyle(color: Appcolors.yew()),
-                        ))
-                    : const Text(""),
+                if (widget.event['type'] == "online")
+                  TextButton.icon(
+                    onPressed: () async {
+                      String meetUrl = widget.event['event_links'][0]['url'];
+                      await launchUrl(Uri.parse(meetUrl));
+                    },
+                    icon: const Image(
+                      image: AssetImage('assets/images/description.png'),
+                    ),
+                    label: Text(
+                      'Join Meet',
+                      style: TextStyle(color: Appcolors.yew()),
+                    ),
+                  ),
               ],
             ),
           ),
