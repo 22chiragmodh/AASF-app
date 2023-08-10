@@ -58,5 +58,4 @@ class ConstantsVar {
   // static Map<String, dynamic> userDetails = {};
 
   static String url = "https://api.aasf.in";
-  static String? token;
 }

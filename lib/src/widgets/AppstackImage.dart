@@ -44,7 +44,7 @@ class AppStackedImages extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                data[0]['first_name'],
+                data[0]['first_name'] ?? "",
                 style: TextStyle(
                   color: Appcolors.white(),
                   fontSize: 12,
@@ -54,7 +54,7 @@ class AppStackedImages extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Text(
-                data[0]['last_name'],
+                data[0]['last_name'] ?? "",
                 style: TextStyle(
                   color: Appcolors.white(),
                   fontSize: 12,
@@ -93,7 +93,7 @@ class AppStackedImages extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    data[1]['first_name'],
+                    data[1]['first_name'] ?? "",
                     style: TextStyle(
                       color: Appcolors.white(),
                       fontSize: 12,
@@ -103,7 +103,7 @@ class AppStackedImages extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text(
-                    data[1]['last_name'],
+                    data[1]['last_name'] ?? "",
                     style: TextStyle(
                       color: Appcolors.white(),
                       fontSize: 12,
@@ -143,7 +143,7 @@ class AppStackedImages extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    data[2]['first_name'],
+                    data[2]['first_name'] ?? "",
                     style: TextStyle(
                       color: Appcolors.white(),
                       fontSize: 12,
@@ -153,7 +153,7 @@ class AppStackedImages extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Text(
-                    data[2]['last_name'],
+                    data[2]['last_name'] ?? "",
                     style: TextStyle(
                       color: Appcolors.white(),
                       fontSize: 12,

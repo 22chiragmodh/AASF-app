@@ -1,10 +1,10 @@
 import 'dart:convert';
-
+import 'package:aasf_iiitmg/src/controller/eventsData.dart';
+import 'package:aasf_iiitmg/src/controller/studentsData.dart';
 import 'package:aasf_iiitmg/src/screens/progress/acheivemntsScreen.dart';
 import 'package:aasf_iiitmg/src/screens/progress/leaderboradScreen.dart';
 import 'package:aasf_iiitmg/src/screens/progress/statiticsScreen.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
-
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:dio/dio.dart';
 
@@ -29,54 +29,16 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
   // List<dynamic> lboardData = [];
   // Map<String, dynamic>? userData;
 
-  Future<List<dynamic>> fetchDataFromSharedPreferences(String key) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? dataString = prefs.getString(key);
-    if (dataString != null) {
-      return jsonDecode(dataString);
-    }
-    return [];
-  }
-
-  Future<void> storeDataToSharedPreferences(
-      String key, List<dynamic> data, String timestamp, int datetime) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, jsonEncode(data));
-    prefs.setInt(timestamp, datetime);
-  }
-
-  Future<void> storeDataToSharedPreferencesMap(
-    String key,
-    Map<String, dynamic> data,
-  ) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String dataJson = jsonEncode(data);
-    prefs.setString(key, dataJson);
-  }
-
-  Future<Map<String, dynamic>> fetchDataFromSharedPreferencesMap(
-      String key) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? dataString = prefs.getString(key);
-
-    if (dataString != null) {
-      Map<String, dynamic> data = jsonDecode(dataString);
-      return data;
-    }
-
-    return {};
-  }
-
   Future<List<dynamic>> getLeaderboardDetails() async {
     Response response;
     final dio = Dio();
-
+    String authToken = await StudentDetails.getauthToken();
     // dio.options.headers['Authorization'] = 'Bearer ${widget.token}';
     Options options = Options(
-      headers: {'Authorization': 'Bearer ${ConstantsVar.token}'},
+      headers: {'Authorization': 'Bearer $authToken'},
     );
     List<dynamic> storedData =
-        await fetchDataFromSharedPreferences('leaderboardData');
+        await EventDeatils.fetchDataFromSharedPreferences('leaderboardData');
     if (storedData.isNotEmpty) {
       return storedData;
     }
@@ -87,8 +49,9 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
       if (response.data['success'] == 1) {
         final leaderboardData = response.data;
         int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-
-        await storeDataToSharedPreferences(
+        await EventDeatils.storeDataToSharedPreferencesMap(
+            'leaderboardDetails', leaderboardData['data']);
+        await EventDeatils.storeDataToSharedPreferences(
             'leaderboardData',
             leaderboardData['data']['leaderboard'],
             'timestamp',
@@ -111,14 +74,16 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
     final dio = Dio();
 
     // dio.options.headers['Authorization'] = 'Bearer ${widget.token}';
+    String authToken = await StudentDetails.getauthToken();
+
     Options options = Options(
-      headers: {'Authorization': 'Bearer ${ConstantsVar.token}'},
+      headers: {'Authorization': 'Bearer $authToken'},
       validateStatus: (_) => true,
       contentType: Headers.jsonContentType,
       responseType: ResponseType.json,
     );
     Map<String, dynamic> retrievedData =
-        await fetchDataFromSharedPreferencesMap('userScoreData');
+        await EventDeatils.fetchDataFromSharedPreferencesMap('userScoreData');
     if (retrievedData.isNotEmpty) {
       return retrievedData;
     }
@@ -128,7 +93,7 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
 
       if (response.data['success'] == 1) {
         final leaderboardData = response.data;
-        await storeDataToSharedPreferencesMap(
+        await EventDeatils.storeDataToSharedPreferencesMap(
             'userScoreData', leaderboardData['data']['user']);
         return leaderboardData['data']['user'];
         // Return the response data
@@ -148,13 +113,15 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
 
     Response response;
     final dio = Dio();
+    String authToken = await StudentDetails.getauthToken();
+    print("........... $authToken");
 
     // dio.options.headers['Authorization'] = 'Bearer ${widget.token}';
     Options options = Options(
-      headers: {'Authorization': 'Bearer ${ConstantsVar.token}'},
+      headers: {'Authorization': 'Bearer $authToken'},
     );
     List<dynamic> storedData =
-        await fetchDataFromSharedPreferences('statisticsData');
+        await EventDeatils.fetchDataFromSharedPreferences('statisticsData');
     if (storedData.isNotEmpty) {
       return storedData;
     }
@@ -167,7 +134,7 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
         final statiticsData = response.data;
         int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
 
-        await storeDataToSharedPreferences('statisticsData',
+        await EventDeatils.storeDataToSharedPreferences('statisticsData',
             statiticsData['data'], 'timestamp', currentTimestamp);
         // print(statiticsData['data']);
         // Return the response data
@@ -192,11 +159,13 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
     final dio = Dio();
 
     // dio.options.headers['Authorization'] = 'Bearer ${widget.token}';
+    String authToken = await StudentDetails.getauthToken();
+
     Options options = Options(
-      headers: {'Authorization': 'Bearer ${ConstantsVar.token}'},
+      headers: {'Authorization': 'Bearer $authToken'},
     );
     List<dynamic> storedData =
-        await fetchDataFromSharedPreferences('achievementsData');
+        await EventDeatils.fetchDataFromSharedPreferences('achievementsData');
     if (storedData.isNotEmpty) {
       return storedData;
     }
@@ -208,7 +177,7 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
         final achievementsData = response.data;
         int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
 
-        await storeDataToSharedPreferences('achievementsData',
+        await EventDeatils.storeDataToSharedPreferences('achievementsData',
             achievementsData['data'], 'timestamp', currentTimestamp);
         print(achievementsData['data']);
         // Return the response data
@@ -248,9 +217,7 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
         ),
         automaticallyImplyLeading: false,
       ),
-      bottomNavigationBar: AppBottomAppbar(
-        token: '',
-      ),
+      bottomNavigationBar: AppBottomAppbar(),
       body: Column(
         children: [
           AppLeaderBoardTabBar(

@@ -1,7 +1,12 @@
+import 'dart:convert';
+
+import 'package:aasf_iiitmg/src/controller/studentsData.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:dio/dio.dart';
 
 import 'package:aasf_iiitmg/src/widgets/appsocialicon.dart';
 import 'package:aasf_iiitmg/src/widgets/appbutton.dart';
@@ -9,8 +14,8 @@ import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
 
 class ReortPage extends StatelessWidget {
-  const ReortPage({super.key});
-
+  ReortPage({super.key});
+  TextEditingController reportmsgController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,6 +41,7 @@ class ReortPage extends StatelessWidget {
             Padding(
               padding: BaseStyle.listpadding(),
               child: TextField(
+                controller: reportmsgController,
                 maxLines: 7,
                 keyboardType: TextInputType.text,
                 style: Textstyle.inputtext(
@@ -47,7 +53,11 @@ class ReortPage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const AppButton(buttontext: 'Send'),
+            InkWell(
+                child: AppButton(buttontext: 'Send'),
+                onTap: () async {
+                  sendEmail(reportmsgController.text, context);
+                }),
             const SizedBox(
               height: 120,
             ),
@@ -89,5 +99,28 @@ class ReortPage extends StatelessWidget {
             ),
           ],
         ));
+  }
+
+  Future<void> sendEmail(String bodymsg, BuildContext context) async {
+    try {
+      Dio dio = Dio();
+
+      final String useremail = await StudentDetails.getEmail();
+
+      Response res = await dio.post("https://formspree.io/f/xpzgqvwe",
+          data: {"email": useremail, "message": bodymsg});
+
+      if (res.statusCode == 200) {
+        SnackBar forpassSnackBar = const SnackBar(
+          content: Text('Report successfully Sent!',
+              style: TextStyle(color: Colors.green)),
+          backgroundColor: (Colors.white),
+        );
+        //   // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(forpassSnackBar);
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }

@@ -55,7 +55,7 @@ class AppLeadrboardCard extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20),
-                  child: Text(score.toString(),
+                  child: Text(score.toString() ?? '0',
                       style: TextStyle(color: Appcolors.yew())),
                 ),
               ],

@@ -92,7 +92,7 @@ class _LandingPageState extends State<LandingPage> {
                 Navigator.pushNamed(context, '/verification');
               }
             }),
-            child: const AppButton(buttontext: 'Get Started'),
+            child: AppButton(buttontext: 'Get Started'),
           ),
         )
       ]),

@@ -1,20 +1,14 @@
-import 'dart:convert';
 import 'package:aasf_iiitmg/src/screens/home_page.dart';
 import 'package:aasf_iiitmg/src/screens/leaderboard_page.dart';
 import 'package:aasf_iiitmg/src/screens/qr_page.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
-import 'package:aasf_iiitmg/src/utils/constants.dart';
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AppBottomAppbar extends StatelessWidget {
-  String token;
-
-  AppBottomAppbar({
+  const AppBottomAppbar({
     Key? key,
-    required this.token,
   }) : super(key: key);
 
   @override
@@ -29,10 +23,8 @@ class AppBottomAppbar extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomePage(authToken: token)));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
                 },
                 icon: SvgPicture.asset(
                   'assets/images/home.svg',
@@ -79,12 +71,8 @@ class AppBottomAppbar extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => QrCodeScanner(
-                                token: token!,
-                              )));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => QrCodeScanner()));
                 },
                 icon: SvgPicture.asset(
                   'assets/images/qr_code_scanner.svg',
@@ -127,12 +115,6 @@ class AppBottomAppbar extends StatelessWidget {
               IconButton(
                 onPressed: () async {
                   Navigator.pushNamed(context, '/faqs');
-                  final SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  final String? token = prefs.getString('authToken');
-
-                  print(token);
-                  print(prefs.getInt('timestamp'));
                 },
                 icon: SvgPicture.asset(
                   'assets/images/quiz.svg',

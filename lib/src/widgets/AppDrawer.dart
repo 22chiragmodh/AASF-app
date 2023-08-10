@@ -1,6 +1,4 @@
-// ignore: file_names
-import 'dart:convert';
-
+import 'package:aasf_iiitmg/src/controller/studentsData.dart';
 import 'package:aasf_iiitmg/src/screens/profile_page.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
@@ -35,7 +33,7 @@ class AppDrawer extends StatelessWidget {
                   bottomLeft: Radius.circular(32)),
             ),
             child: FutureBuilder<Map<String, dynamic>>(
-                future: getStudentDataFromLocalStorage(),
+                future: StudentDetails.getStudentDataFromLocalStorage(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -126,12 +124,16 @@ class AppDrawer extends StatelessWidget {
                               final SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               // Remove data for the 'counter' key.
-                              await prefs.remove('authToken');
-                              await prefs.remove('eventsData');
-                              await prefs.remove('blogsData');
-                              await prefs.remove('abhisharData');
 
-                              Navigator.pushNamed(context, '/verification');
+                              await prefs.remove('authToken');
+
+                              // ignore: use_build_context_synchronously
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                '/verification',
+                                (route) =>
+                                    false, // Remove all previous routes from stack
+                              );
                             }),
                       ],
                     );
@@ -139,15 +141,5 @@ class AppDrawer extends StatelessWidget {
                 })),
       ),
     );
-  }
-
-  Future<Map<String, dynamic>> getStudentDataFromLocalStorage() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? studentDataString = prefs.getString('studentData');
-    print("###### $studentDataString");
-    if (studentDataString != null) {
-      return Map<String, dynamic>.from(jsonDecode(studentDataString));
-    }
-    return {}; // Return an empty map if data is not available
   }
 }

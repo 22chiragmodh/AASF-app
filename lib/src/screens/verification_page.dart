@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:aasf_iiitmg/src/provider/studentdata.dart';
 import 'package:aasf_iiitmg/src/screens/home_page.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/constants.dart';
-import 'package:provider/provider.dart';
 
 class VerifictionPage extends StatefulWidget {
   const VerifictionPage({super.key});
@@ -25,8 +23,7 @@ class VerifictionPage extends StatefulWidget {
 class _VerifictionPageState extends State<VerifictionPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  String authToken = "";
-
+  bool isApiCallInProgress = false;
   @override
   Widget build(BuildContext context) {
     // final studentDataProvider = Provider.of<StudentDataProvider>(context);
@@ -42,14 +39,11 @@ class _VerifictionPageState extends State<VerifictionPage> {
 
         if (response.data['success'] == 1) {
           Map<String, dynamic> studentData = response.data['data']['user'];
-          print(studentData);
 
-          authToken = studentData['token']['token'];
-          await prefs.setString(
-              'authToken', '${studentData['token']['token']}');
-          await prefs.setString('studentData', jsonEncode(studentData));
-          ConstantsVar.token = authToken.toString();
-          print(ConstantsVar.token);
+          String studentDataJson = json.encode(studentData);
+          await prefs.setString('studentData', studentDataJson);
+          await prefs.setString('authToken', studentData['token']['token']);
+
           // studentDataProvider.setStudentData(studentData);
 
           // ignore: avoid_print
@@ -62,11 +56,7 @@ class _VerifictionPageState extends State<VerifictionPage> {
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           // ignore: use_build_context_synchronously
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => HomePage(
-                        authToken: authToken,
-                      )));
+              context, MaterialPageRoute(builder: (context) => HomePage()));
         } else {
           snackBar = SnackBar(
             content: Text(response.data['message'],
@@ -81,7 +71,6 @@ class _VerifictionPageState extends State<VerifictionPage> {
         print(e.toString());
       }
       // ignore: avoid_print
-      print("hello");
     }
 
     return Scaffold(
@@ -125,11 +114,25 @@ class _VerifictionPageState extends State<VerifictionPage> {
             textintype: TextInputType.text,
             hidentext: true,
           ),
-          GestureDetector(
-              onTap: () {
-                userVerify(emailController.text, passwordController.text);
+          InkWell(
+              onTap: () async {
+                if (!isApiCallInProgress) {
+                  setState(() {
+                    isApiCallInProgress = true;
+                  });
+
+                  await userVerify(
+                      emailController.text, passwordController.text);
+
+                  setState(() {
+                    isApiCallInProgress = false;
+                  });
+                }
               },
-              child: const AppButton(buttontext: 'Login')),
+              child: AppButton(
+                buttontext: 'Login',
+                apicalled: isApiCallInProgress,
+              )),
           AppTextBtn(
               text: 'Forgot Password',
               fn: () {

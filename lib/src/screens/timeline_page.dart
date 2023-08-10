@@ -128,9 +128,7 @@ class _TimelinePageState extends State<TimelinePage>
         ),
         automaticallyImplyLeading: false,
       ),
-      bottomNavigationBar: AppBottomAppbar(
-        token: "",
-      ),
+      bottomNavigationBar: const AppBottomAppbar(),
       body: Column(
         children: [
           Container(

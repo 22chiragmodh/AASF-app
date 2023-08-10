@@ -1,12 +1,7 @@
-// ignore_for_file: avoid_print
-
-import 'dart:convert';
-import 'dart:ffi';
-
+import 'package:aasf_iiitmg/src/controller/eventsData.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 
-import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:aasf_iiitmg/src/widgets/appabhishar.dart';
 import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
@@ -14,14 +9,13 @@ import 'package:aasf_iiitmg/src/widgets/appdrawer.dart';
 import 'package:aasf_iiitmg/src/widgets/apptabbar.dart';
 import 'package:aasf_iiitmg/src/widgets/appevents.dart';
 import 'package:aasf_iiitmg/src/widgets/appblogs.dart';
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
-  final String authToken;
-
-  const HomePage({Key? key, required this.authToken}) : super(key: key);
+  const HomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -29,118 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   TabController? _tabController;
-
-  Future<void> storeDataToSharedPreferences(
-      String key, List<dynamic> data, String timestamp, int datetime) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(key, jsonEncode(data));
-    prefs.setInt(timestamp, datetime);
-  }
-
-  Future<List<dynamic>> fetchDataFromSharedPreferences(String key) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? dataString = prefs.getString(key);
-    if (dataString != null) {
-      return jsonDecode(dataString);
-    }
-    return [];
-  }
-
-  Future<int> fetchTimestamp(String key) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    int? timestamp = prefs.getInt('timestamp');
-    if (timestamp != null) {
-      return timestamp;
-    }
-    return 0;
-  }
-
-  Future<List<dynamic>> fetchEventsData() async {
-    List<dynamic> storedData =
-        await fetchDataFromSharedPreferences('eventsData');
-    int storedTimestamp = await fetchTimestamp('timestamp');
-    int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-    if (storedData.isNotEmpty &&
-        (currentTimestamp - storedTimestamp) <= 2 * 60 * 60 * 1000) {
-      return storedData;
-    }
-    try {
-      Dio dio = Dio();
-      Response response = await dio.get("${ConstantsVar.url}/events");
-      Map<String, dynamic> responseData = response.data;
-      if (responseData['success'] == 1) {
-        print("*******  ${responseData['data']}");
-        int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-        await storeDataToSharedPreferences(
-            'eventsData', responseData['data'], 'timestamp', currentTimestamp);
-        return responseData['data'];
-      }
-    } catch (e) {
-      print(e.toString());
-      print('Error: Failed to fetch data');
-    }
-    return [];
-  }
-
-  Future<List<dynamic>> fetchBlogsData() async {
-    // Check if data is already stored in SharedPreferences
-    List<dynamic> storedData =
-        await fetchDataFromSharedPreferences('blogsData');
-    int storedTimestamp = await fetchTimestamp('timestamp');
-    int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-    if (storedData.isNotEmpty &&
-        (currentTimestamp - storedTimestamp) <= 24 * 60 * 60 * 1000) {
-      return storedData;
-    }
-
-    try {
-      Dio dio = Dio();
-      Response response = await dio.get("${ConstantsVar.url}/blogs");
-      Map<String, dynamic> responseData = response.data;
-      if (responseData['success'] == 1) {
-        int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-        List<dynamic> blogsData = responseData['data']['items'];
-        await storeDataToSharedPreferences(
-            'blogsData', blogsData, 'timestamp', currentTimestamp);
-        return blogsData;
-      }
-    } catch (e) {
-      print(e.toString());
-      print('Error: Failed to fetch data');
-    }
-    return [];
-  }
-
-  Future<List<dynamic>> fetchAbhisharData() async {
-    List<dynamic> storedData =
-        await fetchDataFromSharedPreferences('abhisharData');
-    int storedTimestamp = await fetchTimestamp('timestamp');
-    int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-    if (storedData.isNotEmpty &&
-        (currentTimestamp - storedTimestamp) <= 30 * 24 * 60 * 60 * 1000) {
-      print("heloooooooooooooooo");
-
-      return storedData;
-    }
-    try {
-      Dio dio = Dio();
-      Response response = await dio.get("${ConstantsVar.url}/abhishar");
-      Map<String, dynamic> responseData = response.data;
-      if (responseData['success'] == 1) {
-        List<dynamic> abhisharData = responseData['data'];
-        int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
-
-        await storeDataToSharedPreferences(
-            'abhisharData', abhisharData, 'timestamp', currentTimestamp);
-        return abhisharData;
-      }
-    } catch (e) {
-      print(e.toString());
-      print('Error: Failed to fetch data');
-    }
-    return [];
-  }
+  String? authToken;
 
   @override
   void initState() {
@@ -168,9 +51,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         backbtn: true,
       ),
       endDrawer: const AppDrawer(),
-      bottomNavigationBar: AppBottomAppbar(
-        token: widget.authToken,
-      ),
+      bottomNavigationBar: const AppBottomAppbar(),
       body: Column(
         children: [
           AppTabBar(
@@ -183,7 +64,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               controller: _tabController,
               children: [
                 FutureBuilder<List<dynamic>>(
-                  future: fetchEventsData(),
+                  future: EventDeatils.fetchEventsData(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting &&
                         snapshot.data == null) {
@@ -199,7 +80,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           children: [
                             Image.asset('assets/images/Asset 1 2 (1).png'),
                             const SizedBox(height: 10),
-                            Text('No events available'),
+                            const Text('No events available'),
                           ],
                         ),
                       );
@@ -214,7 +95,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   },
                 ),
                 FutureBuilder<List<dynamic>>(
-                  future: fetchBlogsData(),
+                  future: EventDeatils.fetchBlogsData(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting &&
                         snapshot.data == null) {
@@ -233,7 +114,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   },
                 ),
                 FutureBuilder<List<dynamic>>(
-                  future: fetchAbhisharData(),
+                  future: EventDeatils.fetchAbhisharData(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting &&
                         snapshot.data == null) {

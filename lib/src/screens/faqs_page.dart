@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:aasf_iiitmg/src/models/faqData.dart';
-import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
@@ -14,7 +12,7 @@ class FaqsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List faqsData = jsonDecode(faqData.FaqsData);
+    List faqsData = jsonDecode(FaqData.faqsData);
 
     return Scaffold(
         backgroundColor: Appcolors.primarycolor(),
@@ -26,9 +24,7 @@ class FaqsPage extends StatelessWidget {
           ),
           automaticallyImplyLeading: false,
         ),
-        bottomNavigationBar: AppBottomAppbar(
-          token: '',
-        ),
+        bottomNavigationBar: const AppBottomAppbar(),
         body: ListView(
           padding: const EdgeInsets.all(8.0),
           children: [

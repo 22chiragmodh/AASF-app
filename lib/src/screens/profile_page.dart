@@ -3,14 +3,17 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:aasf_iiitmg/src/controller/studentsData.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/appprofilefield.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 
 import 'package:url_launcher/url_launcher.dart';
@@ -51,12 +54,13 @@ class _ProfilePageState extends State<ProfilePage> {
       if (response.statusCode == 200) {
         var jsonResponse = await response.stream.bytesToString();
         var imageUrl = jsonDecode(jsonResponse)['data']['image'];
-        setState(() {
-          widget.studentData['image'] = imageUrl;
-        });
+
+        await udpateImage(imageUrl);
+        setState(() {});
 
         print("################ upload successful");
       } else {
+        print("error response api $response");
         print("unable to upload image");
       }
     } catch (e) {
@@ -67,97 +71,108 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Appcolors.primarycolor(),
-      appBar:
-          BaseStyle.appbar(backbtn: false, title: "Profile", context: context),
-      body: ListView(
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Stack(
-            children: [
-              Align(
-                alignment: Alignment.topCenter,
-                child:
-                    widget.studentData['image'] == null && _pickedimage == null
-                        ? CircleAvatar(
-                            radius: 80,
-                            child: Image.asset('assets/images/userlogo.png'))
-                        : CircleAvatar(
-                            radius: 80,
-                            backgroundImage:
-                                NetworkImage(widget.studentData['image']),
+        backgroundColor: Appcolors.primarycolor(),
+        appBar: BaseStyle.appbar(
+            backbtn: false, title: "Profile", context: context),
+        body: FutureBuilder<Map<String, dynamic>>(
+            future: StudentDetails.getStudentDataFromLocalStorage(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return const Center(child: Text('Error loading data'));
+              } else {
+                final studentData = snapshot.data;
+
+                return ListView(
+                  children: [
+                    const SizedBox(
+                      height: 50,
+                    ),
+                    Stack(
+                      children: [
+                        Align(
+                            alignment: Alignment.topCenter,
+                            child: studentData!['image'] == null
+                                ? CircleAvatar(
+                                    radius: 80,
+                                    child: Image.asset(
+                                        'assets/images/userlogo.png'))
+                                : CircleAvatar(
+                                    radius: 80,
+                                    backgroundImage:
+                                        NetworkImage(studentData['image']),
+                                  )),
+                        Positioned(
+                          left: 230,
+                          top: 120,
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Appcolors.yew(),
+                            child: IconButton(
+                                onPressed: () {
+                                  selectImage();
+                                  setState(() {});
+                                },
+                                icon: const Icon(Icons.camera_alt)),
                           ),
-              ),
-              Positioned(
-                left: 230,
-                top: 120,
-                child: CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Appcolors.yew(),
-                  child: IconButton(
-                      onPressed: () {
-                        selectImage();
-                        setState(() {});
-                      },
-                      icon: const Icon(Icons.camera_alt)),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 40,
-          ),
-          AppProfileFiled(
-              fieldname: 'Name',
-              text: widget.studentData['first_name'] +
-                  ' ' +
-                  widget.studentData['last_name'],
-              imgurl: 'assets/images/person.png'),
-          const SizedBox(
-            height: 10,
-          ),
-          BaseStyle.linealignment(0.8),
-          AppProfileFiled(
-              fieldname: 'Roll No.',
-              text: widget.studentData['id'],
-              imgurl: 'assets/images/badge.png'),
-          const SizedBox(
-            height: 10,
-          ),
-          BaseStyle.linealignment(0.5),
-          AppProfileFiled(
-              fieldname: 'Email',
-              text: widget.studentData['email'],
-              imgurl: 'assets/images/mail.png'),
-          const SizedBox(
-            height: 10,
-          ),
-          BaseStyle.linealignment(0.4),
-          const SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                  onPressed: () async {
-                    await launchUrl(
-                        Uri.parse(widget.studentData['github_url']));
-                  },
-                  icon: SvgPicture.asset('assets/images/github.svg')),
-              IconButton(
-                  onPressed: () async {
-                    await launchUrl(
-                        Uri.parse(widget.studentData['linkedin_url']));
-                  },
-                  icon: SvgPicture.asset('assets/images/linkedin.svg'))
-            ],
-          )
-        ],
-      ),
-    );
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    AppProfileFiled(
+                        fieldname: 'Name',
+                        text: widget.studentData['first_name'] +
+                            ' ' +
+                            widget.studentData['last_name'],
+                        imgurl: 'assets/images/person.png'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    BaseStyle.linealignment(0.8),
+                    AppProfileFiled(
+                        fieldname: 'Roll No.',
+                        text: widget.studentData['id'],
+                        imgurl: 'assets/images/badge.png'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    BaseStyle.linealignment(0.5),
+                    AppProfileFiled(
+                        fieldname: 'Email',
+                        text: widget.studentData['email'],
+                        imgurl: 'assets/images/mail.png'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    BaseStyle.linealignment(0.4),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: () async {
+                              await launchUrl(
+                                  Uri.parse(widget.studentData['github_url']));
+                            },
+                            icon: SvgPicture.asset('assets/images/github.svg')),
+                        IconButton(
+                            onPressed: () async {
+                              await launchUrl(Uri.parse(
+                                  widget.studentData['linkedin_url']));
+                            },
+                            icon:
+                                SvgPicture.asset('assets/images/linkedin.svg'))
+                      ],
+                    )
+                  ],
+                );
+              }
+            }));
   }
 
   selectImageFromGallery() async {
@@ -165,9 +180,9 @@ class _ProfilePageState extends State<ProfilePage> {
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
     final pickedimagefile = File(pickedImage!.path);
     print("images $pickedimagefile");
-    // setState(() {
-    //   _pickedimage = pickedimagefile;
-    // });
+    setState(() {
+      _pickedimage = pickedimagefile;
+    });
     if (_pickedimage != null) {
       print(_pickedimage!.path.split('.').last);
       await uploadImage(pickedimagefile);
@@ -177,7 +192,8 @@ class _ProfilePageState extends State<ProfilePage> {
   //
   selectImageFromCamera() async {
     final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(source: ImageSource.camera);
+    final pickedImage =
+        await picker.pickImage(source: ImageSource.camera, imageQuality: 50);
     final pickedimagefile = File(pickedImage!.path);
     print("################ $pickedimagefile");
     print("################ $pickedImage.toString()");
@@ -195,6 +211,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> selectImage() async {
     return showDialog(
         context: context,
+        useRootNavigator: false,
         builder: (BuildContext context) {
           return Dialog(
             shape: RoundedRectangleBorder(
@@ -216,8 +233,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         GestureDetector(
                           onTap: () async {
                             await selectImageFromGallery();
-
-                            setState(() {});
                           },
                           child: Card(
                               elevation: 5,
@@ -238,8 +253,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         GestureDetector(
                           onTap: () async {
                             await selectImageFromCamera();
-
-                            setState(() {});
                           },
                           child: Card(
                               elevation: 5,
@@ -265,5 +278,17 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           );
         });
+  }
+
+  Future<void> udpateImage(String imageUrl) async {
+    print("update image url $imageUrl");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? studentDataString = prefs.getString('studentData');
+    print("###### $studentDataString");
+    if (studentDataString != null) {
+      var studentData = jsonDecode(studentDataString);
+      studentData["image"] = imageUrl;
+      prefs.setString('studentData', jsonEncode(studentData));
+    }
   }
 }

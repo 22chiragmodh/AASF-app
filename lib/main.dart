@@ -1,4 +1,5 @@
 import 'package:aasf_iiitmg/routes.dart';
+import 'package:aasf_iiitmg/src/controller/studentsData.dart';
 import 'package:aasf_iiitmg/src/provider/studentdata.dart';
 import 'package:aasf_iiitmg/src/screens/home_page.dart';
 
@@ -14,7 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
   String? authToken = prefs.getString('authToken');
   print("%%%%%%% $authToken");
   // iOS requires you run in release mode to test dynamic links ("flutter run --release").
@@ -47,7 +49,7 @@ class _AasfAppState extends State<AasfApp> {
         // theme: ThemeData.dark(),
         debugShowCheckedModeBanner: false,
         home: widget.authToken != null // Check if authToken is present
-            ? HomePage(authToken: widget.authToken!)
+            ? const HomePage()
             : const SplashScreen(),
       );
     }

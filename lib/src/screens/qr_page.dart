@@ -1,3 +1,4 @@
+import 'package:aasf_iiitmg/src/controller/studentsData.dart';
 import 'package:aasf_iiitmg/src/screens/home_page.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,9 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:dio/dio.dart';
 
 class QrCodeScanner extends StatefulWidget {
-  final String token;
-  const QrCodeScanner({super.key, required this.token});
+  const QrCodeScanner({
+    super.key,
+  });
 
   @override
   State<QrCodeScanner> createState() => _QrCodeScannerState();
@@ -23,9 +25,10 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
   Future<void> attedenceQr() async {
     try {
       Dio dio = Dio();
-      print(widget.token);
+      String authToken = await StudentDetails.getauthToken();
+
       Options options = Options(
-        headers: {'Authorization': 'Bearer ${widget.token}'},
+        headers: {'Authorization': 'Bearer $authToken'},
       );
       Response res = await dio.post("${ConstantsVar.url}/attendance",
           data: {"hash": result!.code.toString()}, options: options);
@@ -104,7 +107,7 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (BuildContext context) => HomePage(authToken: widget.token),
+          builder: (BuildContext context) => HomePage(),
         ),
       );
     });

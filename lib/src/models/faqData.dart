@@ -1,5 +1,5 @@
-class faqData {
-  static String FaqsData = '''
+class FaqData {
+  static String faqsData = '''
      [
     {
         "ID": "1",

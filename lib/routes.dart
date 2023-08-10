@@ -23,7 +23,7 @@ abstract class Routes {
       case "/timeline":
         return MaterialPageRoute(builder: (context) => const TimelinePage());
       case "/report":
-        return MaterialPageRoute(builder: (context) => const ReortPage());
+        return MaterialPageRoute(builder: (context) => ReortPage());
       case "/faqs":
         return MaterialPageRoute(builder: (context) => const FaqsPage());
 
