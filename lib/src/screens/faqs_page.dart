@@ -26,7 +26,6 @@ class FaqsPage extends StatelessWidget {
         ),
         bottomNavigationBar: const AppBottomAppbar(),
         body: ListView(
-          padding: const EdgeInsets.all(8.0),
           children: [
             const SizedBox(
               height: 10,
@@ -42,17 +41,16 @@ class FaqsPage extends StatelessWidget {
                 text: 'General quiries',
                 textstyle: Textstyle.winningtext(Appcolors.yew(), 14.0),
                 textalign: TextAlign.start),
-            SizedBox(
-              height: 400,
-              child: ListView.builder(
-                  itemCount: faqsData.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return AppFaqsDragdown(
-                      title: faqsData[index]['Question'],
-                      description: faqsData[index]['Answer'],
-                    );
-                  }),
-            ),
+            ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: faqsData.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return AppFaqsDragdown(
+                    title: faqsData[index]['Question'],
+                    description: faqsData[index]['Answer'],
+                  );
+                }),
           ],
         ));
   }

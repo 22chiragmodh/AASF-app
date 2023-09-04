@@ -1,5 +1,5 @@
 import 'package:aasf_iiitmg/routes.dart';
-import 'package:aasf_iiitmg/src/controller/studentsData.dart';
+
 import 'package:aasf_iiitmg/src/provider/studentdata.dart';
 import 'package:aasf_iiitmg/src/screens/home_page.dart';
 

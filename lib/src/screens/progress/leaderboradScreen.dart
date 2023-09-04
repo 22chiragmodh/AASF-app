@@ -30,6 +30,8 @@ class LeaderboardTabScreen extends StatelessWidget {
           return Center(
             child: Text('Data Error: ${dataSnapshot.error}'),
           );
+        } else if (dataSnapshot.data!.isEmpty && dataSnapshot.hasData) {
+          return const Center(child: Text("No Leaderboard data available"));
         } else {
           final data = dataSnapshot.data!;
 

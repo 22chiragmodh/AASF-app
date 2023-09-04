@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aasf_iiitmg/src/controller/studentsData.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:dio/dio.dart';
 
@@ -36,6 +37,11 @@ class EventDeatils {
   static Future<List<dynamic>> fetchEventsData() async {
     List<dynamic> storedData =
         await EventDeatils.fetchDataFromSharedPreferences('eventsData');
+    String authToken = await StudentDetails.getauthToken();
+    // dio.options.headers['Authorization'] = 'Bearer ${widget.token}';
+    Options options = Options(
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
     int storedTimestamp = await EventDeatils.fetchTimestamp('timestamp');
     int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
     if (storedData.isNotEmpty &&
@@ -44,7 +50,8 @@ class EventDeatils {
     }
     try {
       Dio dio = Dio();
-      Response response = await dio.get("${ConstantsVar.url}/events");
+      Response response =
+          await dio.get("${ConstantsVar.url}/events", options: options);
       Map<String, dynamic> responseData = response.data;
       if (responseData['success'] == 1) {
         int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
@@ -63,6 +70,11 @@ class EventDeatils {
     // Check if data is already stored in SharedPreferences
     List<dynamic> storedData =
         await EventDeatils.fetchDataFromSharedPreferences('blogsData');
+    String authToken = await StudentDetails.getauthToken();
+    // dio.options.headers['Authorization'] = 'Bearer ${widget.token}';
+    Options options = Options(
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
     int storedTimestamp = await EventDeatils.fetchTimestamp('timestamp');
     int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
     if (storedData.isNotEmpty &&
@@ -72,7 +84,8 @@ class EventDeatils {
 
     try {
       Dio dio = Dio();
-      Response response = await dio.get("${ConstantsVar.url}/blogs");
+      Response response =
+          await dio.get("${ConstantsVar.url}/blogs", options: options);
       Map<String, dynamic> responseData = response.data;
       if (responseData['success'] == 1) {
         int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
@@ -91,6 +104,11 @@ class EventDeatils {
   static Future<List<dynamic>> fetchAbhisharData() async {
     List<dynamic> storedData =
         await EventDeatils.fetchDataFromSharedPreferences('abhisharData');
+    String authToken = await StudentDetails.getauthToken();
+    // dio.options.headers['Authorization'] = 'Bearer ${widget.token}';
+    Options options = Options(
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
     int storedTimestamp = await EventDeatils.fetchTimestamp('timestamp');
     int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
     if (storedData.isNotEmpty &&
@@ -99,10 +117,12 @@ class EventDeatils {
     }
     try {
       Dio dio = Dio();
-      Response response = await dio.get("${ConstantsVar.url}/abhishar");
+      Response response =
+          await dio.get("${ConstantsVar.url}/abhishar", options: options);
       Map<String, dynamic> responseData = response.data;
       if (responseData['success'] == 1) {
         List<dynamic> abhisharData = responseData['data'];
+        print(abhisharData);
         int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
 
         await EventDeatils.storeDataToSharedPreferences(

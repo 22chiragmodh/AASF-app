@@ -91,7 +91,7 @@ abstract class BaseStyle {
 
   static Container timelineCard(String text, double width) {
     return Container(
-        margin: const EdgeInsets.symmetric(vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
         width: width,
         height: 50,
         color: const Color(0xFF1B1B1B),

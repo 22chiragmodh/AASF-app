@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:aasf_iiitmg/src/controller/studentsData.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
 

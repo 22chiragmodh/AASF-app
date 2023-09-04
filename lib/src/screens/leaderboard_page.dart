@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:aasf_iiitmg/src/controller/eventsData.dart';
 import 'package:aasf_iiitmg/src/controller/studentsData.dart';
 import 'package:aasf_iiitmg/src/screens/progress/acheivemntsScreen.dart';
@@ -13,7 +12,6 @@ import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
 import 'package:aasf_iiitmg/src/widgets/appleaderboardtabbar.dart';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LeaderBoradPage extends StatefulWidget {
   const LeaderBoradPage({super.key});
@@ -45,7 +43,7 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
     try {
       response = await dio.get("${ConstantsVar.url}/user/leaderboard",
           options: options);
-
+      print(response.data['success']);
       if (response.data['success'] == 1) {
         final leaderboardData = response.data;
         int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
@@ -58,12 +56,13 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
             currentTimestamp);
 
         return leaderboardData['data']['leaderboard'];
+      } else {
+        return [];
       }
     } catch (e) {
       print(e);
       throw e;
     }
-    return [];
   }
 
   Future<Map<String, dynamic>> getUserscoreDetails() async {
@@ -97,13 +96,15 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
             'userScoreData', leaderboardData['data']['user']);
         return leaderboardData['data']['user'];
         // Return the response data
+      } else {
+        return {};
       }
     } catch (e) {
       // ignore: avoid_print
       print(e);
       throw e;
     }
-    return {};
+
     // Return null if an error occurred or the response code was not 200
   }
 
@@ -139,6 +140,8 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
         // print(statiticsData['data']);
         // Return the response data
         return statiticsData['data'];
+      } else {
+        return [];
       }
     } catch (e) {
       // ignore: avoid_print
@@ -147,7 +150,6 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
       throw e;
     }
 
-    return [];
     // Return null if an error occurred or the response code was not 200
   }
 

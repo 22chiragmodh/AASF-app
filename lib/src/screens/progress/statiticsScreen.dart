@@ -57,8 +57,10 @@ class StatsTabScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               AppProgressIndicator(
-                                percent: userData['technical_score'] == 0 &&
-                                        userData['final_score'] == 0
+                                percent: (userData['technical_score'] == 0 &&
+                                            userData['final_score'] == 0) ||
+                                        (userData['technical_score'] == null ||
+                                            userData['final_score'] == null)
                                     ? 0
                                     : (userData['technical_score'] /
                                             userData['final_score'] *
@@ -67,8 +69,10 @@ class StatsTabScreen extends StatelessWidget {
                                 title: 'Technical',
                               ),
                               AppProgressIndicator(
-                                percent: userData['managerial_score'] == 0 &&
-                                        userData['final_score'] == 0
+                                percent: (userData['managerial_score'] == 0 &&
+                                            userData['final_score'] == 0) ||
+                                        (userData['technical_score'] == null ||
+                                            userData['final_score'] == null)
                                     ? 0
                                     : (userData['managerial_score'] /
                                             userData['final_score'] *
@@ -77,8 +81,10 @@ class StatsTabScreen extends StatelessWidget {
                                 title: 'Managerial',
                               ),
                               AppProgressIndicator(
-                                percent: userData['oratory_score'] == 0 &&
-                                        userData['final_score'] == 0
+                                percent: (userData['oratory_score'] == 0 &&
+                                            userData['final_score'] == 0) ||
+                                        (userData['technical_score'] == null ||
+                                            userData['final_score'] == null)
                                     ? 0
                                     : (userData['oratory_score'] /
                                             userData['final_score'] *

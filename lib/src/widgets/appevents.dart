@@ -42,6 +42,7 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
   @override
   Widget build(BuildContext context) {
     List<dynamic> eventImages = widget.event["event_images"];
+
     return Container(
       decoration: BoxDecoration(color: Appcolors.blogdecbg()),
       child: Column(children: [
@@ -50,7 +51,7 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
             : eventImages.length == 1
                 ? Container(
                     width: MediaQuery.of(context).size.width,
-                    height: 250,
+                    height: 280,
                     decoration: BoxDecoration(color: Appcolors.posterbg()),
                     child: CachedNetworkImage(
                       alignment: Alignment.center,
@@ -65,7 +66,7 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                         ),
                       ),
                       errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                          Image.asset("assets/images/Asset 1 2 (1).png"),
                     ),
                   )
                 : CarouselSlider(

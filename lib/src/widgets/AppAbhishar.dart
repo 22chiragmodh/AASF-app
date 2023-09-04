@@ -17,10 +17,6 @@ class AppAbhishar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dateOfLaunch = DateTime.parse(abhishar['date_of_launch']);
-    final formattedDateofLaunch =
-        DateFormat('MMM d, yyyy').format(dateOfLaunch);
-    ;
     return Container(
       decoration: BoxDecoration(color: Appcolors.blogdecbg()),
       child: Column(
@@ -29,46 +25,52 @@ class AppAbhishar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                children: [
-                  Container(
-                    width: 260,
-                    height: 67,
-                    margin: const EdgeInsets.all(15),
-                    child: Text(
-                      abhishar['heading'],
-                      style: Textstyle.inputtext(
-                          Color(0xffF4F4F5), 18.0, FontWeight.w400),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 67,
+                      margin: const EdgeInsets.all(15),
+                      child: Text(
+                        abhishar['heading'],
+                        style: Textstyle.inputtext(
+                            Color(0xffF4F4F5), 18.0, FontWeight.w400),
+                      ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: 140,
-                        height: 40,
-                        margin: const EdgeInsets.all(8),
-                        child: Text(
-                          'ABHISHAR ${abhishar['version']}',
-                          style: Textstyle.inputtext(
-                              Color(0xffD2D1D6), 12.0, FontWeight.w400),
+                    Row(
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 40,
+                          margin: const EdgeInsets.all(15),
+                          child: Text(
+                            'ABHISHAR ${abhishar['version']}',
+                            style: Textstyle.inputtext(
+                                const Color(0xffD2D1D6), 12.0, FontWeight.w400),
+                          ),
                         ),
-                      ),
-                      Container(
-                        width: 100,
-                        height: 40,
-                        margin: const EdgeInsets.all(8),
-                        child: Text(
-                          formattedDateofLaunch,
-                          style: Textstyle.inputtext(
-                              Color(0xffD2D1D6), 12.0, FontWeight.w400),
+                        Container(
+                          width: 100,
+                          height: 40,
+                          margin: const EdgeInsets.all(8),
+                          child: abhishar['dateOfLaunch'] != null
+                              ? Text(
+                                  DateFormat('MMM d, yyyy').format(
+                                      DateTime.parse(abhishar['dateOfLaunch'])),
+                                  style: Textstyle.inputtext(
+                                      Color(0xffD2D1D6), 12.0, FontWeight.w400),
+                                )
+                              : Text(""),
                         ),
-                      ),
-                    ],
-                  )
-                ],
+                      ],
+                    )
+                  ],
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(10.0),
                 child: SizedBox(
                   width: 90,
                   height: 133,

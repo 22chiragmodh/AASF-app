@@ -61,7 +61,7 @@ class _LandingPageState extends State<LandingPage> {
                     AppIcon(
                       imgUrl: imageUrl[pagePosition],
                       imgwidth: 274,
-                      imgheight: 240,
+                      imgheight: 230,
                       fit: BoxFit.fill,
                     ),
                     AppText(

@@ -8,6 +8,7 @@ import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
 import 'package:aasf_iiitmg/src/widgets/appprofilefield.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:http/http.dart' as http;
@@ -98,10 +99,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                     radius: 80,
                                     child: Image.asset(
                                         'assets/images/userlogo.png'))
-                                : CircleAvatar(
-                                    radius: 80,
-                                    backgroundImage:
-                                        NetworkImage(studentData['image']),
+                                : CachedNetworkImage(
+                                    imageUrl: studentData['image'],
+                                    imageBuilder: (context, imageProvider) =>
+                                        CircleAvatar(
+                                      radius: 80,
+                                      backgroundImage: imageProvider,
+                                    ),
+                                    placeholder: (context, url) => const SizedBox(
+                                        height: 10,
+                                        width: 10,
+                                        child: Center(
+                                            child:
+                                                CircularProgressIndicator())),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   )),
                         Positioned(
                           left: 230,

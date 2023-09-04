@@ -1,4 +1,3 @@
-import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 
@@ -63,17 +62,15 @@ class AppHomeBlogs extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      blog['category'][0].toString().length < 23
+                      blog['category'][0].toString().length < 17
                           ? blog['category'][0].toString().toUpperCase()
-                          : blog['category'][0]
-                              .toString()
-                              .toUpperCase()
-                              .substring(0, 23),
+                          : "${blog['category'][0].toString().toUpperCase().substring(0, 17)}...",
                       style: Textstyle.inputtext(
                           Color(0xffA5A3AE), 12.0, FontWeight.w500),
                     ),
                   ],
                 ),
+                SizedBox(width: 2),
                 Row(
                   children: [
                     Padding(
@@ -88,7 +85,7 @@ class AppHomeBlogs extends StatelessWidget {
                       ' - ',
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 5.5),
+                      padding: const EdgeInsets.only(left: 5.5, right: 10),
                       child: Text(
                         '$minRead min read',
                         style: Textstyle.inputtext(

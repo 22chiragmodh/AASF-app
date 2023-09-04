@@ -18,7 +18,7 @@ class AppBottomAppbar extends StatelessWidget {
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         SizedBox(
           height: 68,
-          width: 75,
+          width: 70,
           child: Column(
             children: [
               IconButton(
@@ -42,7 +42,7 @@ class AppBottomAppbar extends StatelessWidget {
         ),
         SizedBox(
           height: 68,
-          width: 75,
+          width: 70,
           child: Column(
             children: [
               IconButton(
@@ -66,7 +66,7 @@ class AppBottomAppbar extends StatelessWidget {
         ),
         SizedBox(
           height: 68,
-          width: 75,
+          width: 70,
           child: Column(
             children: [
               IconButton(
@@ -88,7 +88,7 @@ class AppBottomAppbar extends StatelessWidget {
         ),
         SizedBox(
           height: 68,
-          width: 75,
+          width: 70,
           child: Column(
             children: [
               IconButton(
@@ -109,7 +109,7 @@ class AppBottomAppbar extends StatelessWidget {
         ),
         SizedBox(
           height: 68,
-          width: 75,
+          width: 70,
           child: Column(
             children: [
               IconButton(

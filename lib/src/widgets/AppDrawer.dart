@@ -5,6 +5,7 @@ import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 import 'package:aasf_iiitmg/src/widgets/Applinktext.dart';
 import 'package:aasf_iiitmg/src/widgets/Apptext.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,10 +83,21 @@ class AppDrawer extends StatelessWidget {
                                       child: Image.asset(
                                           'assets/images/userlogo.png'),
                                     )
-                                  : CircleAvatar(
-                                      radius: 60,
-                                      backgroundImage:
-                                          NetworkImage(studentData['image']),
+                                  : CachedNetworkImage(
+                                      imageUrl: studentData['image'],
+                                      imageBuilder: (context, imageProvider) =>
+                                          CircleAvatar(
+                                        radius: 60,
+                                        backgroundImage: imageProvider,
+                                      ),
+                                      placeholder: (context, url) => const SizedBox(
+                                          height: 10,
+                                          width: 10,
+                                          child: Center(
+                                              child:
+                                                  CircularProgressIndicator())),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
                                     ),
                             ),
                           ),
@@ -126,6 +138,9 @@ class AppDrawer extends StatelessWidget {
                               // Remove data for the 'counter' key.
 
                               await prefs.remove('authToken');
+                              await prefs.remove('eventsData');
+                              await prefs.remove('blogsData');
+                              await prefs.remove('abhisharData');
 
                               // ignore: use_build_context_synchronously
                               Navigator.pushNamedAndRemoveUntil(

@@ -56,18 +56,15 @@ class _AppFaqsDragdownState extends State<AppFaqsDragdown> {
                     height:
                         isexpand ? null : 0, // Set height based on expand state
                     child: isexpand
-                        ? SingleChildScrollView(
-                            // Wrap the description in a SingleChildScrollView
-                            child: AppVerifyTextField(
-                              padding: BaseStyle.faqspadding(),
-                              text: widget.description,
-                              textstyle: Textstyle.inputtext(
-                                Appcolors.white(),
-                                12.0,
-                                FontWeight.w400,
-                              ),
-                              textalign: TextAlign.start,
+                        ? AppVerifyTextField(
+                            padding: BaseStyle.faqspadding(),
+                            text: widget.description,
+                            textstyle: Textstyle.inputtext(
+                              Appcolors.white(),
+                              12.0,
+                              FontWeight.w400,
                             ),
+                            textalign: TextAlign.start,
                           )
                         : SizedBox.shrink(),
                   ),

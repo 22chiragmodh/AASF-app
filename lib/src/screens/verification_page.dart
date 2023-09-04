@@ -138,16 +138,17 @@ class _VerifictionPageState extends State<VerifictionPage> {
               fn: () {
                 SnackBar forpassSnackBar = const SnackBar(
                   content: Text(
-                      'Please contact to any aasf member to resest password !',
-                      style:
-                          TextStyle(color: Color.fromARGB(255, 211, 28, 28))),
+                    'Please contact to any aasf member to resest password !',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 211, 28, 28), fontSize: 14),
+                  ),
                   backgroundColor: (Colors.white),
                 );
                 // ignore: use_build_context_synchronously
                 ScaffoldMessenger.of(context).showSnackBar(forpassSnackBar);
               },
               vm: 14,
-              hm: 80)
+              hm: 60)
         ],
       ),
     );
