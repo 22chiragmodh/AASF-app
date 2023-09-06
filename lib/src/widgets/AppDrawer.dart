@@ -90,12 +90,6 @@ class AppDrawer extends StatelessWidget {
                                         radius: 60,
                                         backgroundImage: imageProvider,
                                       ),
-                                      placeholder: (context, url) => const SizedBox(
-                                          height: 10,
-                                          width: 10,
-                                          child: Center(
-                                              child:
-                                                  CircularProgressIndicator())),
                                       errorWidget: (context, url, error) =>
                                           Icon(Icons.error),
                                     ),
@@ -138,9 +132,11 @@ class AppDrawer extends StatelessWidget {
                               // Remove data for the 'counter' key.
 
                               await prefs.remove('authToken');
+                              await prefs.remove('studentData');
                               await prefs.remove('eventsData');
                               await prefs.remove('blogsData');
                               await prefs.remove('abhisharData');
+                              await prefs.remove('timelineData');
 
                               // ignore: use_build_context_synchronously
                               Navigator.pushNamedAndRemoveUntil(

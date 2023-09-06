@@ -57,6 +57,6 @@ class ConstantsVar {
   // // static Map<String, dynamic> eventData = {};
   // static Map<String, dynamic> userDetails = {};
 
-  // static String url = "https://api.aasf.in";
-  static String url = "http://192.168.1.202:3333";
+  static String url = "https://api.aasf.in";
+  // static String url = "http://192.168.1.202:3333";
 }

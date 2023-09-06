@@ -49,7 +49,7 @@ class _VerifictionPageState extends State<VerifictionPage> {
           // ignore: avoid_print
           snackBar = SnackBar(
             content: Text(response.data['message'],
-                style: const TextStyle(color: Colors.greenAccent)),
+                style: const TextStyle(color: Colors.black)),
             backgroundColor: (Colors.white),
           );
           // ignore: use_build_context_synchronously
@@ -116,17 +116,33 @@ class _VerifictionPageState extends State<VerifictionPage> {
           ),
           InkWell(
               onTap: () async {
-                if (!isApiCallInProgress) {
-                  setState(() {
-                    isApiCallInProgress = true;
-                  });
+                print(emailController.text);
+                if (emailController.text.isEmpty &&
+                    passwordController.text.isEmpty) {
+                  SnackBar forpassSnackBar = const SnackBar(
+                    content: Text(
+                      'Plaese enter a valid userid and password',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 211, 28, 28),
+                      ),
+                    ),
+                    backgroundColor: (Colors.white),
+                  );
+                  // ignore: use_build_context_synchronously
+                  ScaffoldMessenger.of(context).showSnackBar(forpassSnackBar);
+                } else {
+                  if (!isApiCallInProgress) {
+                    setState(() {
+                      isApiCallInProgress = true;
+                    });
 
-                  await userVerify(
-                      emailController.text, passwordController.text);
+                    await userVerify(
+                        emailController.text, passwordController.text);
 
-                  setState(() {
-                    isApiCallInProgress = false;
-                  });
+                    setState(() {
+                      isApiCallInProgress = false;
+                    });
+                  }
                 }
               },
               child: AppButton(
@@ -140,7 +156,8 @@ class _VerifictionPageState extends State<VerifictionPage> {
                   content: Text(
                     'Please contact to any aasf member to resest password !',
                     style: TextStyle(
-                        color: Color.fromARGB(255, 211, 28, 28), fontSize: 14),
+                      color: Color.fromARGB(255, 211, 28, 28),
+                    ),
                   ),
                   backgroundColor: (Colors.white),
                 );

@@ -18,7 +18,7 @@ class AppReadmore extends StatelessWidget {
               textAlign: TextAlign.justify,
               trimMode: TrimMode.Line,
               trimCollapsedText: "... see more ",
-              trimExpandedText: "... see less ",
+              trimExpandedText: " see less ",
               lessStyle: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,

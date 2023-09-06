@@ -152,18 +152,18 @@ Widget eventsTag(TabController tabController, List<dynamic> eventData) {
 
       var parsedstartDate =
           DateFormat('yyyy-MM-ddTHH:mm:ss').parse(event['start_date']);
-      var startDate = DateFormat("dd MM yy hh:mm a").format(parsedstartDate);
+      var startDate = DateFormat("dd MM yy HH:mm")
+          .format(parsedstartDate); // Use 'HH' for 24-hour format
       List<String> dateTimeParts = startDate.split(" ");
 
-      // print(startDate);
       String sdate =
           "${dateTimeParts[0]}/${dateTimeParts[1]}/${dateTimeParts[2]}";
-      print(sdate);
       String stime = dateTimeParts[3];
 
       var parsedendDate =
           DateFormat('yyyy-MM-ddTHH:mm:ss').parse(event['end_date']);
-      var endDate = DateFormat("dd MM yy hh:mm a").format(parsedendDate);
+      var endDate = DateFormat("dd MM yy HH:mm")
+          .format(parsedendDate); // Use 'HH' for 24-hour format
       List<String> enddateTimeParts = endDate.split(" ");
 
       String edate =

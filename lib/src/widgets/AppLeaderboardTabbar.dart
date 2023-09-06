@@ -20,7 +20,7 @@ class AppLeaderBoardTabBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(
-          height: 20,
+          height: 5,
         ),
         Container(
           padding: BaseStyle.listpadding(),

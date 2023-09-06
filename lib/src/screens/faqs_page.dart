@@ -3,6 +3,7 @@ import 'package:aasf_iiitmg/src/models/faqData.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
+import 'package:aasf_iiitmg/src/widgets/appdrawer.dart';
 import 'package:aasf_iiitmg/src/widgets/appfaqsdragdown.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class FaqsPage extends StatelessWidget {
           ),
           automaticallyImplyLeading: false,
         ),
+        endDrawer: AppDrawer(),
         bottomNavigationBar: const AppBottomAppbar(),
         body: ListView(
           children: [

@@ -22,7 +22,8 @@ class LeaderboardTabScreen extends StatelessWidget {
       future: dataFuture,
       builder: (context, dataSnapshot) {
         if (dataSnapshot.connectionState == ConnectionState.waiting &&
-            dataSnapshot.data == null) {
+            dataSnapshot.data == null &&
+            !dataSnapshot.hasData) {
           return const Center(
             child: CircularProgressIndicator(),
           );

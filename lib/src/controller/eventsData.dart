@@ -72,9 +72,9 @@ class EventDeatils {
         await EventDeatils.fetchDataFromSharedPreferences('blogsData');
     String authToken = await StudentDetails.getauthToken();
     // dio.options.headers['Authorization'] = 'Bearer ${widget.token}';
-    Options options = Options(
-      headers: {'Authorization': 'Bearer $authToken'},
-    );
+    // Options options = Options(
+    //   headers: {'Authorization': 'Bearer $authToken'},
+    // );
     int storedTimestamp = await EventDeatils.fetchTimestamp('timestamp');
     int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
     if (storedData.isNotEmpty &&
@@ -84,8 +84,7 @@ class EventDeatils {
 
     try {
       Dio dio = Dio();
-      Response response =
-          await dio.get("${ConstantsVar.url}/blogs", options: options);
+      Response response = await dio.get("${ConstantsVar.url}/blogs");
       Map<String, dynamic> responseData = response.data;
       if (responseData['success'] == 1) {
         int currentTimestamp = DateTime.now().millisecondsSinceEpoch;

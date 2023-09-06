@@ -126,11 +126,17 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                         Icons.calendar_month,
                         color: Appcolors.blogiconcol(),
                       ),
-                      label: Text(
-                        '${widget.startdate} - ${widget.enddate}',
-                        style: Textstyle.inputtext(
-                            Color(0xffF4F4F5), 14.0, FontWeight.w400),
-                      )),
+                      label: widget.startdate == widget.enddate
+                          ? Text(
+                              '${widget.startdate}',
+                              style: Textstyle.inputtext(
+                                  Color(0xffF4F4F5), 14.0, FontWeight.w400),
+                            )
+                          : Text(
+                              '${widget.startdate} - ${widget.enddate}',
+                              style: Textstyle.inputtext(
+                                  Color(0xffF4F4F5), 14.0, FontWeight.w400),
+                            )),
                   TextButton.icon(
                       onPressed: () {},
                       icon: Icon(

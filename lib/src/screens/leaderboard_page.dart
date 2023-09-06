@@ -5,6 +5,7 @@ import 'package:aasf_iiitmg/src/screens/progress/leaderboradScreen.dart';
 import 'package:aasf_iiitmg/src/screens/progress/statiticsScreen.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
+import 'package:aasf_iiitmg/src/widgets/appdrawer.dart';
 import 'package:dio/dio.dart';
 
 import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
@@ -43,7 +44,7 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
     try {
       response = await dio.get("${ConstantsVar.url}/user/leaderboard",
           options: options);
-      print(response.data['success']);
+
       if (response.data['success'] == 1) {
         final leaderboardData = response.data;
         int currentTimestamp = DateTime.now().millisecondsSinceEpoch;
@@ -219,6 +220,7 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
         ),
         automaticallyImplyLeading: false,
       ),
+      endDrawer: AppDrawer(),
       bottomNavigationBar: AppBottomAppbar(),
       body: Column(
         children: [

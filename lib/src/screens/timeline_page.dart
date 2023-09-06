@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:aasf_iiitmg/src/controller/studentsData.dart';
 import 'package:aasf_iiitmg/src/styles/basestyle.dart';
 import 'package:aasf_iiitmg/src/styles/colors.dart';
 import 'package:aasf_iiitmg/src/utils/constants.dart';
@@ -7,6 +8,7 @@ import 'package:aasf_iiitmg/src/styles/textstyle.dart';
 import 'package:aasf_iiitmg/src/widgets/appbottomappbar.dart';
 // import 'package:aasf_iiitmg/src/widgets/apptabbar.dart';
 import 'package:aasf_iiitmg/src/widgets/AppverifyText.dart';
+import 'package:aasf_iiitmg/src/widgets/appdrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timeline_tile/timeline_tile.dart';
@@ -39,9 +41,15 @@ class _TimelinePageState extends State<TimelinePage>
 
   Future<void> fetchEventsByTimeline() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String authToken = await StudentDetails.getauthToken();
+    // dio.options.headers['Authorization'] = 'Bearer ${widget.token}';
+    Options options = Options(
+      headers: {'Authorization': 'Bearer $authToken'},
+    );
     try {
       Dio dio = Dio();
-      Response response = await dio.get("${ConstantsVar.url}/events/timeline");
+      Response response = await dio.get("${ConstantsVar.url}/events/timeline",
+          options: options);
       Map<String, dynamic> responseData = response.data;
       if (responseData['success'] == 1) {
         List<dynamic> timelineData = [
@@ -56,7 +64,6 @@ class _TimelinePageState extends State<TimelinePage>
           _tabController = TabController(vsync: this, length: rangeLength);
           _tabController?.addListener(_handleTabSelection);
           print(rangeDate);
-          print(eventData);
         });
       }
     } catch (e) {
@@ -128,6 +135,7 @@ class _TimelinePageState extends State<TimelinePage>
         ),
         automaticallyImplyLeading: false,
       ),
+      endDrawer: AppDrawer(),
       bottomNavigationBar: const AppBottomAppbar(),
       body: Column(
         children: [
@@ -181,8 +189,11 @@ class _TimelinePageState extends State<TimelinePage>
         ),
         child: Column(
           children: [
-            for (var event in evententry.value)
-              BaseStyle.timelineCard(event['name'].toString(), 230),
+            if (evententry.value.isNotEmpty)
+              for (var event in evententry.value)
+                BaseStyle.timelineCard(event['name'].toString(), 230)
+            else
+              BaseStyle.timelineCard('No Events', 230)
           ],
         ),
       ),

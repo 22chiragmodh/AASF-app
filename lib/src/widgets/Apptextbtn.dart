@@ -22,7 +22,7 @@ class AppTextBtn extends StatelessWidget {
           onPressed: fn,
           child: Text(
             text,
-            style: Textstyle.inputtext(Appcolors.white(), 18, FontWeight.w500),
+            style: Textstyle.inputtext(Appcolors.white(), 14, FontWeight.w500),
           )),
     );
   }
