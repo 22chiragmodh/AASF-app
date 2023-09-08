@@ -125,57 +125,44 @@ class _TimelinePageState extends State<TimelinePage>
           )
           .toList(),
     ];
-    return Scaffold(
-      backgroundColor: Appcolors.primarycolor(),
-      appBar: AppBar(
-        backgroundColor: Appcolors.tagcolor(),
-        title: const Text(
-          'Timeline',
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+    return Column(
+      children: [
+        Container(
+          width: 370,
+          height: 31,
+          margin: const EdgeInsets.only(
+              left: 10.0, right: 10.0, top: 20, bottom: 20),
+          // color: Appcolors.primarycolor(),
+          child: _tabController != null
+              ? TabBar(
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(26.5),
+                    color: Appcolors.tagcolor(),
+                  ),
+                  controller: _tabController,
+                  isScrollable: true,
+                  tabs: tabs,
+                )
+              : SizedBox(),
         ),
-        automaticallyImplyLeading: false,
-      ),
-      endDrawer: AppDrawer(),
-      bottomNavigationBar: const AppBottomAppbar(),
-      body: Column(
-        children: [
-          Container(
-            width: 370,
-            height: 31,
-            margin: const EdgeInsets.only(
-                left: 10.0, right: 10.0, top: 20, bottom: 20),
-            // color: Appcolors.primarycolor(),
-            child: _tabController != null
-                ? TabBar(
-                    indicator: BoxDecoration(
-                      borderRadius: BorderRadius.circular(26.5),
-                      color: Appcolors.tagcolor(),
-                    ),
-                    controller: _tabController,
-                    isScrollable: true,
-                    tabs: tabs,
-                  )
-                : SizedBox(),
-          ),
-          BaseStyle.linealignment(2.0),
-          Flexible(
-              child: isLoading
-                  ? Center(child: CircularProgressIndicator())
-                  : ListView(children: [
-                      // _buildEventsList('Timeline'),
-                      // timelinefunc(
-                      //   eventData,
-                      // ),
+        BaseStyle.linealignment(2.0),
+        Flexible(
+            child: isLoading
+                ? Center(child: CircularProgressIndicator())
+                : ListView(children: [
+                    // _buildEventsList('Timeline'),
+                    // timelinefunc(
+                    //   eventData,
+                    // ),
 
-                      if (_tabController!.index == 0)
-                        ...eventData.entries.map((entry) => timelinefunc(entry))
-                      else
-                        _buildEventsList(rangeDate[_tabController!.index - 1]),
-                    ])
-              // Placeholder widget when TabController is null
-              ),
-        ],
-      ),
+                    if (_tabController!.index == 0)
+                      ...eventData.entries.map((entry) => timelinefunc(entry))
+                    else
+                      _buildEventsList(rangeDate[_tabController!.index - 1]),
+                  ])
+            // Placeholder widget when TabController is null
+            ),
+      ],
     );
   }
 

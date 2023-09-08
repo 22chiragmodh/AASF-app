@@ -210,41 +210,28 @@ class _LeaderBoradPageState extends State<LeaderBoradPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Appcolors.primarycolor(),
-      appBar: AppBar(
-        backgroundColor: Appcolors.tagcolor(),
-        title: const Text(
-          'Progress',
-          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-        ),
-        automaticallyImplyLeading: false,
-      ),
-      endDrawer: AppDrawer(),
-      bottomNavigationBar: AppBottomAppbar(),
-      body: Column(
-        children: [
-          AppLeaderBoardTabBar(
-              tabController: _tabController, indicatorcolor: true),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                LeaderboardTabScreen(
-                    dataFuture: getLeaderboardDetails(),
-                    userdataFuture: getUserscoreDetails()),
-                StatsTabScreen(
-                  userDataFuture: getUserscoreDetails(),
-                  statiticsDataFuture: getStatiticsDetails(),
-                ),
-                WinningTabScreen(
-                  achievementsDataFuture: getachievementsDetails(),
-                )
-              ],
-            ),
+    return Column(
+      children: [
+        AppLeaderBoardTabBar(
+            tabController: _tabController, indicatorcolor: true),
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              LeaderboardTabScreen(
+                  dataFuture: getLeaderboardDetails(),
+                  userdataFuture: getUserscoreDetails()),
+              StatsTabScreen(
+                userDataFuture: getUserscoreDetails(),
+                statiticsDataFuture: getStatiticsDetails(),
+              ),
+              WinningTabScreen(
+                achievementsDataFuture: getachievementsDetails(),
+              )
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

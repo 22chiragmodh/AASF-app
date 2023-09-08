@@ -44,100 +44,90 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Appcolors.primarycolor(),
-      appBar: BaseStyle.appbar(
-        context: context,
-        backbtn: true,
-      ),
-      endDrawer: const AppDrawer(),
-      bottomNavigationBar: const AppBottomAppbar(),
-      body: Column(
-        children: [
-          AppTabBar(
-            screenmode: true,
-            isiscrollable: false,
-            tabController: _tabController,
+    return Column(
+      children: [
+        AppTabBar(
+          screenmode: true,
+          isiscrollable: false,
+          tabController: _tabController,
+        ),
+        Expanded(
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              FutureBuilder<List<dynamic>>(
+                future: EventDeatils.fetchEventsData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting &&
+                      snapshot.data == null) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                      child: Text('Error: Failed to fetch data'),
+                    );
+                  } else if (snapshot.hasData && snapshot.data!.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/images/Asset 1 2 (1).png'),
+                          const SizedBox(height: 10),
+                          const Text('No events available'),
+                        ],
+                      ),
+                    );
+                  } else {
+                    // Check if data is already stored in local storage
+                    if (snapshot.data != null) {
+                      return eventsTag(_tabController!, snapshot.data ?? []);
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  }
+                },
+              ),
+              FutureBuilder<List<dynamic>>(
+                future: EventDeatils.fetchBlogsData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting &&
+                      snapshot.data == null) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                        child: Text('Error: Failed to fetch data'));
+                  } else {
+                    // Check if data is already stored in local storage
+                    if (snapshot.data != null) {
+                      return blogsTag(_tabController!, snapshot.data ?? []);
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  }
+                },
+              ),
+              FutureBuilder<List<dynamic>>(
+                future: EventDeatils.fetchAbhisharData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting &&
+                      snapshot.data == null) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return const Center(
+                        child: Text('Error: Failed to fetch data'));
+                  } else {
+                    // Check if data is already stored in local storage
+                    if (snapshot.data != null) {
+                      return abhisharTag(_tabController!, snapshot.data ?? []);
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  }
+                },
+              ),
+            ],
           ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                FutureBuilder<List<dynamic>>(
-                  future: EventDeatils.fetchEventsData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting &&
-                        snapshot.data == null) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return const Center(
-                        child: Text('Error: Failed to fetch data'),
-                      );
-                    } else if (snapshot.hasData && snapshot.data!.isEmpty) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset('assets/images/Asset 1 2 (1).png'),
-                            const SizedBox(height: 10),
-                            const Text('No events available'),
-                          ],
-                        ),
-                      );
-                    } else {
-                      // Check if data is already stored in local storage
-                      if (snapshot.data != null) {
-                        return eventsTag(_tabController!, snapshot.data ?? []);
-                      } else {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                    }
-                  },
-                ),
-                FutureBuilder<List<dynamic>>(
-                  future: EventDeatils.fetchBlogsData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting &&
-                        snapshot.data == null) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return const Center(
-                          child: Text('Error: Failed to fetch data'));
-                    } else {
-                      // Check if data is already stored in local storage
-                      if (snapshot.data != null) {
-                        return blogsTag(_tabController!, snapshot.data ?? []);
-                      } else {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                    }
-                  },
-                ),
-                FutureBuilder<List<dynamic>>(
-                  future: EventDeatils.fetchAbhisharData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting &&
-                        snapshot.data == null) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return const Center(
-                          child: Text('Error: Failed to fetch data'));
-                    } else {
-                      // Check if data is already stored in local storage
-                      if (snapshot.data != null) {
-                        return abhisharTag(
-                            _tabController!, snapshot.data ?? []);
-                      } else {
-                        return const Center(child: CircularProgressIndicator());
-                      }
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
