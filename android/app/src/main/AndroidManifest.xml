@@ -5,7 +5,7 @@
    <application
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
-        android:label="aasf_iiitmg"
+        android:label="AASF"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

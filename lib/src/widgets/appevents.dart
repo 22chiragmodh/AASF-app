@@ -216,7 +216,9 @@ class _AppHomeEventsState extends State<AppHomeEvents> {
                 TextButton.icon(
                     onPressed: () async {
                       String resourcesUrl = widget.event['resource_link'];
-                      await launchUrl(Uri.parse(resourcesUrl));
+                      if (resourcesUrl != null) {
+                        await launchUrl(Uri.parse(resourcesUrl));
+                      }
                     },
                     icon: SvgPicture.asset(
                       'assets/images/resources.svg',

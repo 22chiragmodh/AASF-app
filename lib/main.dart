@@ -69,6 +69,9 @@ class _AasfAppState extends State<AasfApp> {
   Widget build(BuildContext context) {
     if (Platform.isIOS) {
       return const CupertinoApp();
+    }
+    if (widget.authToken == null) {
+      return MaterialApp(home: const SplashScreen());
     } else {
       return MaterialApp(
           theme: ThemeData.dark(),
@@ -86,18 +89,16 @@ class _AasfAppState extends State<AasfApp> {
                     backgroundColor: Appcolors.tagcolor(),
                     title: Text(
                       _titleAppbar[_selectedIndex],
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 16.0, fontWeight: FontWeight.w500),
                     ),
                     automaticallyImplyLeading: false,
                   ),
             endDrawer: const AppDrawer(),
-            body: widget.authToken == null // Check if authToken is present
-                ? const SplashScreen()
-                : IndexedStack(
-                    index: _selectedIndex,
-                    children: _screens,
-                  ),
+            body: IndexedStack(
+              index: _selectedIndex,
+              children: _screens,
+            ),
             bottomNavigationBar: BottomNavigationBar(
                 currentIndex: _selectedIndex,
                 onTap: (index) {
